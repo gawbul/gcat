@@ -1,0 +1,17 @@
+# This is the default TEA pipeline script file
+# comment lines can be added like this and aren't parsed
+# The usual format is as follows:
+# script_name arg1 arg2 arg3É
+
+# test scripts
+test one two three four five
+test six seven eight nine ten
+
+# This is a list of all species names (release 61)
+# ailuropoda_melanoleuca anolis_carolinensis bos_taurus caenorhabditis_elegans callithrix_jacchus canis_familiaris cavia_porcellus choloepus_hoffmanni ciona_intestinalis ciona_savignyi danio_rerio dasypus_novemcinctus dipodomys_ordii drosophila_melanogaster echinops_telfairi equus_caballus erinaceus_europaeus felis_catus gallus_gallus gasterosteus_aculeatus gorilla_gorilla homo_sapiens homo_sapiens loxodonta_africana macaca_mulatta macropus_eugenii meleagris_gallopavo microcebus_murinus monodelphis_domestica mus_musculus mus_musculus myotis_lucifugus ochotona_princeps ornithorhynchus_anatinus oryctolagus_cuniculus oryzias_latipes otolemur_garnettii pan_troglodytes pongo_pygmaeus procavia_capensis pteropus_vampyrus rattus_norvegicus saccharomyces_cerevisiae sorex_araneus spermophilus_tridecemlineatus sus_scrofa taeniopygia_guttata takifugu_rubripes tarsius_syrichta tetraodon_nigroviridis tupaia_belangeri tursiops_truncatus vicugna_pacos xenopus_tropicalis
+
+# get introns from ensembl
+get_introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+
+# do basic statistics for introns
+basic_stats introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
