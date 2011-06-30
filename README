@@ -2,4 +2,5 @@ GCAT Development Code
 Created by Steve Moss
 Email: gawbul@gmail.com
 
+See tea-requirements.txt for dependencies
 Add the modules directory to your $PERL5LIB path and run tea.pl
