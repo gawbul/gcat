@@ -1,55 +1,128 @@
-GCAT
+GCAT README
+===========
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+Genome Comparison and Analysis Toolkit
+Version 0.69
 
-A README file is required for CPAN modules since CPAN extracts the README
-file from a module distribution so that people browsing the archive
-can use it to get an idea of the module's uses. It is usually a good idea
-to provide version information here so that people can decide whether
-fixes for the module are worth downloading.
+An adaptable and efficient toolkit for large-scale evolutionary comparative
+genomics analysis. Written in the Perl programming language, GCAT utilizes 
+the BioPerl, Perl EnsEMBL and R Statistics APIs.
 
+Part of a PhD thesis entitled "Evolutionary Genomics of Organismal Diversity".
+
+Coded by Steve Moss
+gawbul@gmail.com
+http://stevemoss.ath.cx/
+
+C/o Dr David Lunt and Dr Domino Joyce
+Evolutionary Biology Group
+The University of Hull
+
+http://www.hull.ac.uk/evolution/
+http://davelunt.net/
+
+DEPENDENCIES
+------------
+
+Perl 5.12.4+
+BioPerl 1.6.1+
+EnsEMBL Perl APIs release 64+
+R 2.13.1+
+MySQL
+libmysqlclient-dev 16+
+DBI
+DBD::mysql
+Log::Log4perl
+Parallel::ForkManager
+Statistics::Descriptive
+Statistics::R
+Time::HiRes
+Set::IntSpan::Fast
+Set::IntSpan::Fast::XS
+Text::CSV
+Text::CSV_XS
+Text::FormatTable
+Tie::IxHash
+
+DOWNLOAD
+--------
+
+You can download from https://bitbucket.org/gawbul/gcat by clicking get source and downloading 
+in the preferred format. We recommend zip for the purposes of the installation instructions in 
+this document. You can also download from https://github.com/gawbul/gcat and click on the ZIP 
+icon to download the source.
+
+Additionally you can checkout the code from bitbucket using Mercurial by running
+
+hg clone ssh://hg@bitbucket.org/gawbul/gcat
+
+Or from github by running
+
+git clone git://github.com/gawbul/gcat.git
 
 INSTALLATION
+------------
 
-To install this module, run the following commands:
+We recommend installing the toolkit on Ubuntu Linux version 10.04+ or OS X 10.5+, as these are
+the machines it has been tested and developed on. Support for Windows is unlikely in the future.
+Should you require running this software on a Windows machine, then we recommend downloading
+VirtualBox from http://www.virtualbox.org and installing BioLinux or Ubuntu as a virtual machine.
+We may make a virtual machine available with the software preconfigured in the future. 
 
-	perl Makefile.PL
-	make
-	make test
-	make install
+To install from source you should simply extract the archive to an appropriate directory for 
+example your home directory i.e. /home/stevemoss or /Users/stevemoss. The * in the following 
+text represents the revision id e.g. daacf7a00ab8
+
+	mv ~/Downloads/gawbul-gcat-*.zip ~/
+	unzip gawbul-gcat-*.zip
+	nano ~/.bashrc
+	
+	Add the following lines to your .bashrc (or .profile) file
+	
+	PERL5LIB=$PERL5LIB:/home/stevemoss/gawbul-gcat-*/modules
+	export PERL5LIB
+	
+	You should also do the same for the location of the EnsEMBL Perl APIs e.g.
+
+	PERL5LIB=$PERL5LIB:/home/stevemoss/ensembl/ensembl/modules
+	PERL5LIB=$PERL5LIB:/home/stevemoss/ensembl/ensembl-compara/modules
+	PERL5LIB=$PERL5LIB:/home/stevemoss/ensembl/ensembl-functgenomics/modules
+	PERL5LIB=$PERL5LIB:/home/stevemoss/ensembl/ensembl-variation/modules
+	export PERL5LIB
+
+TESTING
+-------
+
+gawbul-gcat-*/t contains tests of the pipeline functionality. You can run the shell 
+script do_tests.sh using
+
+	sh do_tests.sh
+	
+to run all the tests currently implemented.
+
 
 SUPPORT AND DOCUMENTATION
+-------------------------
 
-After installing, you can find documentation for this module with the
-perldoc command.
+After installing, you can find documentation for this module at the GCAT Wiki.
 
-    perldoc GCAT
+    https://bitbucket.org/gawbul/gcat/wiki/
 
-You can also look for information at:
+You can report issues with the code at:
 
-    RT, CPAN's request tracker
-        http://rt.cpan.org/NoAuth/Bugs.html?Dist=GCAT
-
-    AnnoCPAN, Annotated CPAN documentation
-        http://annocpan.org/dist/GCAT
-
-    CPAN Ratings
-        http://cpanratings.perl.org/d/GCAT
-
-    Search CPAN
-        http://search.cpan.org/dist/GCAT/
-
+	https://bitbucket.org/gawbul/gcat/issues
+	
+The Wiki has been disabled at the github page, as bitbucket is the primary development 
+repository. The github clone is provided for convenience, but provides the exact same 
+functionality.
 
 LICENSE AND COPYRIGHT
+---------------------
 
-Copyright (C) 2011 "Steve Moss"
+Copyright (C) 2010-2011 "Steve Moss"
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
 by the Free Software Foundation; or the Artistic License.
 
 See http://dev.perl.org/licenses/ for more information.
-
