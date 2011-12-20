@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<includepath>
-  <includepathentry path="${resource_loc:/GCAT/modules}" />
-  <includepathentry path="/home/stevemoss/work/ensembl65/ensembl/modules" />
-  <includepathentry path="/home/stevemoss/work/ensembl65/ensembl-compara/modules" />
-  <includepathentry path="/home/stevemoss/work/ensembl65/ensembl-functgenomics/modules" />
-  <includepathentry path="/home/stevemoss/work/ensembl65/ensembl-variation/modules" />
-</includepath>
-
