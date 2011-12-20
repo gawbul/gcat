@@ -40,7 +40,7 @@ use GCAT::Interface::Logging qw(logger);
 use GCAT::Data::Parsing;
 use GCAT::Data::Output;
 use GCAT::Analysis::Descriptive;
-use GCAT::Stats::RStats;
+use GCAT::Statistics::R;
 
 # first get the arguments
 my $num_args = $#ARGV + 1;
@@ -111,7 +111,7 @@ foreach my $org (@organisms) {
 ########################
 
 #unshift(@organisms, $feature);
-#&GCAT::Stats::RStats::plot_FDist(@organisms);
+#&GCAT::Visualisation::R::plot_FDist(@organisms);
 
 # set end time and calculate time elapsed
 my $end_time = gettimeofday;

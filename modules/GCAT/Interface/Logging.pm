@@ -31,13 +31,7 @@ our @EXPORT = qw(logger);
 
 tea - Basic logging interface!
 
-=head1 VERSION
-
-Version 0.01
-
 =cut
-
-our $VERSION = '0.01';
 
 # some extra imports
 use Log::Log4perl qw(:easy);

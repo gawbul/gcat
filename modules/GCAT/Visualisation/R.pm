@@ -15,59 +15,18 @@
 # Evolutionary Biology Group,
 # The University of Hull.
 
-package GCAT::Stats::RStats;
+package GCAT::Visualisation::R;
 
 # make life easier
 use warnings;
 use strict;
 
-# some imports
-use File::Spec;
-use Cwd;
-use Text::CSV_XS;
-use GCAT::Data::Output;
+# import some required modules
 use Statistics::R;
 
 # use this routine to plot nucleotide frequencies
 sub plot_NFs {
 	return;	
-}
-
-# map character matrix to phylogenetic tree
-sub map_Chars_to_Tree {
-	# take input from the user
-	my ($char_matrix_file, $phylogenetic_tree_file) = @_;
-	
-	# check the files exist
-	if (! -e $char_matrix_file) {
-		print("The character matrix file was not found at $char_matrix_file\n");
-		exit;
-	}
-	if (! -e $phylogenetic_tree_file) {
-		print("The phylogenetic tree file was not found at $phylogenetic_tree_file\n");
-		exit;
-	}
-	
-	# let user know what we're doing
-	print "Mapping character matrix to the phylogenetic tree...";
-
-	# setup R objects
-	my $R = Statistics::R->new();
-		
-	# start R
-	$R->startR();
-	
-	# main R script
-	$R->send('library(ape)');
-	
-	my $ret;
-	
-	# stop R
-	$R->stopR();
-			
-	##> new <- read.csv(file="/Users/stevemoss/Desktop/test.txt", row.names=1)
-	##> new <- as.matrix(new)
-	
 }
 
 # plot basic stats output

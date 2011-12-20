@@ -37,7 +37,6 @@ use Tie::IxHash;
 
 # get the character matrix data
 sub get_Character_Statistics {
-
 	# retrieve variables
 	my @rownames = @_;    # organisms are row names
 

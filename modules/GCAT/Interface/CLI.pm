@@ -17,20 +17,16 @@
 
 =head1 NAME
 
-GCAT - The great new GCAT!
-
-=head1 VERSION
-
-Version 0.01
+GCAT - CLI Module!
 
 =cut
-
-our $VERSION = '0.01';
 
 =head1 SYNOPSIS
 
     CLI.pm
-    
+
+=cut
+
 =head1 DESCRIPTION
 
 	A module that provides a command line text based input for GCAT.
@@ -155,7 +151,7 @@ sub scripts {
 
 # This displays the program banner
 sub banner {
-	my $ver = $VERSION;
+	my $ver = &GCAT::version;
 	my $os_name = $Config{osname};
 	my $os_arch = $Config{archname};
 	my $os_ver = $Config{osvers};

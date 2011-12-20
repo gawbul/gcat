@@ -79,7 +79,7 @@ foreach my $org (@organisms) {
 ########################
 
 #unshift(@organisms, $feature);
-#&GCAT::Stats::RStats::plot_FDist(@organisms);
+#&GCAT::Visualisation::R::plot_FDist(@organisms);
 
 # set end time and calculate time elapsed
 my $end_time = gettimeofday;

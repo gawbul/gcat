@@ -30,11 +30,11 @@ GCAT - Genome Comparison and Analysis Toolkit!
 
 =head1 VERSION
 
-Version 0.01
+Version 0.69
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.69';
 
 =head1 SYNOPSIS
 
@@ -101,18 +101,23 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
+# get version number
+sub version {
+	return $VERSION;
+}
+
 # lets check the version numbers
 sub check_Version_Numbers {
-	# first check EnsEMBL API version
-	my $ensembl_version = Bio::EnsEMBL::Registry->software_version();
-	if ($ensembl_version < 65) {
-		die("Version >= 65 of the Perl EnsEMBL API is required. You have version $ensembl_version.\n");
-	}
-	
-	# now check BioPerl version
+	# check BioPerl version
 	my $bioperl_version = Bio::SeqIO->VERSION;
 	if ($bioperl_version < 1.006001) {
 		die("Version >= 1.006001 (1.6.1) of the BioPerl API is required. You have version $bioperl_version.\n");
+	}
+	
+	# check EnsEMBL API version
+	my $ensembl_version = Bio::EnsEMBL::Registry->software_version();
+	if ($ensembl_version < 64) {
+		die("Version >= 64 of the Perl EnsEMBL API is required. You have version $ensembl_version.\n");
 	}
 }
 

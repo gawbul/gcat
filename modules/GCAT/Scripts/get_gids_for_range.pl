@@ -40,7 +40,7 @@ use GCAT::Interface::Logging qw(logger);
 use GCAT::Data::Parsing;
 use GCAT::Data::Output;
 use GCAT::Analysis::Descriptive;
-use GCAT::Stats::RStats;
+use GCAT::Statistics::R;
 use Cwd;
 use File::Spec;
 

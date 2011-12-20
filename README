@@ -25,8 +25,9 @@ DEPENDENCIES
 ------------
 
 Perl 5.12.4+
-BioPerl 1.6.1+
-EnsEMBL Perl APIs release 64+
+Bio - BioPerl 1.6.1+
+Bio::EnsEMBL - EnsEMBL Perl APIs release 64+
+Bio::Phylo 0.45+
 R 2.13.1+
 MySQL
 libmysqlclient-dev 16+
