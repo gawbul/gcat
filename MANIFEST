@@ -1,0 +1,17 @@
+Changes
+gcat-pipeline.txt
+gcat-requirements.txt
+gcat.log
+gcat.pl
+gplv3-127x51.png
+LICENSE
+MANIFEST
+Makefile.PL
+README
+TODO
+modules/GCAT.pm
+modules/GCAT/Analysis/Descriptive.pm
+t/00-load.t
+t/manifest.t
+t/pod-coverage.t
+t/pod.t
