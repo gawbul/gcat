@@ -54,11 +54,11 @@ icon to download the source.
 
 Additionally you can checkout the code from bitbucket using Mercurial by running
 
-hg clone ssh://hg@bitbucket.org/gawbul/gcat
+	hg clone ssh://hg@bitbucket.org/gawbul/gcat
 
 Or from github by running
 
-git clone git://github.com/gawbul/gcat.git
+	git clone git://github.com/gawbul/gcat.git
 
 INSTALLATION
 ------------
@@ -106,7 +106,7 @@ SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module at the GCAT Wiki.
 
-    https://bitbucket.org/gawbul/gcat/wiki/
+	https://bitbucket.org/gawbul/gcat/wiki/
 
 You can report issues with the code at:
 
