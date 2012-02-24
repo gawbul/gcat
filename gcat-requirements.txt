@@ -13,9 +13,9 @@ Text::CSV
 Text::CSV_XS
 Text::FormatTable
 Tie::IxHash
-Cwd;
-File::Spec;
-File::Basename;
-Pod::Select;
-IO::String;
-Config;
+Cwd
+File::Spec
+File::Basename
+Pod::Select
+IO::String
+Config
