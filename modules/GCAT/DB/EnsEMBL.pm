@@ -29,29 +29,31 @@ our @EXPORT = qw(connect_to_EnsEMBL get_Gene_IDs get_Species_List get_Transcript
 # module imports
 use Bio::EnsEMBL::Registry;
 use feature "switch";
+use GCAT::Interface::Config;
 
 # connect to EnsEMBL
 sub connect_to_EnsEMBL {
 	# check the database to use in gcat.conf
-	##
-	## ** ToDo **
-	##
+	my $database = &GCAT::Interface::Config::get_conf_val("database");
 	my ($host, $user, $pass, $port) = undef;
 	
-	# check if values defined - default to EnsEMBL vertebrates database
-	unless (defined $host) {
-		$host = 'ensembldb.ensembl.org';	
-	}
-	unless (defined $user) {
-		$user = 'anonymous';
-	}
-	unless (defined $pass) {
-		$pass = undef;
-	}
-	unless (defined $port) {
-		$port = 5306;	
-	}
-	
+	# what feature do we want?
+	given ($database) {
+		when ("ensembl") {
+			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+		}
+		when ("genomes") {
+			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+		}
+		when ("useast") {
+			($host, $user, $pass, $port) = ("useastdb.ensembl.org", "anonymous", undef, 5306);
+		}
+		default {
+			logger("Database not found or defined - using ensembldb.ensembl.org.", "Info");
+			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+		}
+	}	
+		
 	# setup module access object
 	my $registry = 'Bio::EnsEMBL::Registry';
 	

@@ -97,7 +97,7 @@ TESTING
 gawbul-gcat-*/t contains tests of the pipeline functionality. You can run the shell 
 script do_tests.sh using
 
-	sh do_tests.sh
+	sh gcat_tests.sh
 	
 to run all the tests currently implemented.
 

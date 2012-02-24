@@ -34,7 +34,7 @@ Version 0.69
 
 =cut
 
-our $VERSION = '0.69';
+our $VERSION = '0.74';
 
 =head1 SYNOPSIS
 
@@ -90,14 +90,15 @@ sub version {
 sub check_Version_Numbers {
 	# check BioPerl version
 	my $bioperl_version = Bio::SeqIO->VERSION;
-	if ($bioperl_version < 1.006001) {
-		die("Version >= 1.006001 (1.6.1) of the BioPerl API is required. You have version $bioperl_version.\n");
+	if ($bioperl_version < 1.006900) {
+		die("Version >= 1.006900 (1.6.9) of the BioPerl API is required. You have version $bioperl_version.\n");
 	}
 	
 	# check EnsEMBL API version
 	my $ensembl_version = Bio::EnsEMBL::Registry->software_version();
-	if ($ensembl_version < 64) {
-		die("Version >= 64 of the Perl EnsEMBL API is required. You have version $ensembl_version.\n");
+	if ($ensembl_version < 65) {
+		# changed this so it doesn't die, but instead warns - this way users can use earlier versions of the api
+		warn("Version >= 65 of the Perl EnsEMBL API was used to test this toolkit. You have version $ensembl_version.\n");
 	}
 	
 	# check other package versions

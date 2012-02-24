@@ -402,7 +402,7 @@ sub get_Intron_Position_in_Transcript {
 	print "\nFetching CDS and UTR coordinates for $organism...\n";
 	
 	# setup EnsEMBL connection for next step
-	my $registry = &connect_to_EnsEMBL();
+	my $registry = &connect_to_EnsEMBL;
 	
 	# setup gene adaptor
 	my $gene_adaptor = $registry->get_adaptor( $organism, 'Core', 'Gene');

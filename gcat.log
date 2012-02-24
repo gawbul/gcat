@@ -1,201 +1,71 @@
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:26 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:00:43 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:02:33 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:11:20 You have entered an unknown command "speciers".
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:16:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:21:11 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/19 17:21:11 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/19 17:21:13 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:21:14 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:21:15 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/19 17:21:17 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/20 14:50:34 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with one two three four five
-2011/12/20 14:50:34 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2011/12/20 14:50:36 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/20 14:50:37 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/20 14:50:37 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2011/12/20 14:50:37 Loaded /home/stevemoss/Dropbox/PhD/Research/Development/GCAT/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 12:53:30 Starting pipeline processing
-2012/02/24 12:54:53 Starting pipeline processing
-2012/02/24 12:55:28 
-2012/02/24 12:57:22 
-2012/02/24 12:58:13 
-2012/02/24 13:00:22 
-2012/02/24 13:00:37 
-2012/02/24 13:01:21 Starting pipeline processing
-2012/02/24 13:04:09 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:04:25 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:04:25 Starting pipeline processing
-2012/02/24 13:04:25 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:04:25 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:04:27 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:04:28 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:04:28 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:04:29 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:04:29 Finished pipeline processing
-2012/02/24 13:04:56 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:05:10 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:07:28 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:08:32 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130121.tmp
-2012/02/24 13:09:12 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:12:37 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:13:44 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:14:10 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:18:33 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:18:53 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:21:27 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:22:00 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:23:28 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:25:29 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:27:29 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:29:10 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:31:58 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:32:29 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:34:14 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:35:54 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:36:26 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:36:31 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:36:39 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:37:10 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:37:24 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:37:44 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:38:01 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:38:31 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:38:53 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:44:13 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:44:34 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012130425.tmp
-2012/02/24 13:44:38 Starting pipeline processing
-2012/02/24 13:44:38 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:44:38 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:44:40 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:44:41 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:44:41 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:44:41 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:44:41 Finished pipeline processing
-2012/02/24 13:44:47 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012134438.tmp
-2012/02/24 13:45:51 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012134438.tmp
-2012/02/24 13:45:52 Starting pipeline processing
-2012/02/24 13:45:52 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:45:52 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:45:53 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:45:54 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:45:54 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:45:55 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:45:55 Finished pipeline processing
-2012/02/24 13:45:59 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012134552.tmp
-2012/02/24 13:48:00 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012134552.tmp
-2012/02/24 13:48:01 Starting pipeline processing
-2012/02/24 13:48:01 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:48:01 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:48:03 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:48:04 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:48:04 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:48:05 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:48:05 Finished pipeline processing
-2012/02/24 13:52:27 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012134801.tmp
-2012/02/24 13:52:30 Starting pipeline processing
-2012/02/24 13:52:31 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:52:31 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:52:34 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:52:35 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:52:35 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:52:35 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:52:35 Finished pipeline processing
-2012/02/24 13:54:59 Starting pipeline processing
-2012/02/24 13:54:59 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:54:59 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:54:59 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:00 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:01 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:01 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:01 Finished pipeline processing
-2012/02/24 13:55:03 Starting pipeline processing
-2012/02/24 13:55:03 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:55:03 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:55:03 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:04 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:04 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:04 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:04 Finished pipeline processing
-2012/02/24 13:55:08 Starting pipeline processing
-2012/02/24 13:55:08 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:55:08 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:55:08 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:08 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:08 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:09 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:09 Finished pipeline processing
-2012/02/24 13:55:24 Starting pipeline processing
-2012/02/24 13:55:24 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:55:24 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:55:24 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:24 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:24 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:25 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:25 Finished pipeline processing
-2012/02/24 13:55:28 Starting pipeline processing
-2012/02/24 13:55:28 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:55:28 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:55:28 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:28 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:29 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:29 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:55:29 Finished pipeline processing
-2012/02/24 13:56:15 Starting pipeline processing
-2012/02/24 13:56:15 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:56:15 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:56:15 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:56:16 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:56:16 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:56:16 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:56:16 Finished pipeline processing
-2012/02/24 13:56:25 Starting pipeline processing
-2012/02/24 13:56:25 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:56:25 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:56:25 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:56:31 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012135625.tmp
-2012/02/24 13:57:42 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012135625.tmp
-2012/02/24 13:57:50 Starting pipeline processing
-2012/02/24 13:57:50 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 13:57:50 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 13:57:50 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:57:56 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:57:57 Processing pipeline entry 7: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:57:57 Processing pipeline entry 8: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 13:57:58 Finished pipeline processing
-2012/02/24 14:00:41 Starting pipeline processing
-2012/02/24 14:00:41 Processing pipeline entry 7: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 14:00:41 Processing pipeline entry 8: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 14:00:41 Processing pipeline entry 14: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:01:01 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012140041.tmp
-2012/02/24 14:02:25 Starting pipeline processing
-2012/02/24 14:02:25 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
-2012/02/24 14:02:25 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
-2012/02/24 14:02:25 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:02:29 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012140225.tmp
-2012/02/24 14:02:40 Starting pipeline processing
-2012/02/24 14:02:40 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:02:47 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:02:48 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:02:48 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
-2012/02/24 14:02:49 Finished pipeline processing
+2012/02/24 14:24:47 Starting pipeline processing
+2012/02/24 14:24:47 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
+2012/02/24 14:24:47 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
+2012/02/24 14:24:47 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 14:24:49 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 14:24:49 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 14:24:49 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 14:24:50 Finished pipeline processing
+2012/02/24 14:52:40 Running "test".
+2012/02/24 14:56:57 Running "test".
+2012/02/24 14:56:57 Running "test".
+2012/02/24 15:33:57 Expecting two arguments for the key and value to set.
+2012/02/24 15:33:57 Expecting two arguments for the key and value to set.
+2012/02/24 15:36:11 Expecting two arguments for the key and value to set.
+2012/02/24 15:36:11 Expecting two arguments for the key and value to set.
+2012/02/24 15:36:29 Expecting two arguments for the key and value to set.
+2012/02/24 15:36:29 Expecting two arguments for the key and value to set.
+2012/02/24 15:37:59 Expecting two arguments for the key and value to set.
+2012/02/24 15:37:59 Expecting two arguments for the key and value to set.
+2012/02/24 15:38:37 Expecting two arguments for the key and value to set.
+2012/02/24 15:38:37 Expecting two arguments for the key and value to set.
+2012/02/24 15:39:09 Expecting two arguments for the key and value to set.
+2012/02/24 15:39:09 Expecting two arguments for the key and value to set.
+2012/02/24 15:45:29 Expecting two arguments for the key and value to set.
+2012/02/24 15:45:29 Expecting two arguments for the key and value to set.
+2012/02/24 15:46:04 Expecting two arguments for the key and value to set.
+2012/02/24 15:46:04 Expecting two arguments for the key and value to set.
+2012/02/24 16:11:43 Starting pipeline processing
+2012/02/24 16:11:43 Starting pipeline processing
+2012/02/24 16:11:43 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
+2012/02/24 16:11:43 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with one two three four five
+2012/02/24 16:11:43 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
+2012/02/24 16:11:43 Processing pipeline entry 2: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/test.pl with six seven eight nine ten
+2012/02/24 16:11:43 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:11:43 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:11:48 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012161143.tmp
+2012/02/24 16:11:48 Previous failed run detected - see /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/gcat-pipeline-run-24022012161143.tmp
+2012/02/24 16:11:59 Starting pipeline processing
+2012/02/24 16:11:59 Starting pipeline processing
+2012/02/24 16:11:59 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:11:59 Processing pipeline entry 3: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_exons.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:03 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:03 Processing pipeline entry 4: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_introns.pl with danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:05 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:05 Processing pipeline entry 5: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:05 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:05 Processing pipeline entry 6: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/basic_stats.pl with introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+2012/02/24 16:12:05 Finished pipeline processing
+2012/02/24 16:12:05 Finished pipeline processing
+2012/02/24 16:21:23 No such key exists in the configuration file.
+2012/02/24 16:21:23 No such key exists in the configuration file.
+2012/02/24 16:21:26 No such key exists in the configuration file.
+2012/02/24 16:21:26 No such key exists in the configuration file.
+2012/02/24 16:21:54 No such key exists in the configuration file.
+2012/02/24 16:21:54 No such key exists in the configuration file.
+2012/02/24 16:21:57 No such key exists in the configuration file.
+2012/02/24 16:21:57 No such key exists in the configuration file.
+2012/02/24 16:23:24 No such key exists in the configuration file.
+2012/02/24 16:23:24 No such key exists in the configuration file.
+2012/02/24 16:24:03 No such key exists in the configuration file.
+2012/02/24 16:24:03 No such key exists in the configuration file.
+2012/02/24 16:27:00 No such key exists in the configuration file.
+2012/02/24 16:27:00 No such key exists in the configuration file.
+2012/02/24 16:28:01 No such key exists in the configuration file.
+2012/02/24 16:28:01 No such key exists in the configuration file.
+2012/02/24 16:44:17 Set database to ensembl
+2012/02/24 16:44:17 Set database to ensembl
+2012/02/24 16:44:24 Set database to test
+2012/02/24 16:44:24 Set database to test
+2012/02/24 16:44:35 Set database to ensembl
+2012/02/24 16:44:35 Set database to ensembl

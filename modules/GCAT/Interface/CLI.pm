@@ -49,6 +49,7 @@ use Config;
 use GCAT;
 use GCAT::Interface::Logging qw(logger);
 use GCAT::DB::EnsEMBL;
+use GCAT::Interface::Config;
 
 # define global variables
 our @servers = ();
@@ -58,18 +59,19 @@ our @commands = ();
 our @commands_information = ();
 our @scripts = ();
 our @scripts_information = ();
+our @config_commands = ();
+our @config_information = ();
 
 # setup the CLI environment
 sub setup_CLI_ENV {
 	# fill the command arrays
 	@servers = ("ensembldb.ensembl.org", "mysql.ebi.ac.uk", "useastdb.ensembl.org");
 	@servers_short = ("ensembl", "genomes", "useast");
-    @servers_information = ("Vertebrates EnsEMBL database", "Ensembl Genomes database");
-    
-    @commands = ("banner", "help", "clear", "scripts", "license", "databases", "species", "exit", "quit");
+    @servers_information = ("Vertebrates EnsEMBL database", "Ensembl Genomes database", "US East EnsEMBL Mirror");
+    @commands = ("banner", "help", "clear", "scripts", "license", "databases", "species", "get", "set", "exit", "quit");
     @commands_information = ("display the program banner", "display this help message", "clear the screen",
                             "list available scripts", "display license information", "Display a list of database the user can connect to",
-                            "display list of species names", "exit the command line interface", "quit the command line interface");
+                            "display list of species names", "get a setting from conf file", "write a setting to conf file", "exit the command line interface", "quit the command line interface");
 	
 	# get scripts and fill scripts array
 	my $dir = getcwd();
@@ -106,6 +108,42 @@ sub get_User_Input {
 	return $input;
 }
 
+# set commands
+sub set {
+	# get arguments
+	my @args = @_;
+
+	# check number of args - should only be two
+	if (scalar(@args) != 2) {
+		logger("Expecting two arguments for the key and value to set.", "Debug");
+	}
+	else {
+		# set command
+		&GCAT::Interface::Config::set_conf_val(@args);
+	}
+}
+
+# set commands
+sub get {
+	# get arguments
+	my @args = @_;
+
+	# check number of args - should only be one
+	if (scalar(@args) != 1) {
+		logger("Expecting one argument for the configuration key.", "Debug");
+	}
+	else {
+		# get command
+		my $value = &GCAT::Interface::Config::get_conf_val($args[0]);
+		if (!defined $value) {
+			logger("No such key exists in the configuration file.", "Debug");			
+		}
+		else {
+			print "$args[0] = $value\n";	
+		}
+	}
+}
+
 # display the CLI usage
 sub help {
 	foreach my $i (0 .. scalar(@commands) - 1) {
@@ -127,7 +165,7 @@ sub clear {
 # list databases
 sub databases {
 	foreach my $i (0 .. scalar(@servers) - 1) {
-		printf("%-30s%s\n", $servers[$i], $servers_information[$i]);
+		printf("%-30s%s (%s)\n", $servers[$i], $servers_information[$i], $servers_short[$i]);
 	}	
 }
 
@@ -184,18 +222,25 @@ sub license {
 sub cmd_parser {
 	# fill the variables
 	my $cmd = shift(@_);
-	my @args = @_;
-	my $args = join(" ", @args);
-	
+	my @arglist = @_;
+	my $args = join(" ", @arglist);
 	# check if in commands
 	if (grep $_ eq $cmd, @commands) {
 		no strict 'refs';
-		&$cmd;
+		# pass args if using set
+		if ($cmd eq "set" || $cmd eq "get") {
+			&$cmd(@arglist);
+		}
+		else {
+			# just run command
+			&$cmd;
+		}
 	}
 	# check if in scripts
 	elsif (grep $_ eq $cmd, @scripts) {
 		my $dir = getcwd();
 		my $path = File::Spec->catfile($dir, 'modules', 'GCAT', 'Scripts', $cmd . ".pl");
+		&logger("Running \"$cmd\".", "Info");
 		system("perl $path $args");
 	}
 	# report error
@@ -228,9 +273,8 @@ sub load_CLI {
                 my @inputs = split(/ /, $command);
                 my $cmd = shift(@inputs);
                 my @args = @inputs;
-                my $args = join(" ", @args);
                 # parse the commands
-				&cmd_parser($cmd, $args);
+				&cmd_parser($cmd, @args);
             }
 		}
 		print "\n"; # always print an empty line after each input

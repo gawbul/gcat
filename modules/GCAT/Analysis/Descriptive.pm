@@ -72,7 +72,7 @@ sub get_Character_Statistics {
 	my @data = ();
 
 	# get number of genes and transcripts
-	my $registry = &connect_to_EnsEMBL( undef, undef, undef, undef );
+	my $registry = &connect_to_EnsEMBL;
 
 	# traverse through the given species and retrieve data
 	foreach my $org (@rownames) {
@@ -163,7 +163,7 @@ sub get_Descriptive_Statistics {
 	my %output;
 
 	# get number of genes and transcripts
-	my $registry = &connect_to_EnsEMBL( undef, undef, undef, undef );
+	my $registry = &connect_to_EnsEMBL;
 	my $genome_size    = &get_Genome_Size( $registry,    $organism );
 	my $exome_size     = &get_Exome_Size( $registry,     $organism );
 	my @gene_ids       = &get_Gene_IDs( $registry,       $organism );

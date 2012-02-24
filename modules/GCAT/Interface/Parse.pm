@@ -67,7 +67,8 @@ sub input_Parser() {
 		&GCAT::Interface::CLI::load_CLI();
 	}
 	else {
-		die ("Caught some unexpected error whilst processing command line inputs.\n$filename\n$cmd");
+		logger("Caught some unexpected error whilst processing command line inputs.\n$filename\n$cmd", "Error");
+		die ();
 	}
 }
 

@@ -48,8 +48,11 @@ sub setup_Logging {
 	    	file  => ">>$path",
 	    	level => $ERROR,
 	    },
-	
 	    {
+	     	level => $INFO,
+	    },
+	    {
+	    	file  => ">>$path",
 	    	level => $DEBUG,
 	    }
 	    );
@@ -64,6 +67,9 @@ sub logger {
 	}
 	elsif ($type eq "Debug") {
 		DEBUG($message);
+	}
+	elsif ($type eq "Info") {
+		INFO($message);
 	}
 }
 
