@@ -31,13 +31,6 @@ GCAT - Parse interface!
 
 This provides an interface for parsing input from the command line and processing the pipeline input file.
 
-Perhaps a little code snippet.
-
-    use GCAT::Interface::Parse;
-
-    my $foo = GCAT->new();
-    ...
-
 =cut
 
 =head1 AUTHOR
@@ -52,6 +45,7 @@ use Cwd;
 use File::Spec;
 use GCAT::Interface::Logging qw(logger);
 use GCAT::Interface::CLI;
+use POSIX;
 
 # set variables for get opts
 our $filename = "gcat-pipeline.txt";
@@ -78,13 +72,73 @@ sub input_Parser() {
 }
 
 # this processes the input pipeline file
+my ($startFromBool, $startline) = 0;
 sub process_Pipeline() {
+	# check to see if pipline temp file exists from previous failed run
+	my $dir = getcwd();
+	my @files = glob("$dir/gcat-pipeline-run-*.tmp");
+	if (scalar(@files) != 0) {
+		# reverse sort files so most recent run is at top - shouldn't be more than one, but do this just in case
+		@files = sort {$b cmp $a} @files;
+		my $lastrun = $files[0];
+	
+		# get last command
+		open LASTRUN, "<$lastrun" or die $!;
+		my @lines = <LASTRUN>;
+		my $lastline = $lines[-1];
+		my $linenums = scalar(@lines);
+		$startline = int($linenums);
+		close(LASTRUN);
+	
+		# inform the user and get how we will continue
+		logger("Previous failed run detected - see $lastrun", "Error");
+		print "Pipeline failed previous run at line $linenums: $lastline\n";
+		
+		# loop until correct option pressed
+		$startFromBool = 1;
+		my $userinput = "Y";
+		while (1) {
+			# get user input
+			print "\nWould you like to continue from the previous command? (Y/n): ";
+			$userinput = <>;
+			chomp($userinput);
+			# check what we have
+			if ($userinput eq '') {
+				$userinput = "Y";
+				$startFromBool = 1;
+				last;
+			}
+			elsif ($userinput eq "Y" or $userinput eq "y") {
+				$startFromBool = 1;
+				last;
+			}
+			elsif ($userinput eq "N" or $userinput eq "n") {
+				# delete the tmp files and continue as normal
+				print $dir . "\n";
+				unlink(<$dir/*.tmp>) or die $!;
+				$startFromBool = 0;
+				last;
+			}
+			else {
+				print "Unrecognised option ($userinput)";
+			}
+		}
+	}
+	
 	# tell user what we are doing
 	print "Processing commands from pipeline file $filename...\n\n";
+	logger("Starting pipeline processing", "Debug");
 	
+	# create temp file
+	my ($sec, $min, $hr, $day, $mon, $year) = localtime;
+	my $timestamp = POSIX::strftime("%d%m%Y%H%M%S", localtime);
+	open TEMP, ">$dir/gcat-pipeline-run-$timestamp.tmp" or die $!;
+
 	# open the file and read a line at a time
-	open PIPELINE, "<$filename" or die $!;
+	my $path = File::Spec->catfile($dir, $filename);
+	open PIPELINE, "<$path" or die $!;
 	# loop through file
+	my $count = 1;
 	while (my $line = <PIPELINE>) {
 		# remove any newlines
 		chomp $line;
@@ -93,6 +147,13 @@ sub process_Pipeline() {
 		if ($line =~ /^#/ or $line eq "") {
 			next; # do nothing - jump to next
 		}
+
+		# go to correct line, if we are continuing from a previous failed run
+		if ($startFromBool == 1 && $count < $startline) {
+			$count++;
+			next;
+		}
+	
 		# remove any end of line comments first
 		my @parts = split(/#/, $line);
 		$line = $parts[0];
@@ -108,14 +169,22 @@ sub process_Pipeline() {
 		# check exists and then execute if so
 		if (!-e $path) {
 			warn("Script $path not found.\n");
+			logger("Pipeline entry $count: $path not found", "Debug");
 		}
 		else {
+			logger("Processing pipeline entry $count: $path with @parts", "Debug");
+			print TEMP "$line\n";
 			system("perl $path @parts");
-			logger("Loaded $path with @parts", "Debug");
 		}
 		print "\n";
+		$count++;
 	}
+	close(TEMP);
 	close(PIPELINE);
+	
+	# remove temporary file
+	logger("Finished pipeline processing", "Debug");
+	unlink(<$dir/*.tmp>) or die $!;
 }
 
 1;

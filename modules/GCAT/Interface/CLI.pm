@@ -52,6 +52,7 @@ use GCAT::DB::EnsEMBL;
 
 # define global variables
 our @servers = ();
+our @servers_short = ();
 our @servers_information = ();
 our @commands = ();
 our @commands_information = ();
@@ -61,8 +62,10 @@ our @scripts_information = ();
 # setup the CLI environment
 sub setup_CLI_ENV {
 	# fill the command arrays
-	@servers = ("ensembldb.ensembl.org", "mysql.ebi.ac.uk");
-    @servers_information = ("Default Ensembl database", "Ensembl Genomes database");
+	@servers = ("ensembldb.ensembl.org", "mysql.ebi.ac.uk", "useastdb.ensembl.org");
+	@servers_short = ("ensembl", "genomes", "useast");
+    @servers_information = ("Vertebrates EnsEMBL database", "Ensembl Genomes database");
+    
     @commands = ("banner", "help", "clear", "scripts", "license", "databases", "species", "exit", "quit");
     @commands_information = ("display the program banner", "display this help message", "clear the screen",
                             "list available scripts", "display license information", "Display a list of database the user can connect to",

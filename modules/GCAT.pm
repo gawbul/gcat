@@ -38,14 +38,9 @@ our $VERSION = '0.69';
 
 =head1 SYNOPSIS
 
-Quick summary of what the module does.
-
-Perhaps a little code snippet.
-
-    use GCAT;
-
-    my $foo = GCAT->new();
-    ...
+An adaptable and efficient toolkit for large-scale evolutionary comparative genomics analysis.
+Written in the Perl programming language, GCAT utilizes the BioPerl, Perl EnsEMBL and R Statistics
+APIs.
 
 =cut
 
@@ -55,9 +50,10 @@ Perhaps a little code snippet.
 
 =head1 BUGS
 
-Please report any bugs or feature requests to C<bug-GCAT at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=GCAT>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
+Please report any bugs or feature requests to C<gawbul at gmail.com>, or through
+the web interface at L<https://bitbucket.org/gawbul/gcat/issues?status=new&status=open>.
+I will be notified, and then you'll automatically be notified of progress on your bug as 
+I make changes.
 
 =head1 SUPPORT
 
@@ -67,31 +63,15 @@ You can find documentation for this module with the perldoc command.
 
 You can also look for information at:
 
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=GCAT>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/GCAT>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/GCAT>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/GCAT/>
-
-=back
+L<https://bitbucket.org/gawbul/gcat/wiki>
 
 =head1 ACKNOWLEDGEMENTS
 
+Thanks to Dr Dave Lunt, Dr Domino Joyce, Dr Stuart Humphries and Dr Chris Venditti
+
 =head1 LICENSE AND COPYRIGHT
 
-Copyright 2011 "Steve Moss".
+Copyright 2011-2012 "Steve Moss".
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of either: the GNU General Public License as published
@@ -119,6 +99,11 @@ sub check_Version_Numbers {
 	if ($ensembl_version < 64) {
 		die("Version >= 64 of the Perl EnsEMBL API is required. You have version $ensembl_version.\n");
 	}
+	
+	# check other package versions
+	##
+	## ** ToDo **
+	##
 }
 
 1; # End of GCAT

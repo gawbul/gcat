@@ -32,10 +32,13 @@ use feature "switch";
 
 # connect to EnsEMBL
 sub connect_to_EnsEMBL {
-	# get values from @_
-	my ($host, $user, $pass, $port) = @_;
+	# check the database to use in gcat.conf
+	##
+	## ** ToDo **
+	##
+	my ($host, $user, $pass, $port) = undef;
 	
-	# check if values defined - default to local install
+	# check if values defined - default to EnsEMBL vertebrates database
 	unless (defined $host) {
 		$host = 'ensembldb.ensembl.org';	
 	}
