@@ -24,7 +24,7 @@ use strict;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(check_Data_OK get_Feature_Counts get_Gene_IDs_from_Feature);
+our @EXPORT = qw(check_Data_OK get_Feature_Lengths get_Gene_IDs_from_Feature);
 
 # imports
 use Cwd;

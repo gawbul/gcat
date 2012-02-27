@@ -61,14 +61,14 @@ sub setup_Logging {
 # log routine
 sub logger {
 	my $message = $_[0];
-	my $type = $_[1];
-	if ($type eq "Error") {
+	my $type = lc($_[1]);
+	if ($type eq "error") {
 		ERROR($message);
 	}
-	elsif ($type eq "Debug") {
+	elsif ($type eq "debug") {
 		DEBUG($message);
 	}
-	elsif ($type eq "Info") {
+	elsif ($type eq "info") {
 		INFO($message);
 	}
 }

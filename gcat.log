@@ -69,3 +69,117 @@
 2012/02/24 16:44:24 Set database to test
 2012/02/24 16:44:35 Set database to ensembl
 2012/02/24 16:44:35 Set database to ensembl
+2012/02/27 10:32:57 Running "get_exons".
+2012/02/27 10:32:57 Running "get_exons".
+2012/02/27 10:33:22 Running "get_exons".
+2012/02/27 10:33:22 Running "get_exons".
+2012/02/27 10:33:49 Running "get_exons".
+2012/02/27 10:33:49 Running "get_exons".
+2012/02/27 10:33:57 Running "get_exons".
+2012/02/27 10:33:57 Running "get_exons".
+2012/02/27 10:34:19 You have entered an unknown command "get_exonssaccharomyces_cerevisiae".
+2012/02/27 10:34:19 You have entered an unknown command "get_exonssaccharomyces_cerevisiae".
+2012/02/27 10:34:25 Running "get_exons".
+2012/02/27 10:34:25 Running "get_exons".
+2012/02/27 10:34:54 Running "get_exons".
+2012/02/27 10:34:54 Running "get_exons".
+2012/02/27 10:35:31 Running "get_exons".
+2012/02/27 10:35:31 Running "get_exons".
+2012/02/27 10:36:37 Running "get_exons".
+2012/02/27 10:36:37 Running "get_exons".
+2012/02/27 10:37:12 Running "get_exons".
+2012/02/27 10:37:12 Running "get_exons".
+2012/02/27 10:38:14 Running "get_exons".
+2012/02/27 10:38:14 Running "get_exons".
+2012/02/27 10:38:21 Running "get_exons".
+2012/02/27 10:38:21 Running "get_exons".
+2012/02/27 10:39:03 Running "get_exons".
+2012/02/27 10:39:03 Running "get_exons".
+2012/02/27 10:39:48 Running "get_exons".
+2012/02/27 10:39:48 Running "get_exons".
+2012/02/27 10:41:10 Running "get_exons".
+2012/02/27 10:41:10 Running "get_exons".
+2012/02/27 10:42:36 Running "get_exons".
+2012/02/27 10:42:36 Running "get_exons".
+2012/02/27 10:54:04 Running "get_exons".
+2012/02/27 10:54:04 Running "get_exons".
+2012/02/27 11:07:46 Running "get_exons".
+2012/02/27 11:07:46 Running "get_exons".
+2012/02/27 11:07:55 Running "get_exons".
+2012/02/27 11:07:55 Running "get_exons".
+2012/02/27 11:31:34 Running "get_exons".
+2012/02/27 11:31:34 Running "get_exons".
+2012/02/27 11:37:49 You have entered an unknown command "exti".
+2012/02/27 11:37:49 You have entered an unknown command "exti".
+2012/02/27 11:38:23 Running "get_exons".
+2012/02/27 11:38:23 Running "get_exons".
+2012/02/27 11:38:59 Running "get_exons".
+2012/02/27 11:38:59 Running "get_exons".
+2012/02/27 11:40:52 Running "get_exons".
+2012/02/27 11:40:52 Running "get_exons".
+2012/02/27 11:42:53 Running "get_exons".
+2012/02/27 11:42:53 Running "get_exons".
+2012/02/27 11:45:06 Running "get_exons".
+2012/02/27 11:45:06 Running "get_exons".
+2012/02/27 11:47:45 Running "get_exons".
+2012/02/27 11:47:45 Running "get_exons".
+2012/02/27 11:47:53 Running "get_exons".
+2012/02/27 11:47:53 Running "get_exons".
+2012/02/27 11:49:21 Running "get_exons".
+2012/02/27 11:49:21 Running "get_exons".
+2012/02/27 11:51:26 Running "get_exons".
+2012/02/27 11:51:26 Running "get_exons".
+2012/02/27 11:52:49 Running "get_exons".
+2012/02/27 11:52:49 Running "get_exons".
+2012/02/27 11:54:27 You have entered an unknown command "ENSFM00250000001204".
+2012/02/27 11:54:27 You have entered an unknown command "ENSFM00250000001204".
+2012/02/27 11:54:36 Running "get_exons".
+2012/02/27 11:54:36 Running "get_exons".
+2012/02/27 11:56:14 Running "get_exons".
+2012/02/27 11:56:14 Running "get_exons".
+2012/02/27 11:57:45 Running "get_exons".
+2012/02/27 11:57:45 Running "get_exons".
+2012/02/27 11:59:32 Running "get_exons".
+2012/02/27 11:59:32 Running "get_exons".
+2012/02/27 12:03:33 Running "get_exons".
+2012/02/27 12:03:33 Running "get_exons".
+2012/02/27 12:05:07 Running "get_exons".
+2012/02/27 12:05:07 Running "get_exons".
+2012/02/27 12:06:36 Running "get_exons".
+2012/02/27 12:06:36 Running "get_exons".
+2012/02/27 12:07:25 Running "get_exons".
+2012/02/27 12:07:25 Running "get_exons".
+2012/02/27 12:08:36 Running "get_exons".
+2012/02/27 12:08:36 Running "get_exons".
+2012/02/27 12:09:39 Running "get_exons".
+2012/02/27 12:09:39 Running "get_exons".
+2012/02/27 12:13:01 Running "get_exons".
+2012/02/27 12:13:01 Running "get_exons".
+2012/02/27 12:14:27 Running "get_exons".
+2012/02/27 12:14:27 Running "get_exons".
+2012/02/27 12:15:53 Running "get_exons".
+2012/02/27 12:15:53 Running "get_exons".
+2012/02/27 12:17:36 Running "get_exons".
+2012/02/27 12:17:36 Running "get_exons".
+2012/02/27 12:19:55 Running "get_exons".
+2012/02/27 12:19:55 Running "get_exons".
+2012/02/27 12:21:14 Running "get_exons".
+2012/02/27 12:21:14 Running "get_exons".
+2012/02/27 12:23:49 Running "get_exons".
+2012/02/27 12:23:49 Running "get_exons".
+2012/02/27 12:32:27 You have entered an unknown command "$feature->stable_id()".
+2012/02/27 12:32:27 You have entered an unknown command "$feature->stable_id()".
+2012/02/27 12:32:28 Running "get_exons".
+2012/02/27 12:32:28 Running "get_exons".
+2012/02/27 12:32:48 Running "get_exons".
+2012/02/27 12:32:48 Running "get_exons".
+2012/02/27 12:35:13 Running "get_exons".
+2012/02/27 12:35:13 Running "get_exons".
+2012/02/27 12:36:29 Running "get_exons".
+2012/02/27 12:36:29 Running "get_exons".
+2012/02/27 12:39:10 Running "get_exons".
+2012/02/27 12:39:10 Running "get_exons".
+2012/02/27 12:40:14 Running "get_exons".
+2012/02/27 12:40:14 Running "get_exons".
+2012/02/27 12:43:37 Running "get_exons".
+2012/02/27 12:43:37 Running "get_exons".

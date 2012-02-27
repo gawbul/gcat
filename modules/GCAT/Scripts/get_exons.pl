@@ -37,10 +37,11 @@ use Time::HiRes qw(gettimeofday tv_interval);
 use Parallel::ForkManager; # used for parallel processing
 use GCAT::Interface::Logging qw(logger); # for logging
 use GCAT::DB::EnsEMBL;
+use GCAT::Data::Output;
 use Cwd;
 use File::Spec;
 use Log::Log4perl::DateFormat;
-
+use Data::Dumper;
 
 # define variables
 our $index = 0;
@@ -75,7 +76,6 @@ local $| = 1;
 my $pm = new Parallel::ForkManager(8);
 
 # go through all fish and retrieve exon ids and coordinates
-my $count = 0;
 foreach my $org_name (@organisms) {
 	# start fork
 	my $pid = $pm->start and next;
@@ -83,11 +83,6 @@ foreach my $org_name (@organisms) {
 	# setup output filename
 	mkdir "data/$org_name" unless -d "data/$org_name";
 	my $path = File::Spec->catfile($dir, "data", "$org_name", "exons.fas");
-	my $seqio_out = Bio::SeqIO->new(-file => ">$path" , '-format' => 'Fasta');
-	
-	# setup DB adapters
-	my $gene_adaptor = $registry->get_adaptor($org_name, 'Core', 'Gene');
-	my $tr_adaptor    = $registry->get_adaptor($org_name, 'Core', 'Transcript');
 	
 	# get current database name
 	my $db_adaptor = $registry->get_DBAdaptor($org_name, "Core");
@@ -97,60 +92,20 @@ foreach my $org_name (@organisms) {
 	$release = int($1);
 
 	# let user know we're starting
-	my $printed = 0;
-	print "Retrieving gene IDs for $dbname...\n";
+	print "Retrieving data for $dbname...\n";
 	
 	# retrieve all stable IDs
 	my @geneids = &get_Gene_IDs($registry, $org_name);
 	my $gene_count = $#geneids + 1;
+
+	# retrieve exons from gene IDs
+	my @exons = &get_Feature($registry, $org_name, "Exons");
 	
-	# go through each gene stable ID and retrieve canonical transcript and exons
-	foreach my $geneid (@geneids)
-	{
-		if ($printed == 0) {
-			print "Retrieving exons for $dbname...\n";
-			$printed = 1;
-		}
-		
-		# fetch the gene by stable id
-		my $gene = $gene_adaptor->fetch_by_stable_id($geneid);
-
-		# only get protein coding genes
-		unless ($gene->biotype eq "protein_coding") {
-			next;
-		}
-		
-		# setup transcript adaptor to retrieve exons
-		my $tr = $gene->canonical_transcript();		
-
-		# get all exons for the gene canonical transcript
-		my $exons = $tr->get_all_Exons();
-		
-		# traverse exons
-		while (my $exon = shift @{$exons}) {
-			# build the bio seq object
-			my $exon_obj = Bio::Seq->new( 	-primary_id => $exon->stable_id(),
-											-display_id => $exon->stable_id(),
-											-desc => $gene->stable_id() . " " . $tr->stable_id() . " " . $exon->start() . " " . $exon->end() . " " . $exon->length() . " " . $exon->strand(),
-											-alphabet => 'dna',
-											-seq => $exon->seq->seq);
-											
-			# write the fasta sequence
-			# unless we have a 0 length exon
-			if ($exon->length() == 0) {
-				next;
-			}
-			
-			$seqio_out->write_seq($exon_obj);
-			
-			# let user know something is happening
-			if ($count % 1000 == 0) {
-				print "."
-			}
-			$count++;
-		}
-	}
-	print "\nRetrieved $count exons for $org_name.\n";
+	# write to fasta
+	my $write_count = &write_to_SeqIO($path, "Fasta", @exons);
+	
+	# how many have we done?
+	print "\nRetrieved $write_count exons for $org_name.\n";
 	
 	# finish fork
 	$pm->finish;

@@ -24,12 +24,13 @@ use strict;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(connect_to_EnsEMBL get_Gene_IDs get_Species_List get_Transcript_IDs get_Genome_Size get_Transcriptome_Size get_Exome_Size get_Intronome_Size get_Gene_BioTypes get_Exon_IDs get_CTranscript_IDs get_CExon_IDs get_CIntron_Count get_UTR_Sizes get_Intron_Densities get_Exon_Densities get_Repeat_Genome_Stats);
+our @EXPORT = qw(connect_to_EnsEMBL get_Feature get_Gene_IDs get_Species_List get_Transcript_IDs get_Genome_Size get_Transcriptome_Size get_Exome_Size get_Intronome_Size get_Gene_BioTypes get_Exon_IDs get_CTranscript_IDs get_CExon_IDs get_CIntron_Count get_UTR_Sizes get_Intron_Densities get_Exon_Densities get_Repeat_Genome_Stats);
 
 # module imports
 use Bio::EnsEMBL::Registry;
 use feature "switch";
 use GCAT::Interface::Config;
+use GCAT::Interface::Logging qw(logger);
 
 # connect to EnsEMBL
 sub connect_to_EnsEMBL {
@@ -37,28 +38,39 @@ sub connect_to_EnsEMBL {
 	my $database = &GCAT::Interface::Config::get_conf_val("database");
 	my ($host, $user, $pass, $port) = undef;
 	
-	# what feature do we want?
-	given ($database) {
-		when ("ensembl") {
-			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
-		}
-		when ("genomes") {
-			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
-		}
-		when ("useast") {
-			($host, $user, $pass, $port) = ("useastdb.ensembl.org", "anonymous", undef, 5306);
-		}
-		default {
-			logger("Database not found or defined - using ensembldb.ensembl.org.", "Info");
-			($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
-		}
-	}	
-		
+	# check if database is custom
+	if ($database =~ /^custom/) {
+		$database =~ s/^custom\(//; # remove custom( from beginning
+		$database =~ s/\)$//; # remove ) from the end
+		my @parts = split(/;/, $database);
+		$host = $parts[0];
+		$user = $parts[1];
+		$pass = $parts[2];
+		$port = $parts[3];
+	}
+	else {
+		# what feature do we want?
+		given ($database) {
+			when ("ensembl") {
+				($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+			}
+			when ("genomes") {
+				($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+			}
+			when ("useast") {
+				($host, $user, $pass, $port) = ("useastdb.ensembl.org", "anonymous", undef, 5306);
+			}
+			default {
+				logger("Database not found or defined - using ensembldb.ensembl.org.", "Info");
+				($host, $user, $pass, $port) = ("ensembldb.ensembl.org", "anonymous", undef, 5306);
+			}
+		}	
+	}		
 	# setup module access object
 	my $registry = 'Bio::EnsEMBL::Registry';
 	
 	# connect with ensembl database
-	$registry->load_registry_from_db (
+	$registry->load_registry_from_db(
 	    -host => $host,
 	    -user => $user,
 	    -pass => $pass,
@@ -408,7 +420,7 @@ sub get_CIntron_Count {
 	return $intron_count;	
 }
 
-# get 5'-UTR size
+# get UTR sizes
 sub get_UTR_Sizes {
 	# retrieve variables
 	my ($registry, $organism) = @_;
@@ -669,8 +681,6 @@ sub is_Species {
 	}
 }
 
-use Data::Dumper;
-
 # get species list
 sub get_Species_List {
 	# define variables
@@ -697,28 +707,34 @@ sub get_Species_List {
 # currently just exons and introns
 sub get_Feature {
 	# define variables
-	my ($registry, $feature, $organism) = @_;
+	my ($registry, $organism, $feature) = @_;
+	my @features = ();
 	
 	# what feature do we want?
-	given ($feature) {
+	given (lc($feature)) {
 		when ("exons") {
-			&get_Exons($registry, $organism);
+			@features = &get_Exons($registry, $organism);
 		}
 		when ("introns") {
-			&get_Introns($registry, $organism);
+			@features = &get_Introns($registry, $organism);
+		}
+		when ("repeats") {
+			@features = &get_Repeats($registry, $organism);
 		}
 		default {
-			print "This feature is currently not defined for retrieval.\n";
+			logger("The feature $feature, is currently not defined for retrieval.", "Debug");
 		}
 	}
+	
+	return @features;
 }
 
 # subroutine to retrieve introns
 sub get_Exons {
 	# define variables
 	my ($registry, $organism) = @_;
-	my @exons;
-	
+	my @exons = ();
+		
 	# get gene IDs
 	my @geneids = &get_Gene_IDs($registry, $organism);
 
@@ -738,10 +754,10 @@ sub get_Exons {
 		my $tr = $gene->canonical_transcript();
 		
 		# get all exons
-		my @tr_exons = $tr->get_all_Exons();
-		@exons = (@exons, @tr_exons);
+		my $trexons = $tr->get_all_Exons();
+		@exons = (@exons, @{$trexons});
 	}
-	
+
 	return @exons;
 }
 
@@ -769,12 +785,48 @@ sub get_Introns {
 		# setup transcript adaptor to retrieve introns
 		my $tr = $gene->canonical_transcript();
 		
-		# get all exons
-		my @tr_introns = $tr->get_all_Exons();
-		@introns = (@introns, @tr_introns);
+		# get all introns
+		my $trintrons = $tr->get_all_Introns();
+		@introns = (@introns, @{$trintrons});
 	}
 	
 	return @introns;
+}
+
+# subroutine to retrieve repeat elements
+sub get_Repeats {
+	# define variables
+	my ($registry, $organism) = @_;
+	my @repeats;
+	
+	# get gene IDs
+	my @geneids = &get_Gene_IDs($registry, $organism);
+
+	# setup gene adaptor
+	my $gene_adaptor = $registry->get_adaptor($organism, 'Core', 'Gene');
+	my $slice_adaptor = $registry->get_adaptor($organism, 'Core', 'Slice');
+		
+	foreach my $geneid (@geneids) {
+		# fetch the gene by stable id
+		my $gene = $gene_adaptor->fetch_by_stable_id($geneid);
+
+		# only get protein coding genes
+		unless ($gene->biotype eq "protein_coding") {
+			next;
+		}
+			
+		# setup transcript adaptor to retrieve repeats by slice
+		my $tr = $gene->canonical_transcript();
+		
+		# setup slice adaptor to retrieve repeats
+		my $slice = $slice_adaptor->fetch_by_transcript_stable_id($tr->stable_id());
+		
+		# get all repeats
+		my $slrepeats = $slice->get_all_RepeatFeatures();
+		@repeats = (@repeats, @{$slrepeats});
+	}
+	
+	return @repeats;
 }
 
 1;

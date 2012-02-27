@@ -31,7 +31,7 @@ use Data::Dumper;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(write_Raw_To_CSV write_Unique_To_CSV merge_CSV write_to_File build_Char_Matrix);
+our @EXPORT = qw(write_Raw_To_CSV write_Unique_To_CSV merge_CSV write_to_File build_Char_Matrix write_to_SeqIO);
 
 # write raw data to CSV
 sub write_Raw_To_CSV {
@@ -188,79 +188,6 @@ sub merge_CSV {
 	return $out_file;		
 }
 
-# deprecated merge CSV subroutine
-sub _old_merge_CSV {
-	# import data
-	my $feature = shift(@_);
-	my @organisms = @_;
-	my %csv_hash;
-	my @order;
-	
-	# get root directory and setup data path
-	my $dir = getcwd();
-	my $path = File::Spec->catfile($dir , "data");
-	srand (time ^ $$ ^ unpack "%L*", `ps axww | gzip -f`); # seed random number generator
-	my $random = int(rand(9999999999)); # get random number
-	my $out_file = File::Spec->catfile($dir , "data", $feature ."_all_$random.csv");
-	
-	# traverse each organism
-	for my $organism (@organisms) {
-		# setup CSV
-		my $csv = Text::CSV_XS->new ({ binary => 1 });
-			  	
-	  	# open file
-		my $in_file = File::Spec->catfile($path, $organism, $feature . "_freqs.csv");
-	  	open my $fh, "<", "$in_file" or die "$in_file: $!";
-		
-		# traverse file and push array_ref to array 
-		my $rows = [];
-		while (my $row = $csv->getline($fh)) {
-			 push(@$rows, $row);
-		}
-		
-		## display to ensure not flattened the rows
-		#while (my $r = shift @{$rows}) {
-		#	print join(",", @$r) . "\n";
-		#}
-		
-		# push array to hash		
-		$csv_hash{$organism} = $rows;	
-		
-		# close the CSV
-		$csv->eof or $csv->error_diag;
-		close $fh or die "$in_file: $!";
-	}
-
-  	# open the out file
-  	open my $ofh, ">", "$out_file" or die "$out_file: $!";
-	
-	# get the size of the array in each hash array and sort in descending size
-	foreach my $k (sort {scalar(@{$csv_hash{$b}}) <=> scalar(@{$csv_hash{$a}})} keys %csv_hash) {
-		push(@order, $k);		
-	}
-	
-	# display data in order
-	for my $o (@order) {
-		while (my $array = shift @{$csv_hash{$o}}) {
-			print "@$array\n";
-		}
-	}
-	
-	# need to build rows from separate hashes
-	###########################
-	# *** MORE TO DO HERE *** #
-	###########################
-	
-	# close output CSV
-	close $ofh or die "$out_file: $!";
-
-	# tell user where data is
-	print "Outputted all data to $out_file\n";		
-	
-	# return out file for R
-	return $out_file;
-}
-
 # write data to file
 sub write_to_File {
 	# setup variables
@@ -273,5 +200,121 @@ sub write_to_File {
 	# close file
 	close(OUTFILE);
 }
+
+# write array to output format
+sub write_to_SeqIO {
+	# setup variables
+	my $filename = shift @_;
+	my $format = shift @_;
+	my @features = @_;
+
+	# setup seqio output
+	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => $format);
+	# traverse exons
+	my $count = 0;
+	while (my $feature = shift @features) {
+		# get data for gene and transcript IDs
+		my $slice = $feature->feature_Slice();
+		my $gene = @{$slice->get_all_Genes(undef, undef, 0, undef, "protein_coding")}[0];
+		my $transcript = $gene->canonical_transcript();
+		
+		# build the bio seq object
+		my $feature_obj = Bio::Seq->new(-primary_id => $feature->stable_id(),
+										-display_id => $feature->stable_id(),
+										-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $feature->stable_id() . " " . $feature->start() . " " . $feature->end() . " " . $feature->length() . " " . $feature->strand(),
+										-alphabet => 'dna',
+										-seq => $feature->seq->seq);
+										
+		# do we have a 0 length exon?
+		if ($feature->length() == 0) {
+			next;
+		}
+		
+		# write the fasta sequence
+		$seqio_out->write_seq($feature_obj);
+		
+		# let user know something is happening
+		if (($count % 100) == 0) {
+			print "."
+		}
+		$count++;
+	}	
+	
+	return $count;
+}
+
+
+# deprecated merge CSV subroutine
+#sub _old_merge_CSV {
+#	# import data
+#	my $feature = shift(@_);
+#	my @organisms = @_;
+#	my %csv_hash;
+#	my @order;
+#	
+#	# get root directory and setup data path
+#	my $dir = getcwd();
+#	my $path = File::Spec->catfile($dir , "data");
+#	srand (time ^ $$ ^ unpack "%L*", `ps axww | gzip -f`); # seed random number generator
+#	my $random = int(rand(9999999999)); # get random number
+#	my $out_file = File::Spec->catfile($dir , "data", $feature ."_all_$random.csv");
+#	
+#	# traverse each organism
+#	for my $organism (@organisms) {
+#		# setup CSV
+#		my $csv = Text::CSV_XS->new ({ binary => 1 });
+#			  	
+#	  	# open file
+#		my $in_file = File::Spec->catfile($path, $organism, $feature . "_freqs.csv");
+#	  	open my $fh, "<", "$in_file" or die "$in_file: $!";
+#		
+#		# traverse file and push array_ref to array 
+#		my $rows = [];
+#		while (my $row = $csv->getline($fh)) {
+#			 push(@$rows, $row);
+#		}
+#		
+#		## display to ensure not flattened the rows
+#		#while (my $r = shift @{$rows}) {
+#		#	print join(",", @$r) . "\n";
+#		#}
+#		
+#		# push array to hash		
+#		$csv_hash{$organism} = $rows;	
+#		
+#		# close the CSV
+#		$csv->eof or $csv->error_diag;
+#		close $fh or die "$in_file: $!";
+#	}
+#
+#  	# open the out file
+#  	open my $ofh, ">", "$out_file" or die "$out_file: $!";
+#	
+#	# get the size of the array in each hash array and sort in descending size
+#	foreach my $k (sort {scalar(@{$csv_hash{$b}}) <=> scalar(@{$csv_hash{$a}})} keys %csv_hash) {
+#		push(@order, $k);		
+#	}
+#	
+#	# display data in order
+#	for my $o (@order) {
+#		while (my $array = shift @{$csv_hash{$o}}) {
+#			print "@$array\n";
+#		}
+#	}
+#	
+#	# need to build rows from separate hashes
+#	###########################
+#	# *** MORE TO DO HERE *** #
+#	###########################
+#	
+#	# close output CSV
+#	close $ofh or die "$out_file: $!";
+#
+#	# tell user where data is
+#	print "Outputted all data to $out_file\n";		
+#	
+#	# return out file for R
+#	return $out_file;
+#}
 
 1;
