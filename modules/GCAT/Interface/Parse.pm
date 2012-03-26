@@ -128,7 +128,7 @@ sub process_Pipeline() {
 	
 	# tell user what we are doing
 	print "Processing commands from pipeline file $filename...\n\n";
-	logger("Starting pipeline processing", "Debug");
+	logger("Starting pipeline processing", "Info");
 	
 	# create temp file
 	my ($sec, $min, $hr, $day, $mon, $year) = localtime;
@@ -170,10 +170,10 @@ sub process_Pipeline() {
 		# check exists and then execute if so
 		if (!-e $path) {
 			warn("Script $path not found.\n");
-			logger("Pipeline entry $count: $path not found", "Debug");
+			logger("Pipeline entry $count: $path not found", "Error");
 		}
 		else {
-			logger("Processing pipeline entry $count: $path with @parts", "Debug");
+			logger("Processing pipeline entry $count: $path with @parts", "Info");
 			print TEMP "$line\n";
 			system("perl $path @parts");
 		}
@@ -184,7 +184,7 @@ sub process_Pipeline() {
 	close(PIPELINE);
 	
 	# remove temporary file
-	logger("Finished pipeline processing", "Debug");
+	logger("Finished pipeline processing", "Info");
 	unlink(<$dir/*.tmp>) or die $!;
 }
 

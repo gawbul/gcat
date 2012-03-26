@@ -36,9 +36,12 @@ use strict;
 # add includes
 use Parallel::ForkManager;
 use Time::HiRes qw(gettimeofday);
-use GCAT::DB::EnsEMBL;
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL);
 use GCAT::Interface::Logging qw(logger);
 use Bio::EnsEMBL::Registry;
+
+# setup variables
+my @gene_ids = ();
 
 # first get the arguments
 my $num_args = $#ARGV + 1;
@@ -47,7 +50,7 @@ chomp(@inputs);
 
 # check arguments list is sufficient
 unless ($num_args >= 1) {
-	print("This script requires at least one input argument, for the gene ID(s) you wish to download the orthologous information for.\n");
+	logger("This script requires at least one input argument, for the gene ID(s) you wish to download the orthologous information for.\n", "Error");
 	exit;
 }
 
@@ -57,33 +60,30 @@ my $start_time = gettimeofday;
 ####################
 
 # connect to EnsEMBL and setup registry object
-my $registry = connect_to_EnsEMBL;
-my @gene_ids = ();
+my $registry = &connect_To_EnsEMBL;
 
 # traverse through gene ID list
 foreach my $gene_id (@inputs) {
+	# setup member adaptor and retrieve by gene stable_id
 	my $member_adaptor = $registry->get_adaptor('Multi', 'Compara', 'Member');
 	my $member = $member_adaptor->fetch_by_source_stable_id('ENSEMBLGENE', $gene_id); # e.g. ENSDARG00000076177 ()Zebrafish POLR2A)
 	
-	# then get the homologies where the member is involved
+	# setup homology adaptor and get the homologies where the member is involved
 	my $homology_adaptor = $registry->get_adaptor('Multi', 'Compara', 'Homology');
 	my $homologies = $homology_adaptor->fetch_all_by_Member($member);
 	
-	# That will return a reference to an array with all homologies (orthologues in
-	# other species and paralogues in the same one)
-	# Then for each homology, you can get all the Members implicated
-	
+	# traverse homologies
 	foreach my $homology (@{$homologies}) {
-	  # You will find different kind of description
-	  # UBRH, MBRH, RHS, YoungParalogues
-	  # see ensembl-compara/docs/docs/schema_doc.html for more details
-	
+		# will return different kinds of description - UBRH, MBRH, RHS, YoungParalogues
+		# see ensembl-compara/docs/docs/schema_doc.html for more details
+		
 		if ($homology->description eq "ortholog_one2one") {
 			my ($first, $second) = @{$homology->gene_list()};
 			push(@gene_ids, $second->stable_id());
 		}
 	}
 }
+
 # display gene ids
 print "@gene_ids\n";
 

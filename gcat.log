@@ -183,3 +183,89 @@
 2012/02/27 12:40:14 Running "get_exons".
 2012/02/27 12:43:37 Running "get_exons".
 2012/02/27 12:43:37 Running "get_exons".
+2012/03/22 15:55:01 Running "get_repeats".
+2012/03/22 15:55:01 Running "get_repeats".
+2012/03/22 15:55:45 Running "get_repeats".
+2012/03/22 15:55:45 Running "get_repeats".
+2012/03/22 21:08:05 Running "repeat_stats".
+2012/03/22 21:08:05 Running "repeat_stats".
+2012/03/22 21:20:31 Running "repeat_stats".
+2012/03/22 21:20:31 Running "repeat_stats".
+2012/03/22 21:22:36 Running "repeat_stats".
+2012/03/22 21:22:36 Running "repeat_stats".
+2012/03/23 11:49:20 Running "test".
+2012/03/23 11:49:20 Running "test".
+2012/03/23 11:49:30 Running "get_grepeats".
+2012/03/23 11:49:30 Running "get_grepeats".
+2012/03/23 11:52:27 Running "get_grepeats".
+2012/03/23 11:52:27 Running "get_grepeats".
+2012/03/23 11:52:44 Running "get_grepeats".
+2012/03/23 11:52:44 Running "get_grepeats".
+2012/03/23 12:49:34 Starting pipeline processing
+2012/03/23 12:49:34 Starting pipeline processing
+2012/03/23 12:49:34 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/23 12:49:34 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/23 12:50:42 Finished pipeline processing
+2012/03/23 12:50:42 Finished pipeline processing
+2012/03/23 12:51:04 Starting pipeline processing
+2012/03/23 12:51:04 Starting pipeline processing
+2012/03/23 12:51:04 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/23 12:51:04 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/23 12:51:52 Finished pipeline processing
+2012/03/23 12:51:52 Finished pipeline processing
+2012/03/23 12:54:08 Starting pipeline processing
+2012/03/23 12:54:08 Starting pipeline processing
+2012/03/23 12:54:08 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/23 12:54:08 Processing pipeline entry 1: /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/modules/GCAT/Scripts/get_grepeats.pl with homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+2012/03/24 19:29:26 Running "get_grepeats".
+2012/03/24 19:29:26 Running "get_grepeats".
+2012/03/24 19:34:38 Running "get_grepeats".
+2012/03/24 19:34:38 Running "get_grepeats".
+2012/03/24 19:36:43 Running "get_grepeats".
+2012/03/24 19:36:43 Running "get_grepeats".
+2012/03/24 19:37:07 Running "get_grepeats".
+2012/03/24 19:37:07 Running "get_grepeats".
+2012/03/24 19:37:20 You have entered an unknown command "ls".
+2012/03/24 19:37:20 You have entered an unknown command "ls".
+2012/03/24 19:53:24 Running "get_grepeats".
+2012/03/24 19:53:24 Running "get_grepeats".
+2012/03/24 19:56:05 Running "get_grepeats".
+2012/03/24 19:56:05 Running "get_grepeats".
+2012/03/24 19:57:12 Running "get_grepeats".
+2012/03/24 19:57:12 Running "get_grepeats".
+2012/03/24 19:57:48 Running "get_grepeats".
+2012/03/24 19:57:48 Running "get_grepeats".
+2012/03/24 19:58:53 Running "get_grepeats".
+2012/03/24 19:58:53 Running "get_grepeats".
+2012/03/24 19:59:10 Running "get_grepeats".
+2012/03/24 19:59:10 Running "get_grepeats".
+2012/03/24 19:59:42 Running "get_grepeats".
+2012/03/24 19:59:42 Running "get_grepeats".
+2012/03/24 20:25:44 Running "get_grepeats".
+2012/03/24 20:25:44 Running "get_grepeats".
+2012/03/24 20:28:19 Running "get_grepeats".
+2012/03/24 20:28:19 Running "get_grepeats".
+2012/03/24 20:33:55 Running "get_grepeats".
+2012/03/24 20:33:55 Running "get_grepeats".
+2012/03/24 20:35:34 Running "get_grepeats".
+2012/03/24 20:35:34 Running "get_grepeats".
+2012/03/26 10:47:10 Running "get_unique_introns".
+2012/03/26 10:47:10 Running "get_unique_introns".
+2012/03/26 10:47:58 Running "get_introns".
+2012/03/26 10:47:58 Running "get_introns".
+2012/03/26 10:49:35 Running "get_introns".
+2012/03/26 10:49:35 Running "get_introns".
+2012/03/26 10:49:57 Running "get_introns".
+2012/03/26 10:49:57 Running "get_introns".
+2012/03/26 10:50:52 Running "get_introns".
+2012/03/26 10:50:52 Running "get_introns".
+2012/03/26 11:27:07 Running "get_introns".
+2012/03/26 11:27:07 Running "get_introns".
+2012/03/26 11:31:44 Expecting one argument for the configuration key.
+2012/03/26 11:31:44 Expecting one argument for the configuration key.
+2012/03/26 11:31:48 Expecting two arguments for the key and value to set.
+2012/03/26 11:31:48 Expecting two arguments for the key and value to set.
+2012/03/26 11:33:46 You have entered an unknown command "list".
+2012/03/26 11:33:46 You have entered an unknown command "list".
+2012/03/26 11:33:50 You have entered an unknown command "list".
+2012/03/26 11:33:50 You have entered an unknown command "list".

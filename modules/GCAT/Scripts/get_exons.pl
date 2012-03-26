@@ -31,20 +31,14 @@
 
 # import some modules to use
 use strict;
-use Bio::Seq;
-use Bio::SeqIO;
-use Time::HiRes qw(gettimeofday tv_interval);
+use Time::HiRes qw(gettimeofday);
 use Parallel::ForkManager; # used for parallel processing
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Feature);
+use GCAT::Data::Output qw(write_To_SeqIO);
 use GCAT::Interface::Logging qw(logger); # for logging
-use GCAT::DB::EnsEMBL;
-use GCAT::Data::Output;
-use Cwd;
 use File::Spec;
-use Log::Log4perl::DateFormat;
-use Data::Dumper;
+use Cwd;
 
-# define variables
-our $index = 0;
 
 # get root directory and create data directory if doesn't exist
 my $dir = getcwd();
@@ -60,20 +54,26 @@ if ($num_args < 1) {
 	exit;
 }
 
-# tell user what we're doing
-print "Going to retrieve exons for $num_args species: @organisms...\n";
-
 # set start time
 my $start_time = gettimeofday;
-
-# connect to EnsEMBL and setup registry object
-my $registry = connect_to_EnsEMBL;
 
 # set autoflush for stdout
 local $| = 1;
 
 # setup fork manager
 my $pm = new Parallel::ForkManager(8);
+
+# connect to EnsEMBL and setup registry object
+my $registry = &connect_To_EnsEMBL;
+
+# check all species exist - no names have been mispelt?
+unless (&check_Species_List($registry, @organisms)) {
+	logger("You have incorrectly entered a species name or this species doesn't exist in the database.", "Error");
+	exit;
+}
+
+# tell user what we're doing
+print "Going to retrieve exons for $num_args species: @organisms...\n";
 
 # go through all fish and retrieve exon ids and coordinates
 foreach my $org_name (@organisms) {
@@ -85,24 +85,16 @@ foreach my $org_name (@organisms) {
 	my $path = File::Spec->catfile($dir, "data", "$org_name", "exons.fas");
 	
 	# get current database name
-	my $db_adaptor = $registry->get_DBAdaptor($org_name, "Core");
-	my $dbname = $db_adaptor->dbc->dbname();
-	my $release = $dbname;
-	$release =~ m/[a-z]+_[a-z]+_core_([0-9]{2})_[0-9]{1}/;
-	$release = int($1);
-
-	# let user know we're starting
-	print "Retrieving data for $dbname...\n";
+	my ($dbname, $release) = &get_DB_Name($registry, $org_name);
 	
-	# retrieve all stable IDs
-	my @geneids = &get_Gene_IDs($registry, $org_name);
-	my $gene_count = $#geneids + 1;
+	# let user know we're starting
+	print "Retrieving exons for $dbname...\n";
 
 	# retrieve exons from gene IDs
 	my @exons = &get_Feature($registry, $org_name, "Exons");
 	
 	# write to fasta
-	my $write_count = &write_to_SeqIO($path, "Fasta", @exons);
+	my $write_count = &write_To_SeqIO($path, "Fasta", @exons);
 	
 	# how many have we done?
 	print "\nRetrieved $write_count exons for $org_name.\n";

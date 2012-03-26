@@ -1,3 +1,4 @@
 Output repeat stats from Ensembl repeats to a file instead of STDOUT
 Implement WindowMasker wrapper and repeat analysis
-Move get_exons and get_introns code into EnsEMBL.pm
+Move some routines from GCAT::Data::Parsing to GCAT::Analysis::Descriptive???
+Move CSV writing code from scripts to GCAT::Data::Output

@@ -24,16 +24,20 @@ use strict;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(connect_to_EnsEMBL get_Feature get_Gene_IDs get_Species_List get_Transcript_IDs get_Genome_Size get_Transcriptome_Size get_Exome_Size get_Intronome_Size get_Gene_BioTypes get_Exon_IDs get_CTranscript_IDs get_CExon_IDs get_CIntron_Count get_UTR_Sizes get_Intron_Densities get_Exon_Densities get_Repeat_Genome_Stats);
+our @EXPORT_OK = qw(connect_To_EnsEMBL get_Feature get_Gene_IDs get_Species_List check_Species_List get_Transcript_IDs get_Genome_Size get_Transcriptome_Size get_Exome_Size get_Intronome_Size 
+					get_Gene_BioTypes get_Exon_IDs get_CTranscript_IDs get_CExon_IDs get_CIntron_Count get_UTR_Sizes get_Intron_Densities get_Exon_Densities get_Repeat_Genome_Stats get_DB_Name 
+					get_Genome_Repeats);
 
 # module imports
 use Bio::EnsEMBL::Registry;
 use feature "switch";
 use GCAT::Interface::Config;
 use GCAT::Interface::Logging qw(logger);
+use Bio::SeqIO;
+use Data::Dumper;
 
 # connect to EnsEMBL
-sub connect_to_EnsEMBL {
+sub connect_To_EnsEMBL {
 	# check the database to use in gcat.conf
 	my $database = &GCAT::Interface::Config::get_conf_val("database");
 	my ($host, $user, $pass, $port) = undef;
@@ -78,6 +82,92 @@ sub connect_to_EnsEMBL {
 	);
 	
 	return $registry;
+}
+
+# check if all species are in the species list 
+sub check_Species_List {
+	# populate variables
+	my ($registry, @organisms) = @_;
+	my $all_okay = 1;
+	
+	my @species_list = &get_Species_List;
+	
+	# traverse species and check all is okay
+	foreach my $species (@organisms) {
+		# check species is in the list
+		if (grep $_ eq $species, @species_list) {
+			# remain true
+		}
+		else {
+			# set false
+			$all_okay = 0;		
+		}
+	}
+	
+	# check what the result was and return
+	if ($all_okay == 0) {
+		# as species was missing
+		return 0;
+	}
+	else {
+		# nothing missing
+		return 1;
+	}
+}
+
+# check if species is in the species list 
+sub is_Species {
+	# populate variables
+	my ($registry, $species) = @_;
+	my @species_list = &get_Species_List;
+	
+	# check species is in the list
+	if (grep $_ eq $species, @species_list) {
+		# return true
+		return 1;
+	}
+	else {
+		#return false
+		return 0;		
+	}
+}
+
+# get species list
+sub get_Species_List {
+	# define variables
+	my $registry = @_;
+	my @all_species;
+	
+	# get all DB adaptors
+	my @dbas = @{Bio::EnsEMBL::Registry->get_all_DBAdaptors()};
+	
+	# populate species list from first DB adaptor
+	foreach my $dba (@dbas) {
+		if ($dba->group() eq 'core' && ${$dba->all_species()}[0] =~ /[a-z]+\_[a-z]+/) {
+			push(@all_species, ${$dba->all_species()}[0]);
+		}
+	}
+	
+	# sort alphabetically
+	@all_species = sort {$a cmp $b} @all_species;
+	
+	return @all_species;
+}
+
+# get name of a database
+sub get_DB_Name {
+	# define variables
+	my ($registry, $organism) = @_;
+	
+	# get current database name
+	my $db_adaptor = $registry->get_DBAdaptor($organism, "Core");
+	my $dbname = $db_adaptor->dbc->dbname();
+	my $release = $dbname;
+	$release =~ m/[a-z]+_[a-z]+_core_([0-9]{2})_[0-9]{1}/;
+	$release = int($1);
+	
+	# return the database name and the release number
+	return ($dbname, $release);
 }
 
 # get genome size
@@ -132,7 +222,7 @@ sub get_Transcriptome_Size {
 		
 		# get canonical transcript
 		my $canonical_transcript = $gene->canonical_transcript();
-				
+
 		# increase transcriptome size by slice length
 		$transcriptome_size = $transcriptome_size + $canonical_transcript->length();
 	}
@@ -597,7 +687,7 @@ sub get_Exon_Densities {
 }
 
 # get repeat statistics
-sub get_Repeat_Genome_Stats {
+sub get_Repeat_Stats {
 	# retrieve variables
 	my ($registry, $organism) = @_;
 	
@@ -663,44 +753,6 @@ sub get_Repeat_Genome_Stats {
 	
 	# return the values	
 	return ($repeat_size, $repeat_count, $repeat_density);	
-}
-
-# check if species is in the species list 
-sub is_Species {
-	# populate variables
-	my ($species, $registry) = @_;
-	my @species_list = &get_Species_List;
-	
-	# check species is in the list
-	if (grep $_ eq $species, @species_list) {
-		return 1;
-	}
-	else {
-		print "Species \"$species\" not found in EnsEMBL database.\n";
-		return 0;		
-	}
-}
-
-# get species list
-sub get_Species_List {
-	# define variables
-	my $registry = @_;
-	my @all_species;
-	
-	# get all DB adaptors
-	my @dbas = @{Bio::EnsEMBL::Registry->get_all_DBAdaptors()};
-	
-	# populate species list from first DB adaptor
-	foreach my $dba (@dbas) {
-		if ($dba->group() eq 'core' && ${$dba->all_species()}[0] =~ /[a-z]+\_[a-z]+/) {
-			push(@all_species, ${$dba->all_species()}[0]);
-		}
-	}
-	
-	# sort alphabetically
-	@all_species = sort {$a cmp $b} @all_species;
-	
-	return @all_species;
 }
 
 # call get feature retrieves a particular feature type
@@ -793,7 +845,7 @@ sub get_Introns {
 	return @introns;
 }
 
-# subroutine to retrieve repeat elements
+# subroutine to retrieve protein coding gene repeat elements
 sub get_Repeats {
 	# define variables
 	my ($registry, $organism) = @_;
@@ -815,11 +867,8 @@ sub get_Repeats {
 			next;
 		}
 			
-		# setup transcript adaptor to retrieve repeats by slice
-		my $tr = $gene->canonical_transcript();
-		
-		# setup slice adaptor to retrieve repeats
-		my $slice = $slice_adaptor->fetch_by_transcript_stable_id($tr->stable_id());
+		# setup slice adaptor to retrieve repeats for gene slice
+		my $slice = $slice_adaptor->fetch_by_gene_stable_id($gene->stable_id());
 		
 		# get all repeats
 		my $slrepeats = $slice->get_all_RepeatFeatures();
@@ -827,6 +876,67 @@ sub get_Repeats {
 	}
 	
 	return @repeats;
+}
+
+# subroutine to retrieve genome wide repeat elements
+sub get_Genome_Repeats {
+	# define variables
+	my ($registry, $filename, $organism) = @_;
+	my $repeats_count = 0;
+	
+	# setup seqio output
+	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => 'FASTA');
+	
+	# setup slice adaptor
+	my $slice_adaptor = $registry->get_adaptor($organism, 'Core', 'Slice');
+	
+	# fetch all toplevel slices
+	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 1)};
+
+	# iterate through all slices
+	foreach my $slice (@slices){
+		# get all repeats
+		my $slrepeats = $slice->get_all_RepeatFeatures();
+				
+		# traverse repeats
+		while (my $repeat = shift @{$slrepeats}) {
+			# get gene and transcript data
+			my $rsl = $repeat->feature_Slice();
+			my $gene = @{$rsl->get_all_Genes(undef, undef, 1, undef, "protein_coding")}[0];
+			my $transcript = $gene->canonical_transcript();
+
+			# build repeat ID
+			my $repeat_id = "REPEAT" . ($repeats_count + 1);
+
+			# build the bio seq object
+			my $rc = $repeat->repeat_consensus();
+			my $repeat_obj = Bio::Seq->new( -primary_id => $repeat_id,
+											-display_id => $repeat_id,
+											-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $rc->repeat_class() . " " . $repeat->start() . " " . $repeat->end() . " " . $rc->length() . " " . $repeat->strand(),
+											-alphabet => 'dna',
+											-seq => $rc->repeat_consensus());
+																	
+			# write the fasta sequence
+			# unless we have a 0 length intron
+			if ($repeat->length() == 0) {
+				next;
+			}
+			
+			# write sequence
+			$seqio_out->write_seq($repeat_obj);
+			
+			# let user know something is happening
+			if ($repeats_count % 1000 == 0) {
+				print "."
+			}
+			
+			# increment repeats count
+			$repeats_count++;
+		}	
+	}
+	
+	# return counts
+	return $repeats_count;
 }
 
 1;

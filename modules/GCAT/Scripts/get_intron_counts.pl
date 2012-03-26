@@ -34,7 +34,7 @@ use strict;
 use Time::HiRes qw(gettimeofday tv_interval);
 use Parallel::ForkManager; # used for parallel processing
 use GCAT::Interface::Logging qw(logger); # for logging
-use GCAT::DB::EnsEMBL;
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL);
 
 # define variables
 my %gene_type = ();
@@ -56,7 +56,7 @@ print "Going to retrieve intron counts for $num_args species: @organisms...\n";
 my $start_time = gettimeofday;
 
 # connect to EnsEMBL and setup registry object
-my $registry = &connect_to_EnsEMBL;
+my $registry = &connect_To_EnsEMBL;
 
 # setup fork manager
 my $pm = new Parallel::ForkManager(8);
@@ -108,6 +108,7 @@ foreach my $org_name (@organisms) {
 		}
 	}
     
+    # output to STDOUT - change this to CSV output ***
     print "Intron counts for $org_name...\n";
     while ( my ($key, $value) = each(%gene_type) ) {
         print "$key => $value\n";

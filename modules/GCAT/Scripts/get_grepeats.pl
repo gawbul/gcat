@@ -17,25 +17,27 @@
 
 =head1 NAME
 
-	get_repeats
+	get_grepeats
 
 =head1 SYNOPSIS
 
-    get_repeats species1 species2 species3
+    get_grepeats species1 species2 species3
     
 =head1 DESCRIPTION
 
-	A program to retrieve all repeat element sequences for a given number of species.
+	A program to retrieve genome wide repeat element sequences for a given number of species.
 
 =cut
 
-# import some modules to use
+# make life easier
 use strict;
+use warnings;
+
+# import some modules to use
 use Time::HiRes qw(gettimeofday tv_interval);
 use Parallel::ForkManager; # used for parallel processing
 use GCAT::Interface::Logging qw(logger); # for logging
-use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Feature);
-use GCAT::Data::Output qw(write_To_SeqIO);
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Genome_Repeats);
 use Cwd;
 use File::Spec;
 
@@ -78,22 +80,19 @@ print "Going to retrieve repeats for $num_args species: @organisms...\n";
 foreach my $org_name (@organisms) {
 	# start fork
 	my $pid = $pm->start and next;
-	
+
 	# setup output filename
 	mkdir "data/$org_name" unless -d "data/$org_name";
 	my $path = File::Spec->catfile($dir, "data", "$org_name", "repeats.fas");
-
+	
 	# get current database name
 	my ($dbname, $release) = &get_DB_Name($registry, $org_name);
 	
 	# let user know we're starting
-	print "Retrieving coding repeats for $dbname...\n";
-	
+	print "Retrieving repeats for $dbname...\n";
+
 	# retrieve repeats from gene IDs
-	my @repeats = &get_Feature($registry, $org_name, "Repeats");
-	
-	# write to fasta
-	my $write_count = &write_To_SeqIO($path, "Fasta", @repeats);
+	my $write_count = &get_Genome_Repeats($registry, $path, $org_name);
 	
 	# how many have we done?
 	print "\nRetrieved $write_count repeat elements for $org_name.\n";

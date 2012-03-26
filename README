@@ -2,7 +2,7 @@ GCAT README
 ===========
 
 Genome Comparison and Analysis Toolkit
-Version 0.69
+Version 0.81
 
 An adaptable and efficient toolkit for large-scale evolutionary comparative
 genomics analysis. Written in the Perl programming language, GCAT utilizes 

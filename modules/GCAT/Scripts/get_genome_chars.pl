@@ -37,7 +37,7 @@ use warnings;
 use Time::HiRes qw(gettimeofday);
 use GCAT::DB::EnsEMBL;
 use GCAT::Analysis::Descriptive;
-use GCAT::Interface::Logging;
+use GCAT::Interface::Logging qw(logger);
 use Cwd;
 use File::Spec;
 use Text::CSV_XS;

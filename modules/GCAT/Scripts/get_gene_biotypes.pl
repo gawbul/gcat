@@ -35,8 +35,8 @@ use warnings;
 
 # includes
 use Time::HiRes qw(gettimeofday);
-use GCAT::DB::EnsEMBL;
-use GCAT::Interface::Logging;
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_Gene_IDs);
+use GCAT::Interface::Logging qw(logger);
 use Cwd;
 use File::Spec;
 use Text::CSV_XS;
@@ -51,14 +51,20 @@ if ($num_args < 1) {
 	exit;
 }
 
-# tell user what we're doing
-print "Retrieving genes for $num_args species: @organisms...\n";
-
 # set start time
 my $start_time = gettimeofday;
 
 # connect to EnsEMBL and setup registry object
-my $registry = connect_to_EnsEMBL;
+my $registry = &connect_To_EnsEMBL;
+
+# check all species exist - no names have been mispelt?
+unless (&check_Species_List($registry, @organisms)) {
+	logger("You have incorrectly entered a species name or this species doesn't exist in the database.", "Error");
+	exit;
+}
+
+# tell user what we're doing
+print "Retrieving genes for $num_args species: @organisms...\n";
 
 # traverse each organism and for UTR stuff - Dave
 my %type = ();

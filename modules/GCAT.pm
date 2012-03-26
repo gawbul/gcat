@@ -17,12 +17,27 @@
 
 package GCAT;
 
+# make life easier
 use warnings;
 use strict;
 
 # lets try and load some of the require modules first
 use Bio::EnsEMBL::Registry;
 use Bio::SeqIO;
+# Bio::Phylo 0.45+ - change this to BioPerl
+#DBI
+#DBD::mysql
+#Log::Log4perl
+#Parallel::ForkManager
+#Statistics::Descriptive
+#Statistics::R
+#Time::HiRes
+#Set::IntSpan::Fast
+#Set::IntSpan::Fast::XS
+#Text::CSV
+#Text::CSV_XS
+#Text::FormatTable
+#Tie::IxHash
 
 =head1 NAME
 
@@ -34,7 +49,7 @@ Version 0.69
 
 =cut
 
-our $VERSION = '0.74';
+our $VERSION = '0.81';
 
 =head1 SYNOPSIS
 

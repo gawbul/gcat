@@ -67,7 +67,7 @@ sub set_conf_val {
     }
 	close(CONFFILE);
 
-	logger("Set $key to $value","Info")
+	logger("Set $key to $value","Info");
 }
 
 

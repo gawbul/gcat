@@ -24,19 +24,20 @@ use strict;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(check_Data_OK get_Feature_Lengths get_Gene_IDs_from_Feature);
+our @EXPORT_OK = qw(check_Data_OK get_Repeat_Stats get_Feature_Lengths get_Gene_IDs_from_Feature);
 
 # imports
-use Cwd;
-use Bio::SeqIO;
-use Bio::DB::GFF;
-use Bio::DB::Fasta;
-use File::Spec;
-use GCAT::DB::EnsEMBL;
+#use Bio::DB::GFF; # maybe use this later
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Feature);
+use GCAT::Interface::Logging qw(logger);
+use Statistics::Descriptive;
 use Time::HiRes qw(gettimeofday tv_interval);
 use Set::IntSpan::Fast;
 use Text::CSV_XS;
-use Statistics::Descriptive;
+use Bio::DB::Fasta;
+use File::Spec;
+use Cwd;
+
 
 # do data checks for a given feature for give organisms
 sub check_Data_OK {
@@ -51,7 +52,7 @@ sub check_Data_OK {
 	
 	# check data directory exists
 	if (! -d "$path") {
-		print("The data directory does not exist. You must first retrieve some data.\n");
+		logger("The data directory does not exist. You must first retrieve some data.\n", "Error");
 		exit;
 	}
 	
@@ -59,12 +60,12 @@ sub check_Data_OK {
 	foreach my $org (@organisms) {
 		# check organism data directory exists
 		unless (-d "$path/$org") {
-			print("One or more of the organisms doesn't have a data directory.\nPlease retrieve data for at least \"$org\" first.\n");
+			logger("One or more of the organisms doesn't have a data directory.\nPlease retrieve data for at least \"$org\" first.\n", "Error");
 			exit; 
 		}
 		# check feature filename exists
 		unless (-e "$path/$org/$filename") {
-			print("One or more of the organisms doesn't this $feature data available. Please retrieve this data for at least \"$org\" first.\n");
+			logger("One or more of the organisms doesn't this $feature data available. Please retrieve this data for at least \"$org\" first.\n", "Error");
 			exit; 		
 		}
 	}
@@ -97,7 +98,9 @@ sub get_Repeat_Stats {
 	# get all feature ids
 	my @feature_ids = $db->get_all_ids();
 
+	# let user know what we are doing
 	print "Processing " . ($#feature_ids + 1) . " repeat sequences for $organism...\n";
+	
 	# loop through features
 	while (my $ft = shift(@feature_ids)) {
 		my ($rid, $gid, $tid, $rclass, $rstt, $rend, $rlen, $rstrand) = split(/ /, $db->header($ft));
@@ -113,6 +116,7 @@ sub get_Repeat_Stats {
 	# work out the numbers and sizes #
 	##################################
 	
+	# let user know what we're doing
 	print "Calculating repeat class sizes...\n";
 	
 	# iterate through the hash
@@ -131,8 +135,10 @@ sub get_Repeat_Stats {
 		print "Class $key: $count $feature ($total bps)\n";
 	}
 	
+	# let user know what we have done
 	print "Returned $rcount $feature ($rtotal bps)\n\n";
 
+	# return to calling routine
 	return @classes;
 }
 
@@ -402,7 +408,7 @@ sub get_Intron_Position_in_Transcript {
 	print "\nFetching CDS and UTR coordinates for $organism...\n";
 	
 	# setup EnsEMBL connection for next step
-	my $registry = &connect_to_EnsEMBL;
+	my $registry = &connect_To_EnsEMBL;
 	
 	# setup gene adaptor
 	my $gene_adaptor = $registry->get_adaptor( $organism, 'Core', 'Gene');

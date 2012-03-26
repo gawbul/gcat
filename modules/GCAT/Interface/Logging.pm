@@ -20,12 +20,14 @@ package GCAT::Interface::Logging;
 # make life easier
 use warnings;
 use strict;
+
+# import modules
 use Cwd;
 
 # export the logger subroutine
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(logger);
+our @EXPORT_OK = qw(logger);
 
 =head1 NAME
 
@@ -45,15 +47,14 @@ sub setup_Logging {
 	# initialise the logging
 	Log::Log4perl->easy_init(
 	    {
-	    	file  => ">>$path",
-	    	level => $ERROR,
+	    	level => $DEBUG,
 	    },
 	    {
 	     	level => $INFO,
 	    },
 	    {
 	    	file  => ">>$path",
-	    	level => $DEBUG,
+	    	level => $ERROR,
 	    }
 	    );
 }

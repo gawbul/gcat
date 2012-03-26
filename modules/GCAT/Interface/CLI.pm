@@ -48,7 +48,7 @@ use IO::String;
 use Config;
 use GCAT;
 use GCAT::Interface::Logging qw(logger);
-use GCAT::DB::EnsEMBL;
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL get_Species_List);
 use GCAT::Interface::Config;
 
 # define global variables
@@ -68,10 +68,11 @@ sub setup_CLI_ENV {
 	@servers = ("ensembldb.ensembl.org", "mysql.ebi.ac.uk", "useastdb.ensembl.org");
 	@servers_short = ("ensembl", "genomes", "useast");
     @servers_information = ("Vertebrates EnsEMBL database", "Ensembl Genomes database", "US East EnsEMBL Mirror");
-    @commands = ("banner", "help", "clear", "scripts", "license", "databases", "species", "get", "set", "exit", "quit");
+    @commands = ("banner", "help", "clear", "scripts", "license", "databases", "species", "get", "set", "list", "exit", "quit");
     @commands_information = ("display the program banner", "display this help message", "clear the screen",
                             "list available scripts", "display license information", "Display a list of database the user can connect to",
-                            "display list of species names", "get a setting from conf file", "write a setting to conf file", "exit the command line interface", "quit the command line interface");
+                            "display list of species names", "get a setting from config file", "write a setting to config file", "list the settings in the config file", 
+                            "exit the command line interface", "quit the command line interface");
 	
 	# get scripts and fill scripts array
 	my $dir = getcwd();
@@ -144,6 +145,14 @@ sub get {
 	}
 }
 
+# list config items
+sub list {
+	# no arguments expected
+	
+	# execute list command
+	&GCAT::Interface::Config::display_conf_vals();
+}
+
 # display the CLI usage
 sub help {
 	foreach my $i (0 .. scalar(@commands) - 1) {
@@ -172,10 +181,10 @@ sub databases {
 # list species
 sub species {
 	# populate registry
-	my $registry = connect_to_EnsEMBL;
+	my $registry = &connect_To_EnsEMBL;
 	
 	# get species list
-	my @species = get_Species_List($registry);
+	my @species = &get_Species_List($registry);
 
 	# display
 	print "" . ($#species + 1) . " species found:\n";
@@ -198,7 +207,7 @@ sub banner {
 	my $os_ver = $Config{osvers};
     print "Genome Comparison and Analysis Toolkit\n";
 	print "Command Line Interface version, $ver\n";
-	print "Copyright (C) 2010-2011 Steve Moss\n";
+	print "Copyright (C) 2010-2012 Steve Moss\n";
 	print "Platform: $os_name $os_arch ($os_ver)\n\n";
 	print "GCAT is free software and comes with ABSOLUTELY NO WARRANTY.\n";
 	print "You are welcome to redistribute it under certain conditions.\n";
@@ -228,7 +237,7 @@ sub cmd_parser {
 	if (grep $_ eq $cmd, @commands) {
 		no strict 'refs';
 		# pass args if using set
-		if ($cmd eq "set" || $cmd eq "get") {
+		if ($cmd eq "set" || $cmd eq "get" || $cmd eq "list") {
 			&$cmd(@arglist);
 		}
 		else {

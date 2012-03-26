@@ -57,6 +57,7 @@ my $start_time = gettimeofday;
 
 # traverse organisms and retrieve data
 foreach my $organism (@organisms) { 
+	# call get unique features routine
 	my @data = &GCAT::Data::Parsing::get_Unique_Features('introns', $organism);
 
 	# output to CSV

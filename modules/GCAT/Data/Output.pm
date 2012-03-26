@@ -27,18 +27,17 @@ use Cwd;
 use File::Spec;
 use Statistics::R;
 use Data::Dumper;
+use Scalar::Util qw(blessed);
 
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(write_Raw_To_CSV write_Unique_To_CSV merge_CSV write_to_File build_Char_Matrix write_to_SeqIO);
+our @EXPORT_OK = qw(write_Raw_To_CSV write_Unique_To_CSV merge_CSV write_to_File build_Char_Matrix write_To_SeqIO);
 
 # write raw data to CSV
 sub write_Raw_To_CSV {
 	# setup variables
-	my $organism = shift(@_);
-	my $feature = shift(@_);
-	my @data = @_;
+	my ($organism, $feature, @data) = @_;
 	
 	# sort the data ascending numerically
 	@data = sort {$a <=> $b} @data;
@@ -49,7 +48,7 @@ sub write_Raw_To_CSV {
 	my $filename = File::Spec->catfile($path, $feature . "_raw.csv");
 	
 	# setup CSV
-	my $csv = Text::CSV_XS->new ({ binary => 1, quote_space => 0, eol => $/ });
+	my $csv = Text::CSV_XS->new ({binary => 1, quote_space => 0, eol => $/});
   	
   	# open file
   	open my $fh, ">", "$filename" or die "$filename: $!";
@@ -64,15 +63,15 @@ sub write_Raw_To_CSV {
 	
 	# close the CSV
 	close $fh or die "$filename: $!";
+	
+	# let user know where we outputted
 	print "Outputted raw data to $filename\n";
 }
 
 # write raw data to CSV
 sub write_Unique_To_CSV {
 	# setup variables
-	my $organism = shift(@_);
-	my $feature = shift(@_);
-	my @data = @_;
+	my ($organism, $feature, @data) = @_;
 	
 	# sort the data ascending numerically
 	@data = sort {$a <=> $b} @data;
@@ -98,11 +97,16 @@ sub write_Unique_To_CSV {
 	
 	# close the CSV
 	close $fh or die "$filename: $!";
+
+	# let user know where we outputted
 	print "Outputted raw data to $filename\n";
 }
 
 # subroutine to write frequency distribution to CSV file
 sub write_FDist_To_CSV {
+	# setup variables
+	my ($organism, $feature, $path, @data) = @_;
+	
 	
 }
 
@@ -202,37 +206,64 @@ sub write_to_File {
 }
 
 # write array to output format
-sub write_to_SeqIO {
+sub write_To_SeqIO {
 	# setup variables
-	my $filename = shift @_;
-	my $format = shift @_;
-	my @features = @_;
+	my ($filename, $format, @features) = @_;
+	my ($feature_id, $feature_type, $feature_class, $feature_seq) = undef;
 
 	# setup seqio output
 	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => $format);
-	# traverse exons
+	
+	# traverse features
 	my $count = 0;
 	while (my $feature = shift @features) {
 		# get data for gene and transcript IDs
-		my $slice = $feature->feature_Slice();
-		my $gene = @{$slice->get_all_Genes(undef, undef, 0, undef, "protein_coding")}[0];
+		my $slice = $feature->slice();
+		my $gene = @{$slice->get_all_Genes}[0];
 		my $transcript = $gene->canonical_transcript();
 		
+		# set feature_id by reftype
+		if (blessed($feature) eq 'Bio::EnsEMBL::Intron') {
+			$feature_id = "INTRON" . ($count + 1);
+			$feature_type = "INTRON";
+			$feature_class = "NULL";
+			$feature_seq = $feature->seq();
+		}
+		elsif (blessed($feature) eq 'Bio::EnsEMBL::Exon') {
+			$feature_id = $feature->stable_id();
+			$feature_type = "EXON";
+			$feature_class = "NULL";
+			$feature_seq = $feature->seq();
+		}	
+		elsif (blessed($feature) eq 'Bio::EnsEMBL::RepeatFeature') {
+			$feature_id = "REPEAT" . ($count + 1);
+			my $rc = $feature->repeat_consensus();
+			$feature_type = $rc->repeat_type();
+			$feature_class = $rc->repeat_class();
+			$feature_seq = $rc->repeat_consensus();
+		}	
+		else {
+			$feature_id = $feature->stable_id();
+			$feature_type = "NULL";
+			$feature_class = "NULL";
+			$feature_seq = $feature->seq();
+		}
+
 		# build the bio seq object
-		my $feature_obj = Bio::Seq->new(-primary_id => $feature->stable_id(),
-										-display_id => $feature->stable_id(),
-										-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $feature->stable_id() . " " . $feature->start() . " " . $feature->end() . " " . $feature->length() . " " . $feature->strand(),
+		my $feature_obj = Bio::Seq->new(-primary_id => $feature_id,
+										-display_id => $feature_id,
+										-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $feature_type . " " . $feature_class . " " . $feature->start() . " " . $feature->end() . " " . $feature->length() . " " . $feature->strand(),
 										-alphabet => 'dna',
-										-seq => $feature->seq->seq);
-										
-		# do we have a 0 length exon?
+										-seq => $feature_seq);
+								
+		# do we have a 0 length feature?
 		if ($feature->length() == 0) {
 			next;
 		}
 		
 		# write the fasta sequence
 		$seqio_out->write_seq($feature_obj);
-		
+
 		# let user know something is happening
 		if (($count % 100) == 0) {
 			print "."
@@ -242,7 +273,6 @@ sub write_to_SeqIO {
 	
 	return $count;
 }
-
 
 # deprecated merge CSV subroutine
 #sub _old_merge_CSV {
