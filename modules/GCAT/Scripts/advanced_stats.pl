@@ -54,7 +54,7 @@ chomp(@inputs);
 
 # check arguments list is sufficient
 unless ($num_args >= 2) {
-	print("This script requires at least two input arguments, for the organisms you wish to download the information for.\n");
+	logger("This script requires at least two input arguments, for the organisms you wish to download the information for.", "Error");
 	exit;
 }
 
@@ -72,6 +72,9 @@ my $organisms = \@inputs;
 
 # traverse each organism and parse the fasta
 foreach my $org (@{$organisms}) {
+	# let user know the crack
+	print "Processing $feature advanced stats for $org...\n";
+	
 	#######################
 	# do the basic counts #
 	#######################
@@ -121,10 +124,10 @@ else {
 }
 
 # build raw distribution plot
-&GCAT::Visualisation::R::plot_Raw_Dist($raw_filename, @{$organisms});
+&GCAT::Visualisation::R::plot_Raw_Dist($raw_filename, $feature, @{$organisms});
 
 # build frequency distribution plot
-&GCAT::Visualisation::R::plot_Frequency_Dist($freqs_filename, @{$organisms});
+&GCAT::Visualisation::R::plot_Frequency_Dist($freqs_filename, $feature, @{$organisms});
 
 # set end time and calculate time elapsed
 my $end_time = gettimeofday;

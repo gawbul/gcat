@@ -1,8 +1,8 @@
-# This is an example script workflow for the GCAT pipeline
-# It retrieves, describes and visualizes the repetitive element content
-# for the five great ape genomes available at EnsEMBL.
+# This is an example workflow script for the GCAT pipeline
+# It retrieves, describes and visualizes the repetitive element content for the five great ape genomes available at EnsEMBL.
 #
 # This script is detailed in our OUP Bioinformatics journal paper:
+#
 # Moss SP, Joyce DA and Lunt DH. 2012. GCAT: Genome Comparison and Analysis Toolkit. Bioinformatics. In prep.
 
 # retrieve genome wide repetitive elements and write them to local FASTA files
@@ -13,4 +13,3 @@ basic_stats grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii n
 
 # get advanced repeat details
 advanced_stats grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
-

@@ -883,7 +883,7 @@ sub get_Genome_Repeats {
 	# define variables
 	my ($registry, $filename, $organism) = @_;
 	my $repeats_count = 0;
-	my ($gene_id, $transcript_id);
+	my ($gene_id, $transcript_id, $seq) = undef;
 	
 	# setup seqio output
 	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => 'FASTA');
@@ -893,7 +893,7 @@ sub get_Genome_Repeats {
 	
 	# fetch all toplevel slices
 	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 1)};
-
+	
 	# iterate through all slices
 	while(my $slice = shift @slices){
 		# get all repeats
@@ -910,7 +910,7 @@ sub get_Genome_Repeats {
 											-display_id => $repeat_id,
 											-desc => "NULL\tNULL\t" . $rc->repeat_type() . "\t" . $rc->repeat_class() . "\t" . $repeat->start() . "\t" . $repeat->end() . "\t" . $rc->length() . "\t" . $repeat->strand(),
 											-alphabet => 'dna',
-											-seq => $rc->repeat_consensus());
+											-seq => $rc->repeat_consensus);
 																	
 			# write the fasta sequence
 			# unless we have a 0 length intron
@@ -930,7 +930,7 @@ sub get_Genome_Repeats {
 			$repeats_count++;
 		}	
 	}
-	
+
 	# return counts
 	return $repeats_count;
 }

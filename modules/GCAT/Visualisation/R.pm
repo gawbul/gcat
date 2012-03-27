@@ -38,64 +38,65 @@ sub plot_Raw_Dist {
 
 # plot frequency distribution
 sub plot_Frequency_Dist {
-	# get filename
-	my ($filename, @organisms) = @_;
-
-	# build path
-	my $dir = getcwd();
-	my $path = File::Spec->catfile($dir , "data");
-
-	# setup in file
-	my $infile = File::Spec->catfile($path, $filename);
+	# get arguments
+	my ($infile, $feature, @organisms) = @_;
 	
 	# setup out file
-	my $output = substr($filename, 0, -4);
-	my $outfile = File::Spec->catfile($path, $output);
+	my $outfile = substr($infile, 0, -4) . ".pdf";
 
-	print $outfile . "\n";
-	# setup R objects
+	# setup new R object
 	my $R = Statistics::R->new();
 	
 	# start R
 	$R->startR();
-	
-	# main R script
-	$R->send('library(zoo)');
-	$R->send('library(gdata)');
 
+	# define return variable
+	my $ret = undef;
+
+	#################	
+	# main R script #
+	#################
+	
+	# load file
 	$R->send('freqs <- read.csv("' . $infile . '", header=TRUE)');
-	$R->send('attach(freqs)');	
+	$R->send('attach(freqs)');
 	$R->send('names(freqs)');	
-	my $ret = $R->get();
+
+	# work out maximum sizes
+	$R->send('x_max <- 0');
+	$R->send('y_max <- 0');
+	# traverse organisms
+	foreach my $org (@organisms) {
+		$R->send('if (max(' . $org . '.size' . ') > x_max) x_max <- max(' . $org . '.size)');
+		$R->send('if (max(' . $org . '.freqs' . ') > y_max) y_max <- max(' . $org . '.freqs)');
+	}
+	$R->send('x_max');	
+	$R->send('y_max');	
+
+	# setup PDF graphics device
+	$R->send('pdf(file="' . $outfile . '", width=12, height=12)');
+
+	# build colours
+	$R->send('cols <- as.character(sample(colours(),' . scalar(@organisms) . ', replace=F))');
+
+	# plot frequency distribution 
+	$R->send('plot(0, 0, type="l", xlim=c(0,x_max), xlab="' . substr(ucfirst($feature), 0, -1) . ' Size (bps)", ylim=c(0,y_max), ylab="Frequency", main="Frequency of ' . substr(ucfirst($feature), 0, -1) . ' Size in ' . scalar(@organisms) .' Organism(s)")');
+	foreach my $org (@organisms) {
+		$R->send('lines(' . $org . '.size, ' . $org . '.freqs, type = "l", col=cols)');
+	}				
+
+	# add legend
 	
-	print Dumper($ret) . "\n";
+	$R->send('legend("topright", inset=.05, c("' . join("\",\"", @organisms) . '"), lty=1, col=cols)');
 
-	foreach my $org (@organisms) {
-		$R->send($org . '_counts <- table(' . $org . '.raw)');
-		$R->send($org . '_counts <- as.matrix(' . $org . '_counts)');
-		$R->send($org . '_counts[is.na(' . $org . '_counts) <- 0');
-		$R->send($org . '_counts[is.nan(' . $org . '_counts) <- 0');
-	}
-	$R->send('x_max = 5000');
-	$R->send('y_max = 10000');
-
-	$R->send('png(filename="' . $output . '", width=1024, height=768)');
-	#$R->send('par(mar=c(5,5,5,3))');
-
-	$R->send('plot(0, 0, type="l", xlab="Intron Size (bps)", ylab="Log Frequency", main="Frequency of Intron Size")');
-	foreach my $org (@organisms) {
-		$R->send('lines(' . $org . '_counts, type = "l", col=rainbow(65355))');
-
-	}
-	$R->send('legend("topright", inset=.05, c("' . join("\",\"", @organisms) . '"), lty=1)');
-
+	# turn graphics device off, to allow writing to PDF file
 	$R->send('dev.off()');
 	
 	# stop R
 	$R->stopR();
 	
 	# tell user what we've done
-	print "Outputted frequency distribution plot to $outfile.\n";
+	print "Outputted frequency distribution plot to $outfile\n";
 }
 
 1;

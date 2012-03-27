@@ -93,7 +93,7 @@ sub get_Basic_Stats {
 
 	# let user know what we are doing
 	print "Processing $feature basic stats for $organism...\n";
-			
+	
 	# iterate through stream
 	while (my $seq = <$stream>) {
 		# get description
@@ -113,9 +113,6 @@ sub get_Basic_Stats {
 	##################################
 	# work out the numbers and sizes #
 	##################################
-	
-	# let user know what we're doing
-	print "Calculating sizes...\n";
 	
 	# iterate through the hash
 	while (my ($key, $value) = each %class) {
