@@ -28,8 +28,8 @@ our @EXPORT_OK = qw(get_Descriptive_Statistics get_Character_Statistics);
 
 # setup the includes
 use Statistics::Descriptive;
-use GCAT::DB::EnsEMBL;
-use GCAT::Data::Output;
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL get_Gene_IDs get_Genome_Size get_Exome_Size get_Intronome_Size get_Transcriptome_Size get_UTR_Sizes get_CTranscript_IDs get_Transcript_IDs);
+use GCAT::Data::Output qw();
 use Text::FormatTable;
 use Cwd;
 use File::Spec;
@@ -63,7 +63,7 @@ sub get_Character_Statistics {
 					"Repeat Element Density");
 
 	# connect to EnsEMBL
-	my $registry = &connect_to_EnsEMBL;
+	my $registry = &connect_To_EnsEMBL;
 
 	# traverse through the given species and retrieve data
 	foreach my $org (@rownames) {
@@ -123,25 +123,16 @@ sub get_Character_Statistics {
 # get the descriptive statistics
 sub get_Descriptive_Statistics {
 	# setup variables
-	my $glens = shift(@_);
-	my $tlens = shift(@_);
-	my $as = shift(@_);
-	my $cs = shift(@_);
-	my $ts = shift(@_);
-	my $gs = shift(@_);
+	my ($glens, $tlens, $as, $cs, $ts, $gs, $organism, $feature, @flens) = @_;
 	my $gc = $gs + $cs;
-
-	my $organism = shift(@_);
-	my $feature = shift(@_);
-	my @flens = @_;
 	my %output;
 
 	# get number of genes and transcripts
-	my $registry = &connect_to_EnsEMBL;
-	my $genome_size = &get_Genome_Size($registry, $organism );
-	my $exome_size = &get_Exome_Size($registry, $organism );
-	my @gene_ids = &get_Gene_IDs($registry, $organism );
-	my @transcript_ids = &get_Transcript_IDs($registry, $organism );
+	my $registry = &connect_To_EnsEMBL;
+	my $genome_size = &get_Genome_Size($registry, $organism);
+	my $exome_size = &get_Exome_Size($registry, $organism);
+	my @gene_ids = &get_Gene_IDs($registry, $organism);
+	my @transcript_ids = &get_Transcript_IDs($registry, $organism);
 	my $g_num = $#gene_ids + 1;
 	my $tr_num = $#transcript_ids + 1;
 

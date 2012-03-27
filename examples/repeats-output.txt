@@ -1,6 +1,6 @@
-> get_repeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+> get_grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
 
-2012/03/22 15:55:45 Running "get_repeats".
+2012/03/22 15:55:45 Running "get_grepeats".
 
 Going to retrieve repeats for 5 species: homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys...
 
@@ -24,3 +24,28 @@ Retrieved 9,444,148 repeats for pongo_abelii.
 
 Finished in 3954.212!
 
+Processing 8766577 sequences for homo_sapiens...
+Class LTR/ERVL: 151197 grepeats (151197 bps)
+Class repeats: 1422694 grepeats (109704613352321 bps)
+Class LTR/ERVL?: 1786 grepeats (1786 bps)
+Class Unknown?: 94 grepeats (94 bps)
+Class RC/Helitron?: 423 grepeats (423 bps)
+Class dust: 2948106 grepeats (2948106 bps)
+Class LTR/Gypsy?: 7797 grepeats (7797 bps)
+Class LTR/MaLR: 342286 grepeats (342286 bps)
+Class LTR/ERVK: 10602 grepeats (10602 bps)
+Class LTR?: 123 grepeats (123 bps)
+Class LTR/ERV1: 169131 grepeats (169131 bps)
+Class LTR/ERV1?: 2964 grepeats (2964 bps)
+Class II: 451508 grepeats (36071955668526 bps)
+Class LTR/Gypsy: 7816 grepeats (7816 bps)
+Class LTR: 2215 grepeats (2215 bps)
+Class I: 3238448 grepeats (251819277347554 bps)
+Class Unknown: 7014 grepeats (7014 bps)
+Class LTR/ERV: 581 grepeats (581 bps)
+Class RC/Helitron: 1792 grepeats (1792 bps)
+Returned 8766577 grepeats (397,595,850,022,328 bps)
+
+Writing data to /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/data/homo_sapiens/grepeats.csv...
+Outputted data to /Users/stevemoss/Dropbox/PhD/Research/Development/gcat/data/homo_sapiens/grepeats.csv
+Finished in 8757.589!

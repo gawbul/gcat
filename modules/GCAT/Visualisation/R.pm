@@ -23,30 +23,38 @@ use strict;
 
 # import some required modules
 use Statistics::R;
+use Cwd;
 
 # use this routine to plot nucleotide frequencies
 sub plot_NFs {
 	return;	
 }
 
+
 # plot basic stats output
-sub plot_FDist {
-	# declare variables
-	my ($feature, $dir, $path, $input, $output, $raw_csv);
-	my @organisms;
-	
-	# get data from arguments
-	$feature = shift(@_);
-	@organisms = @_;
-	$dir = getcwd();
-	$path = File::Spec->catfile($dir , "data");
+sub plot_Raw_Dist {
+
+}
+
+# plot frequency distribution
+sub plot_Frequency_Dist {
+	# get filename
+	my ($filename, @organisms) = @_;
+
+	# build path
+	my $dir = getcwd();
+	my $path = File::Spec->catfile($dir , "data");
+
+	# setup in file
+	my $infile = File::Spec->catfile($path, $filename);
 	
 	# setup out file
-	$output = File::Spec->catfile($path, $feature . "_fdist.png");
+	my $output = substr($filename, 0, -4);
+	my $outfile = File::Spec->catfile($path, $output);
 
+	print $outfile . "\n";
 	# setup R objects
 	my $R = Statistics::R->new();
-	my $ret;
 	
 	# start R
 	$R->startR();
@@ -55,11 +63,12 @@ sub plot_FDist {
 	$R->send('library(zoo)');
 	$R->send('library(gdata)');
 
-	foreach my $org (@organisms) {
-		$R->send($org . '.raw <- read.csv("' . File::Spec->catfile($dir, "data", $org, $feature . "_raw.csv") . '", header=TRUE)');
-		$R->send('attach(' . $org . '.raw)');	
-		$R->send('names(' . $org . '.raw)');	
-	}
+	$R->send('freqs <- read.csv("' . $infile . '", header=TRUE)');
+	$R->send('attach(freqs)');	
+	$R->send('names(freqs)');	
+	my $ret = $R->get();
+	
+	print Dumper($ret) . "\n";
 
 	foreach my $org (@organisms) {
 		$R->send($org . '_counts <- table(' . $org . '.raw)');
@@ -84,6 +93,9 @@ sub plot_FDist {
 	
 	# stop R
 	$R->stopR();
+	
+	# tell user what we've done
+	print "Outputted frequency distribution plot to $outfile.\n";
 }
 
 1;

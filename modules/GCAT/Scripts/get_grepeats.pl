@@ -83,7 +83,7 @@ foreach my $org_name (@organisms) {
 
 	# setup output filename
 	mkdir "data/$org_name" unless -d "data/$org_name";
-	my $path = File::Spec->catfile($dir, "data", "$org_name", "repeats.fas");
+	my $path = File::Spec->catfile($dir, "data", "$org_name", "grepeats.fas");
 	
 	# get current database name
 	my ($dbname, $release) = &get_DB_Name($registry, $org_name);

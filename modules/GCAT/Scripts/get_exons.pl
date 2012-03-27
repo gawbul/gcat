@@ -31,14 +31,13 @@
 
 # import some modules to use
 use strict;
-use Time::HiRes qw(gettimeofday);
-use Parallel::ForkManager; # used for parallel processing
 use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Feature);
 use GCAT::Data::Output qw(write_To_SeqIO);
 use GCAT::Interface::Logging qw(logger); # for logging
+use Parallel::ForkManager; # used for parallel processing
+use Time::HiRes qw(gettimeofday);
 use File::Spec;
 use Cwd;
-
 
 # get root directory and create data directory if doesn't exist
 my $dir = getcwd();
@@ -56,9 +55,6 @@ if ($num_args < 1) {
 
 # set start time
 my $start_time = gettimeofday;
-
-# set autoflush for stdout
-local $| = 1;
 
 # setup fork manager
 my $pm = new Parallel::ForkManager(8);

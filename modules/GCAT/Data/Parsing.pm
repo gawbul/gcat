@@ -24,17 +24,17 @@ use strict;
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(check_Data_OK get_Repeat_Stats get_Feature_Lengths get_Gene_IDs_from_Feature);
+our @EXPORT_OK = qw(check_Data_OK get_Basic_Stats get_Unique_Features get_Sequence_Info get_Feature_Lengths get_Gene_IDs_from_Feature get_Intron_Position_in_Transcript get_Intron_Splice_Type);
 
 # imports
-#use Bio::DB::GFF; # maybe use this later
+#use Bio::Tools::GFF; # maybe use this later
 use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Feature);
 use GCAT::Interface::Logging qw(logger);
 use Statistics::Descriptive;
 use Time::HiRes qw(gettimeofday tv_interval);
 use Set::IntSpan::Fast;
 use Text::CSV_XS;
-use Bio::DB::Fasta;
+use Bio::SeqIO;
 use File::Spec;
 use Cwd;
 
@@ -42,9 +42,8 @@ use Cwd;
 # do data checks for a given feature for give organisms
 sub check_Data_OK {
 	# setup variables
-	my $feature = shift(@_);
-	my @organisms = @_;
-	
+	my ($feature, @organisms) = @_;
+
 	# get root directory and setup data path
 	my $dir = getcwd();
 	my $path = File::Spec->catfile($dir , "data");
@@ -55,7 +54,7 @@ sub check_Data_OK {
 		logger("The data directory does not exist. You must first retrieve some data.\n", "Error");
 		exit;
 	}
-	
+
 	# check organism data directories exist and filenames exist
 	foreach my $org (@organisms) {
 		# check organism data directory exists
@@ -72,18 +71,14 @@ sub check_Data_OK {
 }
 
 # build unique intron sizes
-sub get_Repeat_Stats {
+sub get_Basic_Stats {
 	# setup arguments
 	my ($feature, $organism) = @_;
 	
 	# define variables
 	my %class = ();
 	my @classes;
-	my ($rcount, $rtotal) = 0;
-	
-	###############################
-	# retrieve repeat coordinates #
-	###############################
+	my ($fcount, $ftotal) = 0;
 	
 	# get root directory and setup data path
 	my $dir = getcwd();
@@ -92,24 +87,27 @@ sub get_Repeat_Stats {
 	# setup file path
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
-	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
-	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
+	# create new Bio::SeqIO object
+	my $stream = Bio::SeqIO->newFh(-file => "$path",
+									-format => 'fasta');
 
 	# let user know what we are doing
-	print "Processing " . ($#feature_ids + 1) . " repeat sequences for $organism...\n";
-	
-	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my ($rid, $gid, $tid, $rclass, $rstt, $rend, $rlen, $rstrand) = split(/ /, $db->header($ft));
-		# remove 0 length introns
-		if ($rlen > 0) {
-			push(@{$class{$rclass}}, $rlen);
-			$rtotal += $rlen;
-			$rcount++;
+	print "Processing $feature basic stats for $organism...\n";
+			
+	# iterate through stream
+	while (my $seq = <$stream>) {
+		# get description
+		my $desc = $seq->id() . "\t" . $seq->desc();
+		
+		# split description into parts
+		my ($fid, $gid, $tid, $ftype, $fclass, $fstt, $fend, $flen, $fstrand) = split(/\t/, $desc);			
+		
+		# remove 0 length features
+		if ($flen > 0) {
+			push(@{$class{$fclass}}, $flen);
+			$ftotal += $flen;
 		}
+		$fcount++;
 	}
 
 	##################################
@@ -117,7 +115,7 @@ sub get_Repeat_Stats {
 	##################################
 	
 	# let user know what we're doing
-	print "Calculating repeat class sizes...\n";
+	print "Calculating sizes...\n";
 	
 	# iterate through the hash
 	while (my ($key, $value) = each %class) {
@@ -125,18 +123,18 @@ sub get_Repeat_Stats {
 		my $count = 0;
 		my $total = 0;
 		# get hash array
-		my @rlens = @{$class{$key}};
+		my @flens = @{$class{$key}};
 		# iterate through array for class
-		foreach my $rlen (@rlens) {
+		foreach my $flen (@flens) {
 			$count++;
-			$total += $rlen;
+			$total += $flen;
 		}
 		push(@classes, [$key, $count, $total]);
 		print "Class $key: $count $feature ($total bps)\n";
 	}
 	
 	# let user know what we have done
-	print "Returned $rcount $feature ($rtotal bps)\n\n";
+	print "Returned $fcount $feature ($ftotal bps)\n\n";
 
 	# return to calling routine
 	return @classes;
@@ -163,21 +161,24 @@ sub get_Unique_Features {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
+	# let user know what we are doing	
+	print "Processing $feature coordinates for $organism...\n";
 	
-	print "\nProcessing $organism...\n";
-	
-	print "Adding " . ($#feature_ids + 1) . " $feature coordinates...\n";
-	
-	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my ($fid, $gid, $tid, $fstt, $fend, $flen, $fstrand) = split(/ /, $db->header($ft));
+	# iterate through stream
+	while (my $seq = <$stream>) {
+		# get description
+		my $desc = $seq->id() . "\t" . $seq->desc();
+		
+		# split description into parts
+		my ($fid, $gid, $tid, $ftype, $fclass, $fstt, $fend, $flen, $fstrand) = split(/\t/, $desc);			
+		
+		# check if already added coords
 		unless (defined $coords{$gid}) {
 		 	$coords{$gid} = Set::IntSpan::Fast->new();
 		}
+		
 		# remove 0 length introns
 		if ($flen > 0) {
 			if ($fstt == $fend) {
@@ -201,15 +202,19 @@ sub get_Unique_Features {
 	$path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	$db = Bio::DB::Fasta->new("$path");
+	$stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 	
-	# get all feature ids
-	@feature_ids = $db->get_all_ids();
-
-	print "Processing " . ($#feature_ids + 1) . " repeat coordinates...\n";
-	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my ($rid, $gid, $tid, $rclass, $rstt, $rend, $rlen, $rstrand) = split(/ /, $db->header($ft));
+	# let user know what we are doing
+	print "Processing repeat coordinates for $organism...\n";
+	
+	# iterate through stream
+	while (my $seq = <$stream>) {
+		# get description
+		my $desc = $seq->id() . "\t" . $seq->desc();
+		
+		# split description into parts
+		my ($rid, $gid, $tid, $rtype, $rclass, $rstt, $rend, $rlen, $rstrand) = split(/\t/, $desc);
+		
 		# remove 0 length introns
 		if ($rlen > 0) {
 			if (defined $coords{$gid}) {
@@ -267,14 +272,11 @@ sub get_Sequence_Info {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
-	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 
 	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my $seq = $db->seq($ft);
+	while (my $seqobj = <$stream>) {
+		my $seq = $seqobj->seq();
 		my $as = ($seq =~ tr/A//);
 		my $cs = ($seq =~ tr/C//);
 		my $gs = ($seq =~ tr/G//);
@@ -308,14 +310,16 @@ sub get_Feature_Lengths {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
-	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 
-	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my ($fid, $gid, $tid, $fstt, $fend, $flen, $fstrand) = split(/ /, $db->header($ft));
+	# iterate through stream
+	while (my $seq = <$stream>) {
+		# get description
+		my $desc = $seq->id() . "\t" . $seq->desc();
+		
+		# split description into parts
+		my ($fid, $gid, $tid, $ftype, $fclass, $fstt, $fend, $flen, $fstrand) = split(/\t/, $desc);
+		
 		# remove 0 length introns
 		if ($flen > 0) {
 			push (@flens, $flen);
@@ -345,10 +349,7 @@ sub get_Feature_Lengths {
  	}
  		
 	# setup return data add gene lens, transcript lens and feature in that order
-	unshift(@flens, $#utids + 1);
-	unshift(@flens, $#ugids + 1);
-	
-	return @flens;
+	return ($#ugids + 1, $#utids + 1, @flens);
 }
 
 # get the gene IDs for a certain organism
@@ -367,20 +368,24 @@ sub get_Gene_IDs_from_Feature {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
+
+	# let user know what we are doing	
+	print "Processing $feature for $organism...\n";
 	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
-	
-	print "Processing " . ($#feature_ids + 1). " feature IDs...\n";
-	# loop through features
-	while (my $ft = shift(@feature_ids)) {
-		my ($fid, $gid, $tid, $fstt, $fend, $flen, $fstrand) = split(/ /, $db->header($ft));
+	# iterate through stream
+	while (my $seqobj = <$stream>) {
+		# get description
+		my $desc = $seqobj->id() . "\t" . $seqobj->desc();
+		
+		# split description into parts
+		my ($fid, $gid, $tid, $ftype, $fclass, $fstt, $fend, $flen, $fstrand) = split(/\t/, $desc);
+		
 		# remove 0 length introns
 		if ($flen > 0) {
 			if ($flen >= $start && $flen <= $end) {
-				my $obj = $db->get_Seq_by_id($ft);
-				push (@gids, [$gid, $flen, $obj->seq()]);
+				my $seq = $seqobj->seq();
+				push (@gids, [$gid, $flen, $seq]);
 			}
 		}
 	}
@@ -517,10 +522,7 @@ sub get_Intron_Position_in_Transcript {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $db = Bio::DB::Fasta->new("$path");
-	
-	# get all feature ids
-	my @feature_ids = $db->get_all_ids();
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 
 	# setup some variables,
 	my $fp_utr_count = 0;
@@ -532,9 +534,14 @@ sub get_Intron_Position_in_Transcript {
 	our %loc_count = ("fputr" => 0, "cds" => 0, "tputr" => 0);
 	our %fdist = ("fputr" => [],"cds" => [], "tputr" => []);	
 
-	# loop through features
-	while (my $ft = shift @feature_ids) {
-		my ($fid, $gid, $tid, $fstt, $fend, $flen, $strand) = split(/ /, $db->header($ft));
+	# iterate through stream
+	while (my $seqobj = <$stream>) {
+		# get description
+		my $desc = $seqobj->id() . "\t" . $seqobj->desc();
+		
+		# split description into parts
+		my ($fid, $gid, $tid, $ftype, $fclass, $fstt, $fend, $flen, $fstrand) = split(/\t/, $desc);
+		
 		# remove 0 length introns
 		if ($flen > 0 && defined $coords{$tid}) {
 			if ($fstt == $fend) {
@@ -688,13 +695,13 @@ sub get_Intron_Splice_Type {
 	my $path = File::Spec->catfile($dir, "data", $organism, $filename);
 	
 	# create new Bio::DB object
-	my $stream = Bio::DB::Fasta->new("$path")->get_PrimarySeq_stream();
+	my $stream = Bio::SeqIO->newFh(-file => "$path", -format => 'fasta');
 	
 	# variable for frequency distribution
 	our %fdist = ("u2" => [],"u12" => [], "other" => []);
 		
 	# loop through features
-	while (my $seq = $stream->next_seq) {
+	while (my $seq = <$stream>) {
 		if ($seq->seq =~ /^GT.*?AG$/) {
 			$u2_introns++;
 			push(@{$fdist{"u2"}}, $seq->length());
@@ -733,7 +740,7 @@ sub get_Intron_Splice_Type {
 	# close the CSV
 	close $fh or die "$filename: $!";
 	print "Outputted spliceosome type information to $filename\n";
-	
+
 	# iterate through each key (fputr, cds and tputr)
 	print "Building frequency distributions...\n";
 	foreach my $key (keys %fdist) {		

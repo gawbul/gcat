@@ -32,7 +32,69 @@ use Scalar::Util qw(blessed);
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(write_Raw_To_CSV write_Unique_To_CSV merge_CSV write_to_File build_Char_Matrix write_To_SeqIO);
+our @EXPORT_OK = qw(write_Raw_To_CSV write_Hash_To_CSV write_Array_To_CSV write_Unique_To_CSV concatenate_CSV write_to_File build_Char_Matrix write_To_SeqIO);
+
+# write hash to CSV
+sub write_Hash_To_CSV {
+	# setup variables
+	my ($feature, $organism, %type) = @_;
+
+	# get root directory, setup path and filename
+	my $dir = getcwd();
+	my $path = File::Spec->catfile($dir , "data", $organism);
+	my $filename = File::Spec->catfile($path, "$feature.csv");
+
+	# setup CSV
+	my $csv = Text::CSV_XS->new ({binary => 1, eol => $/});
+  	
+  	# open file
+  	open my $fh, ">", "$filename" or die "$filename: $!";
+ 	
+ 	# add the header line
+ 	$csv->print ($fh, [$organism . '.desc', $organism . '.data']); 	
+
+	# iterate through the output hash and print each line to CSV
+	while (my ($key, $value) = each %type) {
+		$csv->print ($fh, ["$key", "$type{$key}"]) or $csv->error_diag;
+	}	
+
+	# close the CSV
+	close $fh or die "$filename: $!";
+	print "Outputted data to $filename\n";
+}
+
+# write hash to CSV
+sub write_Array_To_CSV {
+	# setup variables
+	my ($feature, $organism, @data) = @_;
+
+	# get root directory, setup path and filename
+	my $dir = getcwd();
+	my $path = File::Spec->catfile($dir , "data", $organism);
+	my $filename = File::Spec->catfile($path, "$feature.csv");
+
+	# let user know what we're doing
+	print "Writing data to $filename...\n";
+	
+	# setup CSV
+	my $csv = Text::CSV_XS->new ({binary => 1, eol => $/});
+  	
+  	# open file
+  	open my $fh, ">", "$filename" or die "$filename: $!";
+ 	
+ 	# add the header line
+ 	$csv->print ($fh, [$organism . '.desc', $organism . '.count', $organism . '.length']); 	
+
+	# iterate through the output hash and print each line to CSV
+	while (my $dat = shift @data) {
+		my ($desc, $count, $length) = @$dat;
+		$csv->print ($fh, [$desc, $count, $length]) or $csv->error_diag;
+	}	
+
+	# close the CSV
+	close $fh or die "$filename: $!";
+	print "Outputted data to $filename\n";
+}
 
 # write raw data to CSV
 sub write_Raw_To_CSV {
@@ -105,7 +167,7 @@ sub write_Unique_To_CSV {
 # subroutine to write frequency distribution to CSV file
 sub write_FDist_To_CSV {
 	# setup variables
-	my ($organism, $feature, $path, @data) = @_;
+	my ($organism, $feature, @data) = @_;
 	
 	
 }
@@ -151,18 +213,17 @@ sub build_Char_Matrix {
 	return;
 }
 
-# new merge subroutine module that uses R cbindX
-sub merge_CSV {
+# new concatenate subroutine module that uses R cbindX
+sub concatenate_CSV {
 	# import data
-	my $feature = shift(@_);
-	my @organisms = @_;
+	my ($feature, $type, @organisms) = @_;
 	
 	# get root directory and setup data path
 	my $dir = getcwd();
 	my $path = File::Spec->catfile($dir , "data");
 	srand (time ^ $$ ^ unpack "%L*", `ps axww | gzip -f`); # seed random number generator
 	my $random = int(rand(9999999999)); # get random number
-	my $out_file = File::Spec->catfile($dir , "data", $feature ."_all_$random.csv");
+	my $out_file = File::Spec->catfile($dir , "data", $feature . "_$type\_all_$random.csv");
 	
 	# setup R and start clean R session
 	my $R = Statistics::R->new();
@@ -172,7 +233,8 @@ sub merge_CSV {
 	# traverse each organism
 	for my $organism (@organisms) {
 	  	# setup file path
-		my $in_file = File::Spec->catfile($path, $organism, $feature . "_freqs.csv");
+		my $in_file = File::Spec->catfile($path, $organism, $feature . "_$type.csv");
+		
 		# open CSV in read
 		$R->send("$organism <- read.csv(\"$in_file\", header=TRUE)");
 		$R->send("attach($organism)");
@@ -209,7 +271,7 @@ sub write_to_File {
 sub write_To_SeqIO {
 	# setup variables
 	my ($filename, $format, @features) = @_;
-	my ($feature_id, $feature_type, $feature_class, $feature_seq) = undef;
+	my ($gene, $transcript, $gid, $tid, $feature_id, $feature_type, $feature_class, $feature_seq) = undef;
 
 	# setup seqio output
 	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => $format);
@@ -217,23 +279,38 @@ sub write_To_SeqIO {
 	# traverse features
 	my $count = 0;
 	while (my $feature = shift @features) {
-		# get data for gene and transcript IDs
-		my $slice = $feature->slice();
-		my $gene = @{$slice->get_all_Genes}[0];
-		my $transcript = $gene->canonical_transcript();
+		# setup gid and tid
+		my $slice = $feature->slice(); 
+		my @genes = @{$slice->get_all_Genes};
 		
-		# set feature_id by reftype
+		# check we have some genes
+		if (scalar(@genes) > 0) {
+			$gene = $genes[0];			
+		}
+		
+		# check gene defined
+		if (!defined $gene) {
+			$gid = "NULL";
+			$tid = "NULL";
+		}
+		else {
+			$gid = $gene->stable_id();
+			$transcript = $gene->canonical_transcript(); 
+			$tid = $transcript->stable_id();
+		}
+		
+		# set feature_id by blessed
 		if (blessed($feature) eq 'Bio::EnsEMBL::Intron') {
 			$feature_id = "INTRON" . ($count + 1);
 			$feature_type = "INTRON";
-			$feature_class = "NULL";
+			$feature_class = "INTRON";
 			$feature_seq = $feature->seq();
 		}
 		elsif (blessed($feature) eq 'Bio::EnsEMBL::Exon') {
 			$feature_id = $feature->stable_id();
 			$feature_type = "EXON";
-			$feature_class = "NULL";
-			$feature_seq = $feature->seq();
+			$feature_class = "EXON";
+			$feature_seq = $feature->seq()->seq();
 		}	
 		elsif (blessed($feature) eq 'Bio::EnsEMBL::RepeatFeature') {
 			$feature_id = "REPEAT" . ($count + 1);
@@ -243,16 +320,17 @@ sub write_To_SeqIO {
 			$feature_seq = $rc->repeat_consensus();
 		}	
 		else {
+			print blessed($feature) . "\n";
 			$feature_id = $feature->stable_id();
-			$feature_type = "NULL";
-			$feature_class = "NULL";
+			$feature_type = "UNKNOWN";
+			$feature_class = "UNKNOWN";
 			$feature_seq = $feature->seq();
 		}
 
 		# build the bio seq object
 		my $feature_obj = Bio::Seq->new(-primary_id => $feature_id,
 										-display_id => $feature_id,
-										-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $feature_type . " " . $feature_class . " " . $feature->start() . " " . $feature->end() . " " . $feature->length() . " " . $feature->strand(),
+										-desc => $gid . "\t" . $tid . "\t" . $feature_type . "\t" . $feature_class . "\t" . $feature->start() . "\t" . $feature->end() . "\t" . $feature->length() . "\t" . $feature->strand(),
 										-alphabet => 'dna',
 										-seq => $feature_seq);
 								
@@ -266,7 +344,7 @@ sub write_To_SeqIO {
 
 		# let user know something is happening
 		if (($count % 100) == 0) {
-			print "."
+			print ".";
 		}
 		$count++;
 	}	
@@ -274,8 +352,8 @@ sub write_To_SeqIO {
 	return $count;
 }
 
-# deprecated merge CSV subroutine
-#sub _old_merge_CSV {
+# deprecated concatenate CSV subroutine
+#sub _old_concatenate_CSV {
 #	# import data
 #	my $feature = shift(@_);
 #	my @organisms = @_;

@@ -21,11 +21,11 @@
 
 =head1 SYNOPSIS
 
-    basic_stats species1 species2 species3...
+    basic_stats feature species1 species2 species3...
     
 =head1 DESCRIPTION
 
-	A program to retrieve all basic genomic descriptive statistics and produce plot.
+	Get a break down of the classes and total number and length of a particular feature (i.e. introns, exons, repeats, grepeats) for a list of species.
 
 =cut
 
@@ -34,13 +34,11 @@ use warnings;
 use strict;
 
 # add includes
-use Parallel::ForkManager;
-use Time::HiRes qw(gettimeofday);
 use GCAT::Interface::Logging qw(logger);
-use GCAT::Data::Parsing;
-use GCAT::Data::Output;
-use GCAT::Analysis::Descriptive;
-use GCAT::Statistics::R;
+use GCAT::Data::Parsing qw(check_Data_OK get_Basic_Stats);
+use GCAT::Data::Output qw(write_Array_To_CSV);
+use Parallel::ForkManager; # use for parallel code
+use Time::HiRes qw(gettimeofday);
 
 # first get the arguments
 my $num_args = $#ARGV + 1;
@@ -56,62 +54,29 @@ unless ($num_args >= 2) {
 # set start time
 my $start_time = gettimeofday;
 
-################################
-# check our data is okay first #
-################################
+# check our data is okay first
 &GCAT::Data::Parsing::check_Data_OK(@inputs);
 
 # split inputs
 our $feature = shift(@inputs);
-my @organisms = @inputs;
+my $organisms = \@inputs;
+
+# setup fork manager
+my $pm = new Parallel::ForkManager(8);
 
 # traverse each organism and parse the fasta
-foreach my $org (@organisms) {
-	#######################
-	# do the basic counts #
-	#######################
-	my @data = &GCAT::Data::Parsing::get_Feature_Lengths($feature, $org);
+foreach my $org (@{$organisms}) {
+	# get basic stats
+	my @data = &GCAT::Data::Parsing::get_Basic_Stats($feature, $org);
 
-	# pull gene and transcript lengths from top
-	my $glen = shift(@data);
-	my $tlen = shift(@data);
+	# write output
+	&write_Array_To_CSV($feature, $org, @data);
 
-	#################################
-	# Get GC content/NT frequencies #
-	#################################
-	
-	my @seq_info = &GCAT::Data::Parsing::get_Sequence_Info($feature, $org);
-	my ($a, $c, $g, $t) = @seq_info;
-
-	##########################
-	# output RAW data to CSV #
-	##########################
-	# add organism to top of data array
-	unshift(@data, $feature);
-	unshift(@data, $org);
-
-	&GCAT::Data::Output::write_Raw_To_CSV(@data);
-	
-	# add gene and transcript lengths back
-	unshift(@data, $t);
-	unshift(@data, $g);
-	unshift(@data, $c);
-	unshift(@data, $a);
-	unshift(@data, $tlen);
-	unshift(@data, $glen);
-	
-	#####################################
-	# return the descriptive statistics #
-	#####################################
-	&GCAT::Analysis::Descriptive::get_Descriptive_Statistics(@data);
+	# finish fork
+	$pm->finish;
 }
-
-########################
-# display output chart #
-########################
-
-#unshift(@organisms, $feature);
-#&GCAT::Visualisation::R::plot_FDist(@organisms);
+# wait for all processes to finish
+$pm->wait_all_children;
 
 # set end time and calculate time elapsed
 my $end_time = gettimeofday;

@@ -883,6 +883,7 @@ sub get_Genome_Repeats {
 	# define variables
 	my ($registry, $filename, $organism) = @_;
 	my $repeats_count = 0;
+	my ($gene_id, $transcript_id);
 	
 	# setup seqio output
 	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => 'FASTA');
@@ -894,17 +895,12 @@ sub get_Genome_Repeats {
 	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 1)};
 
 	# iterate through all slices
-	foreach my $slice (@slices){
+	while(my $slice = shift @slices){
 		# get all repeats
 		my $slrepeats = $slice->get_all_RepeatFeatures();
 				
 		# traverse repeats
 		while (my $repeat = shift @{$slrepeats}) {
-			# get gene and transcript data
-			my $rsl = $repeat->feature_Slice();
-			my $gene = @{$rsl->get_all_Genes(undef, undef, 1, undef, "protein_coding")}[0];
-			my $transcript = $gene->canonical_transcript();
-
 			# build repeat ID
 			my $repeat_id = "REPEAT" . ($repeats_count + 1);
 
@@ -912,7 +908,7 @@ sub get_Genome_Repeats {
 			my $rc = $repeat->repeat_consensus();
 			my $repeat_obj = Bio::Seq->new( -primary_id => $repeat_id,
 											-display_id => $repeat_id,
-											-desc => $gene->stable_id() . " " . $transcript->stable_id() . " " . $rc->repeat_class() . " " . $repeat->start() . " " . $repeat->end() . " " . $rc->length() . " " . $repeat->strand(),
+											-desc => "NULL\tNULL\t" . $rc->repeat_type() . "\t" . $rc->repeat_class() . "\t" . $repeat->start() . "\t" . $repeat->end() . "\t" . $rc->length() . "\t" . $repeat->strand(),
 											-alphabet => 'dna',
 											-seq => $rc->repeat_consensus());
 																	
