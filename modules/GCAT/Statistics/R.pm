@@ -84,6 +84,12 @@ sub check_R_Environ {
 
 # map character matrix to phylogenetic tree
 sub map_Chars_to_Tree {
+	# check our R environment
+	unless (!&check_R_Environ) {
+		logger("Couldn't confirm R environment setup", "Error");
+		exit;
+	}
+	
 	# take input from the user
 	my ($char_matrix_file, $phylogenetic_tree_file) = @_;
 	

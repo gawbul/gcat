@@ -2,6 +2,8 @@
 # comment lines can be added like this and aren't parsed
 # The usual format is as follows:
 # script_name arg1 arg2 arg3
+# or
+# script_name feature arg1 arg2 arg3
 
 # test scripts
 test one two three four five
@@ -9,6 +11,10 @@ test six seven eight nine ten
 
 # This is a list of all (57) species names from the core database (release 66)
 # ailuropoda_melanoleuca anolis_carolinensis bos_taurus caenorhabditis_elegans callithrix_jacchus canis_familiaris cavia_porcellus choloepus_hoffmanni ciona_intestinalis ciona_savignyi danio_rerio dasypus_novemcinctus dipodomys_ordii drosophila_melanogaster echinops_telfairi equus_caballus erinaceus_europaeus felis_catus gadus_morhua gallus_gallus gasterosteus_aculeatus gorilla_gorilla homo_sapiens latimeria_chalumnae loxodonta_africana macaca_mulatta macropus_eugenii meleagris_gallopavo microcebus_murinus monodelphis_domestica mus_musculus myotis_lucifugus nomascus_leucogenys ochotona_princeps ornithorhynchus_anatinus oryctolagus_cuniculus oryzias_latipes otolemur_garnettii pan_troglodytes petromyzon_marinus pongo_abelii procavia_capensis pteropus_vampyrus rattus_norvegicus saccharomyces_cerevisiae sarcophilus_harrisii sorex_araneus spermophilus_tridecemlineatus sus_scrofa taeniopygia_guttata takifugu_rubripes tarsius_syrichta tetraodon_nigroviridis tupaia_belangeri tursiops_truncatus vicugna_pacos xenopus_tropicalis
+
+# The following lines were used to retrieve the data for our paper
+# Moss SP, Joyce DA, Humphries S, Tindall KJ, Lunt DH. 2011. Comparative analysis of teleost genome sequences reveals an ancient intron size expansion in the zebrafish lineage. Genome Biology and Evolution. 3: 1187-1196.
+# http://dx.doi.org/10.1093/gbe/evr090
 
 # get teleost exons from ensembl
 get_exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis

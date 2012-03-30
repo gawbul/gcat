@@ -33,23 +33,34 @@ our @EXPORT_OK = qw(plot_NFs plot_Stacked_Barplot plot_Frequency_Dist);
 
 # use this routine to plot nucleotide frequencies
 sub plot_NFs {
-
+	# check our R environment
+	unless (!&check_R_Environ) {
+		logger("Couldn't confirm R environment setup", "Error");
+		exit;
+	}
+	
 }
 
 # plot stacked bar plot for repeats etc
 sub plot_Stacked_Barplot {
-	
+	# check our R environment
+	unless (!&check_R_Environ) {
+		logger("Couldn't confirm R environment setup", "Error");
+		exit;
+	}
+		
 }
 
 # plot frequency distribution
 sub plot_Frequency_Dist {
-	# get arguments
-	my ($infile, $feature, @organisms) = @_;
-	
 	# check our R environment
 	unless (!&check_R_Environ) {
-		
+		logger("Couldn't confirm R environment setup", "Error");
+		exit;
 	}
+	
+	# get arguments
+	my ($infile, $feature, @organisms) = @_;
 	
 	# setup out file
 	my $outfile = substr($infile, 0, -4) . ".pdf";
