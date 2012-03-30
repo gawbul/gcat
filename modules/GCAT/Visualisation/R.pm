@@ -22,82 +22,34 @@ use warnings;
 use strict;
 
 # import some required modules
+use GCAT::Statistics::R qw(check_R_Environ);
 use Statistics::R;
 use Cwd;
 
+# export the subroutines
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(plot_NFs plot_Stacked_Barplot plot_Frequency_Dist);
+
 # use this routine to plot nucleotide frequencies
 sub plot_NFs {
-	return;	
+
 }
 
-
-# plot basic stats output
-sub plot_Raw_Dist {
-	# get arguments
-	my ($infile, $feature, @organisms) = @_;
+# plot stacked bar plot for repeats etc
+sub plot_Stacked_Barplot {
 	
-	# setup out file
-	my $outfile = substr($infile, 0, -4) . ".pdf";
-
-	# setup new R object
-	my $R = Statistics::R->new();
-	
-	# start R
-	$R->startR();
-
-	# define return variable
-	my $ret = undef;
-
-	#################	
-	# main R script #
-	#################
-	
-	# load file
-	$R->send('raw <- read.csv("' . $infile . '", header=TRUE)');
-	$R->send('attach(raw)');
-	$R->send('names(raw)');	
-
-	# work out maximum sizes
-	$R->send('y_max <- 0');
-	
-	# traverse organisms
-	foreach my $org (@organisms) {
-		$R->send('if (max(na.omit(' . $org . '.sizes' . ')) > y_max) y_max <- max(na.omit(' . $org . '.sizes))');
-	}
-	
-	$R->send('y_max');	
-
-	# setup PDF graphics device
-	$R->send('pdf(file="' . $outfile . '", width=12, height=12)');
-
-	# build colours
-	$R->send('cols <- as.character(sample(rainbow(128),' . scalar(@organisms) . ', replace=F))');
-
-	# plot frequency distribution 
-	$R->send('plot(0, 0, type="l", xlim=c(0,x_max), xlab="' . substr(ucfirst($feature), 0, -1) . ' Size (bps)", ylim=c(1,y_max), log="y", ylab="Log Frequency", main="Raw ' . substr(ucfirst($feature), 0, -1) . ' Size in ' . scalar(@organisms) .' Organism(s)")');
-	my $count = 1;
-	foreach my $org (@organisms) {
-		$R->send('lines(' . $org . '.size, ' . $org . '.freqs, type = "l", col=cols[' . $count . '])');
-		$count++;
-	}				
-
-	# add legend
-	$R->send('legend("topright", inset=.05, c("' . join("\",\"", @organisms) . '"), lty=1, col=cols)');
-
-	# turn graphics device off, to allow writing to PDF file
-	$R->send('dev.off()');
-	
-	# stop R
-	$R->stopR();
-	
-	# tell user what we've done
-	print "Outputted raw distribution plot to $outfile\n";
 }
 
 # plot frequency distribution
 sub plot_Frequency_Dist {
 	# get arguments
 	my ($infile, $feature, @organisms) = @_;
+	
+	# check our R environment
+	unless (!&check_R_Environ) {
+		
+	}
 	
 	# setup out file
 	my $outfile = substr($infile, 0, -4) . ".pdf";

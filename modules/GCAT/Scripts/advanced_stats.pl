@@ -123,9 +123,6 @@ else {
 	$freqs_filename = File::Spec->catfile($path , $freqsfile);
 }
 
-# build raw distribution plot
-&GCAT::Visualisation::R::plot_Raw_Dist($raw_filename, $feature, @{$organisms});
-
 # build frequency distribution plot
 &GCAT::Visualisation::R::plot_Frequency_Dist($freqs_filename, $feature, @{$organisms});
 

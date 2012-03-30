@@ -22,11 +22,65 @@ use warnings;
 use strict;
 
 # some imports
+use GCAT::Interface::Logging qw(logger);
+use Statistics::R;
 use File::Spec;
 use Cwd;
-use Text::CSV_XS;
-use GCAT::Data::Output;
-use Statistics::R;
+
+# export the subroutines
+require Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(check_R_Environ map_Chars_to_Tree);
+
+# check the R environment is setup for GCAT
+sub check_R_Environ {
+	# setup variables
+	my @pkg_list = ("ape", "geiger", "gdata");
+	my $mirror = "http://star-www.st-andrews.ac.uk/cran/";
+	my $status = 0;
+	
+	# setup new R object
+	my $R = Statistics::R->new();
+	
+	# start R session
+	$R->startR;
+	
+	# define is.installed function
+	$R->send("is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1])");
+	
+	# let user know what we're doing
+	print "Checking packages (@pkg_list) are installed...\n";
+
+	# check if packages are installed
+	foreach my $pkg (@pkg_list) {
+		$R->send("is.installed(\"" . $pkg . "\")");
+		my $ret = $R->read();
+		if ($ret eq "[1] TRUE") {
+			$R->send("library(" . $pkg . ")");
+			$status = 1;
+		}
+		elsif ($ret eq "[1] FALSE") {
+		#	$R->send("Sys.setenv(http_proxy=\'http://slb-webcache.hull.ac.uk:3128\')"); # change this to your proxy server details and uncomment if using a proxy
+			$R->send("options(repos=structure(c(CRAN=\"" . $mirror . "\")))"); # change this to your preferred mirror
+			$R->send("install.packages(\"" . $pkg . "\", dependencies=T)");
+			$R->send("library(" . $pkg . ")");
+			$status = 1;
+		}
+		else {
+			logger("An unknown error occurred while testing if \"$pkg\" exists!\n", "Error");
+			$status = 0;
+		}
+	}
+	
+	# stop R session
+	$R->stopR;
+	
+	# let user know we're done
+	print "Finished!\n";
+	
+	return $status;
+}
+
 
 # map character matrix to phylogenetic tree
 sub map_Chars_to_Tree {

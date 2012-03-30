@@ -1,4 +1,4 @@
-data = read.csv('/Users/stevemoss/Dropbox/PhD/Research/Development/gcat/data/ciona_intestinalis/grepeats.csv')
+data = read.csv('/Users/stevemoss/Dropbox/PhD/Research/Development/gcat/data/grepeats_raw_all.csv')
 attach(data)
 names(data)
 rownames(data) <- data[,1]
@@ -7,23 +7,11 @@ data[,1] <- NULL
 data
 t(data)
 
-cols <- as.character(sample(colours(), 1, replace=F))
-barplot(as.matrix(data), beside=F, names.arg=, col=heat.colors(9), space=0.1, cex=0.8, cex.axis=0.8, las=1, ylab="Total")
-legend("topleft", legend=saccharomyces_cerevisiae.desc, inset=0.1, cex=0.8, fill=heat.colors(9))
+cols <- as.character(sample(colors()[grep("dark|deep|medium",colors())], 1, replace=F))
 
-freqs <- read.csv('/Users/stevemoss/Dropbox/PhD/Research/Development/gcat/data/grepeats_freqs_all.csv', header=T)
-freqs
-freqs(is.na(freqs)) <- NULL
-attach(freqs)
-names(freqs)
+colors()[grep("dark|deep|medium",colors())]
 
-max(na.omit(ciona_intestinalis.size))
-test <- as.character(sample(topo.colors(512), 5, replace=F))
+barplot(as.matrix(data), beside=F, names.arg=, col=colors()[grep("dark|deep|medium",colors())], space=0.1, cex=0.8, cex.axis=0.8, las=1, ylab="Total")
 
-?topo.colors
-cols <- c("red", "green", "blue")
-cols
-summary(cols)
-test
-class(test)
-summary(test)
+legend("topleft", legend=ciona_intestinalis.desc, inset=0.1, cex=0.8, fill=colors()[grep("dark|deep|medium",colors())])
+

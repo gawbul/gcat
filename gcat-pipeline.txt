@@ -7,17 +7,23 @@
 test one two three four five
 test six seven eight nine ten
 
-# This is a list of all (56) species names from the core database (release 65)
-# ailuropoda_melanoleuca anolis_carolinensis bos_taurus caenorhabditis_elegans callithrix_jacchus canis_familiaris cavia_porcellus choloepus_hoffmanni ciona_intestinalis ciona_savignyi danio_rerio dasypus_novemcinctus dipodomys_ordii drosophila_melanogaster echinops_telfairi equus_caballus erinaceus_europaeus felis_catus gadus_morhua gallus_gallus gasterosteus_aculeatus gorilla_gorilla homo_sapiens loxodonta_africana macaca_mulatta macropus_eugenii meleagris_gallopavo microcebus_murinus monodelphis_domestica mus_musculus myotis_lucifugus nomascus_leucogenys ochotona_princeps ornithorhynchus_anatinus oryctolagus_cuniculus oryzias_latipes otolemur_garnettii pan_troglodytes petromyzon_marinus pongo_abelii procavia_capensis pteropus_vampyrus rattus_norvegicus saccharomyces_cerevisiae sarcophilus_harrisii sorex_araneus spermophilus_tridecemlineatus sus_scrofa taeniopygia_guttata takifugu_rubripes tarsius_syrichta tetraodon_nigroviridis tupaia_belangeri tursiops_truncatus vicugna_pacos xenopus_tropicalis 
+# This is a list of all (57) species names from the core database (release 66)
+# ailuropoda_melanoleuca anolis_carolinensis bos_taurus caenorhabditis_elegans callithrix_jacchus canis_familiaris cavia_porcellus choloepus_hoffmanni ciona_intestinalis ciona_savignyi danio_rerio dasypus_novemcinctus dipodomys_ordii drosophila_melanogaster echinops_telfairi equus_caballus erinaceus_europaeus felis_catus gadus_morhua gallus_gallus gasterosteus_aculeatus gorilla_gorilla homo_sapiens latimeria_chalumnae loxodonta_africana macaca_mulatta macropus_eugenii meleagris_gallopavo microcebus_murinus monodelphis_domestica mus_musculus myotis_lucifugus nomascus_leucogenys ochotona_princeps ornithorhynchus_anatinus oryctolagus_cuniculus oryzias_latipes otolemur_garnettii pan_troglodytes petromyzon_marinus pongo_abelii procavia_capensis pteropus_vampyrus rattus_norvegicus saccharomyces_cerevisiae sarcophilus_harrisii sorex_araneus spermophilus_tridecemlineatus sus_scrofa taeniopygia_guttata takifugu_rubripes tarsius_syrichta tetraodon_nigroviridis tupaia_belangeri tursiops_truncatus vicugna_pacos xenopus_tropicalis
 
-# get exons from ensembl
+# get teleost exons from ensembl
 get_exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
 
-# get introns from ensembl
+# get teleost introns from ensembl
 get_introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis #test on line comment
 
-# do basic statistics for exons
+# do basic statistics for teleost exons
 basic_stats exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
 
-# do basic statistics for introns
+# do basic statistics for teleost introns
 basic_stats introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+
+# do advanced statistics for teleost exons
+advanced_stats exons danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
+
+# do advanced statistics for teleost introns
+advanced_stats introns danio_rerio gasterosteus_aculeatus oryzias_latipes takifugu_rubripes tetraodon_nigroviridis
