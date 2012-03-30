@@ -243,7 +243,7 @@ sub concatenate_CSV {
 	# bind columns and write to csv
 	$R->send("merged <- cbindX(" . join(",", @organisms) . ")");
 	$R->send("row.names(merged) <- NULL");
-	$R->send("write.csv(merged, \"$out_file\", quote=\"\", row.names = NULL)");
+	$R->send("write.csv(merged, \"$out_file\", quote=F, row.names=F)");
 
 	# end R session
 	$R->stopR;
