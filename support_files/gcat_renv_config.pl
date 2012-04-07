@@ -11,7 +11,7 @@ use strict;
 use Statistics::R;
 
 # setup variables
-my @pkg_list = ("ape", "geiger", "gdata");
+my @pkg_list = ("ape", "geiger", "gdata", "zoo", "plyr");
 my $mirror = "http://star-www.st-andrews.ac.uk/cran/";
 
 # setup new R object
