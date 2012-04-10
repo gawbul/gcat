@@ -2,12 +2,22 @@
 rm(list = ls(all = TRUE)) # clear workspace
 graphics.off() # turn off graphics
 
+# detect platform and set home directory accordingly
+if (.Platform$OS.type == "unix") {
+	home <- Sys.getenv('HOME')
+} else {
+	home <- Sys.getenv('USERPROFILE')
+	if (home == "") {
+		home <- paste(Sys.getenv('HOMEDRIVE'), Sys.getenv('HOMEPATH'), sep = '')
+	}
+}
+
 # load all genome repeats class data
-human <- read.csv('C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/data/homo_sapiens/grepeats.csv')
-chimp <- read.csv('C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/data/pan_troglodytes/grepeats.csv')
-gorilla <- read.csv('C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/data/gorilla_gorilla/grepeats.csv')
-orangutan <- read.csv('C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/data/pongo_abelii/grepeats.csv')
-baboon <- read.csv('C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/data/nomascus_leucogenys/grepeats.csv')
+human <- read.csv(paste(home, '/Dropbox/PhD/Research/Development/gcat/data/homo_sapiens/grepeats.csv', sep=''))
+chimp <- read.csv(paste(home, '/Dropbox/PhD/Research/Development/gcat/data/pan_troglodytes/grepeats.csv', sep=''))
+gorilla <- read.csv(paste(home, '/Dropbox/PhD/Research/Development/gcat/data/gorilla_gorilla/grepeats.csv', sep=''))
+orangutan <- read.csv(paste(home, '/Dropbox/PhD/Research/Development/gcat/data/pongo_abelii/grepeats.csv', sep=''))
+baboon <- read.csv(paste(home, '/Dropbox/PhD/Research/Development/gcat/data/nomascus_leucogenys/grepeats.csv', sep=''))
 
 # create list of all species data frames
 all_spp <- list(human, chimp, gorilla, orangutan, baboon)
@@ -26,10 +36,10 @@ attach(data)
 names(data)
 summary(data)
 class(data)
-tail(data)
+head(data)
 
 # create list of repeat classes
-rep_list <- list(unlist(lapply(strsplit(as.character(data[,1]), "/"), function(x)  gsub("?", "", x[1], fixed=T))))
+rep_list <- list(sapply(strsplit(as.character(data[,1]), "/"), function(x)  gsub("?", "", x[1], fixed=T)))
 unlist(rep_list)
 unique(unlist(rep_list))
 
@@ -46,20 +56,43 @@ is.odd <- function(x) x %% 2 != 0
 nums <- c(1:length(data))
 even_nums <- nums[is.even(nums)]
 odd_nums <- nums[is.odd(nums)]
-tail(data[,even_nums])
-tail(data[,odd_nums])
+head(data[,even_nums])
+head(data[,odd_nums])
 
 # set colours and names
 spp_cols <- as.character(sample(colors()[grep("dark|deep|medium",colors())], nrow(data), replace=F))
 spp_names <- c("Human", "Chimp", "Gorilla", "Orangutan", "Baboon")
 
+# roundup function
+roundup <- function(x) (ceiling(x / 10^(nchar(x) - 1)) * 10^(nchar(x) - 1))
+
+# work out max values
+
+# *** I want to work out whether the numbers are in thousands, millions or billions etc
+# and then change the y axis scale accordingly and add text to the y axis label to denote the scale
+# e.g. change ticks from 1 to 4 and have ylab="Length (millions bp)" ***
+
+options(scipen=999) # turn off scientific notation
+ymax <- roundup(max(apply(data[,even_nums], 2, sum)))
+ydiv <-  1 * 10 ^ (nchar(ymax) - 1)
+ytick <- ymax / ydiv
+
 # plot the lengths barplot
+#pdf(file='C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/examples/grepeats_lengths_barplot.pdf', width=12, height=12)
 par(mar=c(5,4,4,10), xpd=NA)
-barplot(as.matrix(data[,even_nums]), beside=F, names.arg=spp_names, col=spp_cols, space=0.1, cex=0.8, cex.axis=0.8, las=1, xlab="Species", log="y", ylab="Length (bp)", main="Length of Repeats by Class and Species")
+barplot(as.matrix(data[,even_nums]), beside=F, names.arg=spp_names, axes=F, col=spp_cols, space=0.1, cex=0.8, ylim=c(0, ymax), cex.axis=0.8, las=1, xlab="Species",  ylab="Length (bp)", main="Length of Repeats by Class and Species")
 legend(par("usr")[2], par("usr")[4], legend=rownames(data), inset=0.1, cex=0.8, fill=spp_cols)
+axis(2)
 #dev.off()
 
+ymax <- roundup(max(apply(data[,odd_nums], 2, sum)))
+ydiv <-  1 * 10 ^ (nchar(ymax) - 1)
+ytick <- ymax / ydiv
+
 # plot the counts barplot
-barplot(as.matrix(data[,odd_nums]), beside=F, names.arg=spp_names, col=spp_cols, space=0.1, cex=0.8, cex.axis=0.8, las=1, xlab="Species", ylab="Number", main="Number of Repeats by Class and Species")
+#pdf(file='C:/Users/Steve/Dropbox/PhD/Research/Development/gcat/examples/grepeats_counts_barplot.pdf', width=12, height=12)
+par(mar=c(5,4,4,10), xpd=NA)
+barplot(as.matrix(data[,odd_nums]), beside=F, names.arg=spp_names, axes=F, col=spp_cols, space=0.1, cex=0.8, ylim=c(0, ymax), cex.axis=0.8, las=1, xlab="Species", ylab="Number", main="Number of Repeats by Class and Species")
 legend(par("usr")[2], par("usr")[4], legend=rownames(data), inset=0.1, cex=0.8, fill=spp_cols)
+axis(2)
 #dev.off()
