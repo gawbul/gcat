@@ -39,7 +39,7 @@ use GCAT::Data::Output qw(write_Raw_To_CSV concatenate_CSV);
 use GCAT::Data::Parsing qw(get_Sequence_Info get_Feature_Lengths);
 use GCAT::Interface::Logging qw(logger);
 use GCAT::Statistics::R;
-use GCAT::Visualisation::R qw(plot_Frequency_Dist plot_Raw_Dist);
+use GCAT::Visualisation::R qw(plot_Frequency_Dist);
 use Parallel::ForkManager;
 use Time::HiRes qw(gettimeofday);
 use Cwd;

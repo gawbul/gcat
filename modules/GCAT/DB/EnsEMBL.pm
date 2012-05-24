@@ -26,7 +26,7 @@ require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(connect_To_EnsEMBL get_Feature get_Gene_IDs get_Species_List check_Species_List get_Transcript_IDs get_Genome_Size get_Transcriptome_Size get_Exome_Size get_Intronome_Size 
 					get_Gene_BioTypes get_Exon_IDs get_CTranscript_IDs get_CExon_IDs get_CIntron_Count get_UTR_Sizes get_Intron_Densities get_Exon_Densities get_Repeat_Genome_Stats get_DB_Name 
-					get_Genome_Repeats);
+					get_Genome_Repeats check_Genome_Repeats get_Gene_Structure);
 
 # module imports
 use Bio::EnsEMBL::Registry;
@@ -35,6 +35,7 @@ use GCAT::Interface::Config;
 use GCAT::Interface::Logging qw(logger);
 use Bio::SeqIO;
 use Data::Dumper;
+use Set::IntSpan::Fast;
 
 # connect to EnsEMBL
 sub connect_To_EnsEMBL {
@@ -884,40 +885,90 @@ sub get_Genome_Repeats {
 	my ($registry, $filename, $organism) = @_;
 	my $repeats_count = 0;
 	my ($gene_id, $transcript_id, $seq) = undef;
-	
+	my (%coords, %repeats) = ();
+		
 	# setup seqio output
 	my $seqio_out = Bio::SeqIO->new(-file => ">$filename" , '-format' => 'FASTA');
 	
 	# setup slice adaptor
 	my $slice_adaptor = $registry->get_adaptor($organism, 'Core', 'Slice');
 	
-	# fetch all toplevel slices
-	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 1)};
+	# fetch all non-redundant toplevel slices
+	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 0, 0)};
 	
 	# iterate through all slices
 	while(my $slice = shift @slices){
+		# check hash exists for seq region
+		unless (exists $coords{$slice->seq_region_name}) {
+			# setup intspan
+			$coords{$slice->seq_region_name} = Set::IntSpan::Fast->new;			
+		}
+		
 		# get all repeats
 		my $slrepeats = $slice->get_all_RepeatFeatures();
 				
 		# traverse repeats
 		while (my $repeat = shift @{$slrepeats}) {
+			# get repeat consensus first
+			my $rc = $repeat->repeat_consensus();
+
 			# build repeat ID
 			my $repeat_id = "REPEAT" . ($repeats_count + 1);
 
-			# build the bio seq object
-			my $rc = $repeat->repeat_consensus();
-			my $repeat_obj = Bio::Seq->new( -primary_id => $repeat_id,
-											-display_id => $repeat_id,
-											-desc => "NULL\tNULL\t" . $rc->repeat_type() . "\t" . $rc->repeat_class() . "\t" . $repeat->start() . "\t" . $repeat->end() . "\t" . $rc->length() . "\t" . $repeat->strand(),
-											-alphabet => 'dna',
-											-seq => $rc->repeat_consensus);
-																	
-			# write the fasta sequence
-			# unless we have a 0 length intron
+#			print $repeat->start() . "\n";
+#			print $repeat->end() . "\n";
+#			my $len = ($repeat->end() - $repeat->start()) + 1;
+#			print $repeat->length() . " - $len\n";
+#			
+#			print $repeat->repeat_consensus->length() . "\n";
+#			print $repeat->repeat_consensus->seq() . "\n";
+#			my $rlen = $repeat->length() / $repeat->repeat_consensus->length();
+#			print $rlen . "\n";
+#		
+#			# build the sequence from the consensus
+#			my $rseq = "";
+#			if ($repeat->length % $repeat->repeat_consensus->length() == 0) {
+#				$rseq = $repeat->repeat_consensus->seq() x $rlen;			
+#			}
+#			else {
+#				print "% = " . $repeat->length % $repeat->repeat_consensus->length() . "\n";
+#				$rseq = ($repeat->repeat_consensus->seq() x $rlen) . substr($repeat->repeat_consensus->seq(), 0, $repeat->length % $repeat->repeat_consensus->length());
+#			}
+#			print $rseq . "\n";
+#			
+#			print $repeat->feature_Slice->seq() . "\n";
+#			
+#			# just get Alus
+#			unless ($rc->repeat_class() =~ /^.*Alu.*$/) {
+#				next;
+#			}
+
+			# filter dust and trf
+			if ($rc->repeat_class() =~ /^dust$/ || $rc->repeat_class() =~ /^trf$/) {
+				next;
+			}
+
+			# build the fasta sequence
+			# unless we have a 0 length repeat
 			if ($repeat->length() == 0) {
 				next;
 			}
 			
+			# check if the sequence exists in the intspan already - skip if so
+			if ($coords{$slice->seq_region_name}->contains_all_range($repeat->start(), $repeat->end())) {
+				next;	
+			}
+
+			# add range to intspan
+			$coords{$slice->seq_region_name}->add_range($repeat->start(), $repeat->end());
+						
+			# build the bio seq object	
+			my $repeat_obj = Bio::Seq->new( -primary_id => $repeat_id,
+											-display_id => $repeat_id,
+											-desc => "NULL\tNULL\t" . $rc->repeat_type() . "\t" . $rc->repeat_class() . "\t" . $repeat->start() . "\t" . $repeat->end() . "\t" . $repeat->length() . "\t" . $repeat->strand(),
+											-alphabet => 'dna',
+											-seq => $repeat->feature_Slice->seq());
+																	
 			# write sequence
 			$seqio_out->write_seq($repeat_obj);
 			
@@ -933,6 +984,180 @@ sub get_Genome_Repeats {
 
 	# return counts
 	return $repeats_count;
+}
+
+# subroutine to retrieve genome wide repeat elements
+sub check_Genome_Repeats {
+	# define variables
+	my ($registry, $organism) = @_;
+	my $repeats_count = 0;
+	my (%coords, %repeats) = ();
+	my ($total_coords, $total_repeats, $coords_length, $repeat_length) = (0,0,0,0);
+		
+	# setup slice adaptor
+	my $slice_adaptor = $registry->get_adaptor($organism, 'Core', 'Slice');
+	
+	# fetch all non-redundant toplevel slices
+	my @slices = @{$slice_adaptor->fetch_all('toplevel', undef, 0, 0, 0)};
+	
+	# iterate through all slices
+	while(my $slice = shift @slices){
+		# check hash exists for seq region
+		unless (exists $coords{$slice->seq_region_name}) {
+			# setup intspan
+			$coords{$slice->seq_region_name} = Set::IntSpan::Fast->new;			
+		}
+
+		# get all repeats
+		my $slrepeats = $slice->get_all_RepeatFeatures();
+				
+		# traverse repeats
+		while (my $repeat = shift @{$slrepeats}) {
+			# setup repeat consensus
+			my $rc = $repeat->repeat_consensus();
+			
+			# add range to intspan
+			$coords{$slice->seq_region_name}->add_range($repeat->start(), $repeat->end());
+			
+			#add length
+			$repeat_length += $repeat->length;
+			
+			# increment repeats count
+			$repeats_count++;
+		}
+
+		# set repeats count for slice		
+		$repeats{$slice->seq_region_name} = $repeats_count;
+		$repeats_count = 0;
+	}
+	
+	#get_grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+	# display the counts for each slice
+	print "Repeats details for $organism...\n";
+	
+	while (my ($key, $value) = each %coords) {
+		# split coords into array span list
+		my @spans = split(',', $coords{$key}->as_string());
+		
+		# display values
+  		#print "IntSpan $key count: " . scalar(@spans) . "\n";
+  		#print "Repeats $key count: $repeats{$key}\n";
+  		
+  		# add to counts
+  		$total_coords = $total_coords + scalar(@spans);
+  		$total_repeats = $total_repeats + $repeats{$key};
+  		
+  		# add lengths
+  		open OUTFILE, ">>data/$organism\_repeats.freqs" or die $!;
+		foreach my $span (@spans) {
+  			my ($start, $end) = split('-', $span);
+  			my $length = ($end - $start) + 1;
+  			$coords_length += $length;
+  			print OUTFILE $length . "\n";
+		}
+  		close OUTFILE;
+	}
+	
+	print "Total IntSpan count: $total_coords\n";
+	print "Total Repeats count: $total_repeats\n";
+	print "Total IntSpan length: $coords_length\n";
+	print "Total Repeats length: $repeat_length\n";
+	print "...done!\n";
+}
+
+sub get_Gene_Structure {
+	# get variables
+	my ($registry, $organism) = @_;
+	
+	# setup variables
+	my ($fputr_size, $coding_size, $exon_size, $intron_size, $tputr_size) = undef;
+	my @gene_structure = ();
+
+	# setup header for array
+	push(@gene_structure, ["$organism\.gene_id", "$organism\.5putr_size", "$organism\.coding_size", "$organism\.exon_size", "$organism\.intron_size", "$organism\.3putr_size"]);	
+	
+	# get gene stable_ids
+	my @gene_ids = &get_Gene_IDs($registry, $organism);
+
+	# setup gene adaptor
+	my $gene_adaptor = $registry->get_adaptor($organism, 'Core', 'Gene');
+	
+	# let user know what we're doing
+	print "Classifying gene structure for $organism...\n";
+	
+	# traverse gene IDs
+	my $count = 0;
+	foreach my $gene_id (@gene_ids) {
+		# fetch gene by stable id
+		my $gene = $gene_adaptor->fetch_by_stable_id($gene_id);
+		
+		# only get protein coding genes
+		unless ($gene->biotype eq "protein_coding") {
+			next;
+		}
+		
+		# get canonical transcript
+		my $canonical_transcript = $gene->canonical_transcript();
+
+		# go to next if not defined either 5PUTR or 3PUTR
+		if (!defined $canonical_transcript->five_prime_utr() || !defined $canonical_transcript->three_prime_utr()) {
+			next;
+		}
+
+		# get introns
+		my $introns = $canonical_transcript->get_all_Introns();
+		
+		# get total gene intron length
+		if (defined $introns) {
+			while (my $intron = shift @{$introns}) {
+				$intron_size += $intron->length();
+			}
+		}
+		
+		# get exons
+		my $exons = $canonical_transcript->get_all_Exons();
+
+		# get total gene exon length
+		if (defined $exons) {
+			while (my $exon = shift @{$exons}) {
+				$exon_size += $exon->length();
+			}
+		}
+		
+		# retrieve coordinates for the canonical transcript
+		my $cds_stt = $canonical_transcript->coding_region_start();
+		my $cds_end = $canonical_transcript->coding_region_end();	
+		
+		# check strand and retrieve sizes
+		$fputr_size = $canonical_transcript->five_prime_utr()->length();
+		$tputr_size = $canonical_transcript->three_prime_utr()->length();
+		
+		# check strand - former is forward strander, latter is reverse
+		if ($cds_end >= $cds_stt) {
+			$coding_size = ($cds_end - $cds_stt) + 1;	
+		}
+		else {
+			$coding_size = ($cds_stt - $cds_end) + 1;
+		}
+
+		# push to array
+		push(@gene_structure, [$gene->stable_id(), $fputr_size, $coding_size, $exon_size, $intron_size, $tputr_size]);
+		
+		# reset variables
+		$intron_size = 0;
+		$exon_size = 0;
+		$coding_size = 0;
+		$fputr_size = 0;
+		$tputr_size = 0;
+		
+		# increment gene count
+		$count++;
+	}
+
+	# let user know the crack
+	print "Processed $count genes.\n";
+	
+	return \@gene_structure;
 }
 
 1;

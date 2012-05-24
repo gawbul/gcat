@@ -37,7 +37,6 @@ sub check_R_Environ {
 	# setup variables
 	my @pkg_list = ("ape", "geiger", "gdata");
 	my $mirror = "http://star-www.st-andrews.ac.uk/cran/";
-	my $status = 0;
 	
 	# setup new R object
 	my $R = Statistics::R->new();
@@ -49,7 +48,7 @@ sub check_R_Environ {
 	$R->send("is.installed <- function(mypkg) is.element(mypkg, installed.packages()[,1])");
 	
 	# let user know what we're doing
-	print "Checking packages (@pkg_list) are installed...\n";
+	print "Checking R packages (@pkg_list) are installed...\n";
 
 	# check if packages are installed
 	foreach my $pkg (@pkg_list) {
@@ -57,18 +56,16 @@ sub check_R_Environ {
 		my $ret = $R->read();
 		if ($ret eq "[1] TRUE") {
 			$R->send("library(" . $pkg . ")");
-			$status = 1;
 		}
 		elsif ($ret eq "[1] FALSE") {
-		#	$R->send("Sys.setenv(http_proxy=\'http://slb-webcache.hull.ac.uk:3128\')"); # change this to your proxy server details and uncomment if using a proxy
+			#$R->send("Sys.setenv(http_proxy=\'http://slb-webcache.hull.ac.uk:3128\')"); # change this to your proxy server details and uncomment if using a proxy
 			$R->send("options(repos=structure(c(CRAN=\"" . $mirror . "\")))"); # change this to your preferred mirror
 			$R->send("install.packages(\"" . $pkg . "\", dependencies=T)");
 			$R->send("library(" . $pkg . ")");
-			$status = 1;
 		}
 		else {
-			logger("An unknown error occurred while testing if \"$pkg\" exists!\n", "Error");
-			$status = 0;
+			logger("An unknown error occurred while testing if R package \"$pkg\" exists!\n", "Error");
+			exit;
 		}
 	}
 	
@@ -77,19 +74,10 @@ sub check_R_Environ {
 	
 	# let user know we're done
 	print "Finished!\n";
-	
-	return $status;
 }
-
 
 # map character matrix to phylogenetic tree
 sub map_Chars_to_Tree {
-	# check our R environment
-	unless (!&check_R_Environ) {
-		logger("Couldn't confirm R environment setup", "Error");
-		exit;
-	}
-	
 	# take input from the user
 	my ($char_matrix_file, $phylogenetic_tree_file) = @_;
 	

@@ -64,7 +64,7 @@ sub check_Data_OK {
 		}
 		# check feature filename exists
 		unless (-e "$path/$org/$filename") {
-			logger("One or more of the organisms doesn't this $feature data available. Please retrieve this data for at least \"$org\" first.\n", "Error");
+			logger("One or more of the organisms doesn't have this $feature data available. Please retrieve this data for at least \"$org\" first.\n", "Error");
 			exit; 		
 		}
 	}

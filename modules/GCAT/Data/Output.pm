@@ -28,11 +28,13 @@ use File::Spec;
 use Statistics::R;
 use Data::Dumper;
 use Scalar::Util qw(blessed);
+use GCAT::Statistics::R qw(check_R_Environ);
+use GCAT::Interface::Logging qw(logger);
 
 # export subroutines
 require Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(write_Raw_To_CSV write_Hash_To_CSV write_Array_To_CSV write_Unique_To_CSV concatenate_CSV write_to_File build_Char_Matrix write_To_SeqIO);
+our @EXPORT_OK = qw(write_Raw_To_CSV write_Hash_To_CSV write_Array_To_CSV write_Unique_To_CSV concatenate_CSV write_to_File build_Char_Matrix write_To_SeqIO write_Array_To_File);
 
 # write hash to CSV
 sub write_Hash_To_CSV {
@@ -217,6 +219,9 @@ sub build_Char_Matrix {
 sub concatenate_CSV {
 	# import data
 	my ($feature, $type, @organisms) = @_;
+
+	# let user know what's happening
+	print "Concatenating datasets...\n";
 	
 	# get root directory and setup data path
 	my $dir = getcwd();
@@ -352,6 +357,30 @@ sub write_To_SeqIO {
 	
 	return $count;
 }
+
+sub write_Array_To_File {
+	# get variables
+	my ($filename, $data) = @_;
+	
+	# let user know what we're doing
+	print "Writing data to $filename...\n";
+	
+	# setup CSV
+	my $csv = Text::CSV_XS->new ({binary => 1, eol => $/});
+  	
+  	# open file
+  	open my $fh, ">", "$filename" or die "$filename: $!";
+ 	
+	# iterate through the output hash and print each line to CSV
+	while (my $dat = shift @{$data}) {
+		$csv->print ($fh, [@$dat]) or $csv->error_diag;
+	}	
+
+	# close the CSV
+	close $fh or die "$filename: $!";
+	print "Outputted data to $filename\n";	
+}
+
 
 # deprecated concatenate CSV subroutine
 #sub _old_concatenate_CSV {

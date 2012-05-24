@@ -36,41 +36,50 @@ tea - Basic logging interface!
 =cut
 
 # some extra imports
-use Log::Log4perl qw(:easy);
+use Log::Log4perl;
 
 # lets setup this logging!!
 sub setup_Logging {
-	# setup log file path
-	my $dir = getcwd();
-	my $path = File::Spec->catfile($dir, "gcat.log");
-	
+	# log configuration
+	my $logconf = q(
+		log4perl.rootLogger = DEBUG, screen, file
+		
+		log4perl.appender.screen = Log::Log4perl::Appender::Screen
+		log4perl.appender.screen.stderr = 0
+		log4perl.appender.screen.layout = PatternLayout
+		log4perl.appender.screen.layout.ConversionPattern = %p> %m%n
+		
+		log4perl.appender.file = Log::Log4perl::Appender::File
+		log4perl.appender.file.filename = gcat.log
+		log4perl.appender.file.mode = append
+		log4perl.appender.file.layout = PatternLayout
+		log4perl.appender.file.layout.ConversionPattern = %d %p> %F{1}:%L %M - %m%n
+	);
+		
 	# initialise the logging
-	Log::Log4perl->easy_init(
-	    {
-	    	level => $DEBUG,
-	    },
-	    {
-	     	level => $INFO,
-	    },
-	    {
-	    	file  => ">>$path",
-	    	level => $ERROR,
-	    }
-	    );
+	Log::Log4perl->init(\$logconf);
 }
 
 # log routine
 sub logger {
+	# get input
 	my $message = $_[0];
 	my $type = lc($_[1]);
+	
+	# setup logger
+	&setup_Logging;
+	
+	# setup logger
+	my $logger = Log::Log4perl->get_logger();
+	
 	if ($type eq "error") {
-		ERROR($message);
+		$logger->error($message);
 	}
 	elsif ($type eq "debug") {
-		DEBUG($message);
+		$logger->debug($message);
 	}
 	elsif ($type eq "info") {
-		INFO($message);
+		$logger->info($message);
 	}
 }
 

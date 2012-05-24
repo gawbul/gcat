@@ -23,10 +23,16 @@ use strict;
 use GCAT;
 use GCAT::Interface::Logging;
 use GCAT::Interface::Parse;
+use GCAT::Statistics::R;
+
+print "Starting up GCAT...\n";
 
 # check version information first
-GCAT::check_Version_Numbers;
-&GCAT::Interface::Logging::setup_Logging;
+&GCAT::check_Version_Numbers();
+&GCAT::Interface::Logging::setup_Logging();
+
+# check R environment
+&GCAT::Statistics::R::check_R_Environ();
 
 # pass inputs to input_Parser
 &GCAT::Interface::Parse::input_Parser(@ARGV);

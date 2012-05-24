@@ -269,3 +269,143 @@
 2012/03/26 11:33:46 You have entered an unknown command "list".
 2012/03/26 11:33:50 You have entered an unknown command "list".
 2012/03/26 11:33:50 You have entered an unknown command "list".
+2012/04/14 17:55:27 INFO> Logging.pm:74 GCAT::Interface::Logging::logger - my message
+2012/04/14 18:20:21 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 18:21:46 DEBUG> Logging.pm:72 GCAT::Interface::Logging::logger - You have entered an unknown command "tet".
+2012/04/14 18:27:09 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 18:33:34 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 18:34:17 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 20:02:42 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 20:03:57 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 20:08:33 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 20:17:56 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 20:18:07 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 21:16:40 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 22:16:49 DEBUG> Logging.pm:72 GCAT::Interface::Logging::logger - You have entered an unknown command "		$R->send('if".
+2012/04/14 22:17:17 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 22:17:23 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 22:17:52 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 23:19:13 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 23:20:56 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 23:23:21 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 23:25:23 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/14 23:25:50 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:05:07 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:05:39 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:05:59 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:06:12 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:06:59 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:11:44 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:11:58 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:13:04 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:13:46 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 11:14:08 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 13:33:39 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/16 13:34:18 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/04/16 13:34:37 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 13:34:54 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/16 14:33:49 DEBUG> Logging.pm:72 GCAT::Interface::Logging::logger - You have entered an unknown command "grepeats".
+2012/04/16 14:33:52 INFO> Logging.pm:72 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/16 18:45:19 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/04/16 20:30:47 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/16 20:31:59 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/04/16 20:32:56 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/17 13:00:33 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:01:09 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:01:31 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:03:39 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:04:41 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:05:26 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:06:23 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:07:12 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:07:44 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:09:17 DEBUG> Logging.pm:79 GCAT::Interface::Logging::logger - You have entered an unknown command "$coords{$key}->as_array()".
+2012/04/17 13:09:33 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:11:39 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:14:32 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:17:14 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:17:30 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:19:09 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:19:14 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:20:12 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 13:20:41 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:12:14 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:13:20 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:14:08 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:43:20 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:45:52 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 14:51:13 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/17 16:00:46 INFO> Logging.pm:79 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/18 12:20:00 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/18 13:45:29 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/04/18 13:58:40 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/18 14:15:26 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "grepeats".
+2012/04/18 14:15:30 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/18 15:25:40 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/04/19 08:34:56 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/04/19 12:26:26 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "advanced_stats".
+2012/04/20 13:04:47 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:13:50 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:15:40 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:17:34 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	print".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	while".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		my".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		$csv->print".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	}	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	".
+2012/04/20 13:38:03 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	close".
+2012/04/20 13:38:04 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	print".
+2012/04/20 13:38:53 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:47:21 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:48:01 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 13:56:23 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "	Dumper($gene_structure);[A[B[B[B".
+2012/04/20 13:56:27 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/20 14:09:34 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:21:07 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:29:22 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "VBoxWindowsAdditions-amd64".
+2012/04/23 11:29:26 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:30:07 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:30:29 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:30:50 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:31:02 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:31:50 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:32:25 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:33:04 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:35:36 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:35:48 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:36:44 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:37:06 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		if".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "			while".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "				$intron_size".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "			}".
+2012/04/23 11:50:50 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		}".
+2012/04/23 11:50:56 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:51:23 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		print".
+2012/04/23 11:51:23 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "		print".
+2012/04/23 11:51:31 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:53:33 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:59:30 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/23 11:59:41 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/30 11:54:53 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/30 13:29:18 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
+2012/04/30 14:58:34 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".

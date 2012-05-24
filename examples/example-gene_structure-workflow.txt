@@ -1,0 +1,15 @@
+# This is an example workflow script for the GCAT pipeline
+# It retrieves, describes and visualizes the gene structure for the common house mouse, Mus musculus
+#
+# This script is detailed in our OUP Bioinformatics journal paper:
+#
+# Moss SP, Joyce DA and Lunt DH. 2012. GCAT: Genome Comparison and Analysis Toolkit. Bioinformatics. In prep.
+
+# retrieve gene structure information
+get_gene_structure mus_musculus
+
+# get basic repeat details
+basic_stats grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys
+
+# get advanced repeat details
+advanced_stats grepeats homo_sapiens pan_troglodytes gorilla_gorilla pongo_abelii nomascus_leucogenys

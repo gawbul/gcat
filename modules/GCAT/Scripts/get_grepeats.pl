@@ -37,7 +37,8 @@ use warnings;
 use Time::HiRes qw(gettimeofday tv_interval);
 use Parallel::ForkManager; # used for parallel processing
 use GCAT::Interface::Logging qw(logger); # for logging
-use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Genome_Repeats);
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_DB_Name get_Genome_Repeats check_Genome_Repeats);
+use GCAT::Visualisation::R;
 use Cwd;
 use File::Spec;
 
@@ -81,6 +82,9 @@ foreach my $org_name (@organisms) {
 	# start fork
 	my $pid = $pm->start and next;
 
+	# check repeats
+	#&check_Genome_Repeats($registry, $org_name);
+	
 	# setup output filename
 	mkdir "data/$org_name" unless -d "data/$org_name";
 	my $path = File::Spec->catfile($dir, "data", "$org_name", "grepeats.fas");
@@ -100,6 +104,9 @@ foreach my $org_name (@organisms) {
 	# finish fork
 	$pm->finish;
 }
+
+# build barplot
+#&GCAT::Visualisation::R::plot_Stacked_Barplot("grepeats", @organisms);
 
 # wait for all processes to finish
 $pm->wait_all_children;
