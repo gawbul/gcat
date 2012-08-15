@@ -409,3 +409,9 @@
 2012/04/30 11:54:53 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
 2012/04/30 13:29:18 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_gene_structure".
 2012/04/30 14:58:34 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - You have entered an unknown command "".
+2012/07/09 09:31:11 DEBUG> Logging.pm:75 GCAT::Interface::Logging::logger - Expecting one argument for the configuration key.
+2012/07/24 13:58:31 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Set database to ensembl
+2012/07/24 14:04:16 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "get_grepeats".
+2012/08/14 09:35:27 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/08/14 11:56:20 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "basic_stats".
+2012/08/14 12:03:58 INFO> Logging.pm:75 GCAT::Interface::Logging::logger - Running "advanced_stats".

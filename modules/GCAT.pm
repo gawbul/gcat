@@ -105,8 +105,8 @@ sub version {
 sub check_Version_Numbers {
 	# check BioPerl version
 	my $bioperl_version = Bio::SeqIO->VERSION;
-	if ($bioperl_version < 1.006900) {
-		die("Version >= 1.006900 (1.6.9) of the BioPerl API is required. You have version $bioperl_version.\n");
+	if ($bioperl_version < 1.006901) {
+		die("Version >= 1.006901 (1.6.9) of the BioPerl API is required. You have version $bioperl_version.\n");
 	}
 	
 	# check EnsEMBL API version
