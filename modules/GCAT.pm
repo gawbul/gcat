@@ -23,7 +23,7 @@ use strict;
 
 # lets try and load some of the require modules first
 use Bio::EnsEMBL::Registry;
-use Bio::SeqIO;
+use Bio::Root::Version;
 # Bio::Phylo 0.45+ - change this to BioPerl
 #DBI
 #DBD::mysql
@@ -104,7 +104,7 @@ sub version {
 # lets check the version numbers
 sub check_Version_Numbers {
 	# check BioPerl version
-	my $bioperl_version = Bio::SeqIO->VERSION;
+	my $bioperl_version = Bio::Root::Version->VERSION;
 	if ($bioperl_version < 1.006901) {
 		die("Version >= 1.006901 (1.6.9) of the BioPerl API is required. You have version $bioperl_version.\n");
 	}
