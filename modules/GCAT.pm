@@ -22,6 +22,8 @@ use warnings;
 use strict;
 
 # lets try and load some of the require modules first
+use Getopt::Long;
+use Pod::Usage;
 use Bio::EnsEMBL::Registry;
 use Bio::Root::Version;
 # Bio::Phylo 0.45+ - change this to BioPerl
@@ -102,7 +104,7 @@ sub version {
 }
 
 # lets check the version numbers
-sub check_Version_Numbers {
+sub check_version_Numbers {
 	# check BioPerl version
 	my $bioperl_version = Bio::Root::Version->VERSION;
 	if ($bioperl_version < 1.006901) {
@@ -111,9 +113,9 @@ sub check_Version_Numbers {
 	
 	# check EnsEMBL API version
 	my $ensembl_version = Bio::EnsEMBL::Registry->software_version();
-	if ($ensembl_version < 65) {
+	if ($ensembl_version < 70) {
 		# changed this so it doesn't die, but instead warns - this way users can use earlier versions of the api
-		warn("Version >= 65 of the Perl EnsEMBL API was used to test this toolkit. You have version $ensembl_version.\n");
+		warn("Version >= 70 of the Perl EnsEMBL API was used to test this toolkit. You have version $ensembl_version.\n");
 	}
 	
 	# check other package versions

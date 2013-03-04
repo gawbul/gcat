@@ -53,7 +53,7 @@ dirs = ensembl_ftp.nlst()
 for dir in dirs:
 	# match only core + ensembl ancestral, compara and ontology dbs if need be
 	# remove if and adjust whitespace to retrieve everything
-	if re.match("[a-z]+_[a-z]+_core_[0-9]{2}_\w+", dir) or re.match("(^ensembl_[aco][a-z]{6,8}_[0-9]{2}$)", dir):
+	if re.match("[a-z]+_[a-z]+_core_[0-9]{2}_\w+", dir) or re.match("(^ensembl_[agco][a-z]{2,8}_[0-9]{2}$)", dir):
 	# if re.match("^[a-z]+_[a-z]+_[a-z]+_[0-9]{2}_\w+$", dir) or re.match("(^ensembl_[aco][a-z]{6,8}_[0-9]{2}$)", dir):
 		print dir
 		new_path = os.path.join(ftp_path, dir) # build new path
@@ -128,7 +128,13 @@ for key in keys:
 			# import data
 			p = subprocess.Popen(["mysqlimport", "-h", sql_host, "-u", sql_user, "-P", sql_port, "--password=" + sql_pass, "--fields_escaped_by=\\\\", key, "-L", file[:-3]])
 			p.wait() # wait for process to end
+			if p.returncode == None or p.returncode < 0:
+				pass # do nothing as import failed
+			else:	
+				os.remove(file[:-3]) # delete file after import to save space
 	os.chdir(data_dir)
+	if os.listdir(file_path) == []:
+		os.rmdir(file_path) # delete directory after import to save space
 	
 # end time
 end_time = time()

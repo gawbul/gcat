@@ -25,10 +25,16 @@ use GCAT::Interface::Logging;
 use GCAT::Interface::Parse;
 use GCAT::Statistics::R;
 
-print "Starting up GCAT...\n";
+# check input options first
+&GCAT::Interface::Parse::check_input_Options(@ARGV);
 
 # check version information first
-&GCAT::check_Version_Numbers();
+&GCAT::check_version_Numbers();
+
+# let user know we're starting up
+print "Starting up GCAT...\n";
+
+# setup logging
 &GCAT::Interface::Logging::setup_Logging();
 
 # check R environment

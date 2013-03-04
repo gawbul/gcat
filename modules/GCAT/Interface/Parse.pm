@@ -40,7 +40,7 @@ This provides an interface for parsing input from the command line and processin
 =cut
 
 # import necessary requires
-use Getopt::Long;
+use Getopt::Long qw(HelpMessage GetOptions);
 use Cwd;
 use File::Spec;
 use GCAT::Interface::Logging qw(logger);
@@ -48,14 +48,41 @@ use GCAT::Interface::CLI;
 use POSIX;
 
 # set variables for get opts
-our $filename = "gcat-pipeline.txt";
-our $cmd = 0;
+my $filename = "gcat-pipeline.txt";
+my $cmd = 0;
+
+# check input arguments
+sub check_input_Options {
+	# get arguments
+	my $arguments = @_;
+	
+	# setup getopts
+	GetOptions(	"file=s" => \$filename,
+		   		"cmd"	 => \$cmd,
+		   		"help|?" => \&help,
+	) || usage();
+}
+
+# print usage
+sub usage {
+	# display usage to command line
+	print STDERR @_ if @_;
+	print STDERR "Usage:\t--file or -f\t= process input filename (requires filename as argument)\n\t--cmd or -c\t= start in interactive mode\n\n";
+	exit(1);
+}
+
+sub help {
+	# display help on command line
+	print "Usage:\t--file or -f\t= process input filename (requires filename as argument)\n\t--cmd or -c\t= start in interactive mode\n\n";
+	exit(0);
+}
 
 # this subroutine parses the input
 sub input_Parser() {
 	# setup getopts
-	GetOptions("file=s" => \$filename,
-			   "cmd"	=> \$cmd);
+	GetOptions(	"file=s" => \$filename,
+		   		"cmd"	 => \$cmd,
+	);
 	
 	# do the processing
 	if (!$cmd) {

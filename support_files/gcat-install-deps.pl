@@ -7,7 +7,7 @@ print "Starting GCAT dependencies install...\n\n";
 CPAN::Shell->install (
 	'DBI',
 	'DBD::mysql',
-	'CJFIELDS/BioPerl-DB-1.006900.tar.gz',
+	'CJFIELDS/BioPerl-1.6.901.tar.gz',
 	'Log::Log4perl',
 	'Parallel::ForkManager',
 	'Statistics::Descriptive',
