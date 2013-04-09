@@ -73,10 +73,10 @@ my $family_adaptor = $registry->get_adaptor('Multi','Compara','Family');
 # get number of processors
 my $number_of_cpus = Sys::CPU::cpu_count();
 
-print "\nFound ${number_of_cpus} CPUs, setting up for " . $number_of_cpus * 2 ." parallel threads\n\n";
+print "\nFound ${number_of_cpus} CPUs, setting up for $number_of_cpus parallel threads\n\n";
 
 # setup number of parallel processes ()
-my $pm = new Parallel::ForkManager($number_of_cpus * 2); # set number of processes to number of processors * 2
+my $pm = new Parallel::ForkManager($number_of_cpus); # set number of processes to number of processors
 
 # setup array for data
 my @data = ();
@@ -95,7 +95,7 @@ $pm->run_on_finish (
 		if (defined($data_structure_reference)) {  # test rather than assume child sent anything
 			# split data array ref into separate arrays
 			foreach my $data (@$data_structure_reference) {
-				print OUTFILE join("\t", $data) . "\n";
+				print OUTFILE join("\t", @$data) . "\n";
 			}
 		}
 		else {
@@ -107,6 +107,9 @@ $pm->run_on_finish (
 
 # tell user what we're doing
 print "Going to retrieve gene family distribution for $num_args species: @organisms...\n";
+
+# set autoflush for stdout
+local $| = 1;
 
 # iterate over organism list
 foreach my $organism (@organisms) {
@@ -140,13 +143,17 @@ foreach my $organism (@organisms) {
 			
 			# get member count by taxon id
 			my $pf_count = $family->Member_count_by_source_taxon('ENSEMBLGENE', $taxonid);
-							
+			
 			# output family counts
+			# species_name	gene_id	family_id	family_count
 			push(@data, [$organism, $geneid, $family->stable_id(), $pf_count]);
 		}
 	}
 	# end this loop and return data
-	$pm->finish(0, \@data); # Terminates the child process	
+	$pm->finish(0, \@data); # Terminates the child process
+	
+	# display dot for every gene complete
+	print "."
 }
 # wait for processes to quit
 $pm->wait_all_children;

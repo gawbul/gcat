@@ -172,7 +172,7 @@ sub get_DB_Name {
 }
 
 # get genome size
-# thanks to Bert from EnsEMBL for this code
+# thanks to Bert Overduin at EnsEMBL for this code
 # this returns the "Golden Path length""
 sub get_Genome_Size {
 	# retrieve input variables
@@ -231,7 +231,6 @@ sub get_Transcriptome_Size {
 	# return the transcriptome size
 	return $transcriptome_size;
 }
-
 
 # get exome size
 sub get_Exome_Size {

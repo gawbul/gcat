@@ -188,7 +188,7 @@ sub species {
 
 	# display
 	print "" . ($#species + 1) . " species found:\n";
-	my $print_species = join(", ", @species);
+	my $print_species = join(" ", @species);
 	printf "$print_species.\n";
 }
 
@@ -207,7 +207,7 @@ sub banner {
 	my $os_ver = $Config{osvers};
     print "Genome Comparison and Analysis Toolkit\n";
 	print "Command Line Interface version, $ver\n";
-	print "Copyright (C) 2010-2012 Steve Moss\n";
+	print "Copyright (C) 2010-2013 Steve Moss\n";
 	print "Platform: $os_name $os_arch ($os_ver)\n\n";
 	print "GCAT is free software and comes with ABSOLUTELY NO WARRANTY.\n";
 	print "You are welcome to redistribute it under certain conditions.\n";

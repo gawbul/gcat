@@ -17,11 +17,11 @@
 
 =head1 NAME
 
-	get_introns
+	get_intron_counts
 
 =head1 SYNOPSIS
 
-    get_intron_countss species1 species2 species3
+    get_intron_counts species1 species2 species3
     
 =head1 DESCRIPTION
 
@@ -34,10 +34,11 @@ use strict;
 use Time::HiRes qw(gettimeofday tv_interval);
 use Parallel::ForkManager; # used for parallel processing
 use GCAT::Interface::Logging qw(logger); # for logging
-use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL);
-
-# define variables
-my %gene_type = ();
+use GCAT::DB::EnsEMBL qw(connect_To_EnsEMBL check_Species_List get_Gene_IDs);
+use Sys::CPU;
+use File::Spec;
+use Cwd;
+use Text::CSV_XS;
 
 # get arguments
 my $num_args = $#ARGV + 1;
@@ -45,23 +46,46 @@ my @organisms = @ARGV;
 
 # check arguments list is sufficient
 if ($num_args < 1) {
-	logger("This script requires at least one input argument, for the organisms you wish to download the information for.", "Error");
+	logger("This script requires at least one input argument, for the organism(s) you wish to download the information for.", "Error");
 	exit;
 }
-
-# tell user what we're doing
-print "Going to retrieve intron counts for $num_args species: @organisms...\n";
-
-# set start time
-my $start_time = gettimeofday;
 
 # connect to EnsEMBL and setup registry object
 my $registry = &connect_To_EnsEMBL;
 
-# setup fork manager
-my $pm = new Parallel::ForkManager(8);
+# check all species exist - no names have been mispelt?
+unless (&check_Species_List($registry, @organisms)) {
+	logger("You have incorrectly entered a species name or this species doesn't exist in the database.", "Error");
+	exit;
+}
 
-# go through all fish and retrieve exon ids and coordinates
+# get root directory and create data directory if doesn't exist
+my $dir = getcwd();
+mkdir "data" unless -d "data";
+
+# setup CSV
+my $csv = Text::CSV_XS->new ({binary => 1, eol => $/});
+
+# set start time
+my $start_time = gettimeofday;
+
+# get number of processors
+my $number_of_cpus = Sys::CPU::cpu_count();
+
+print "\nFound ${number_of_cpus} CPUs, setting up for $number_of_cpus parallel threads\n\n";
+
+# setup number of parallel processes ()
+my $pm = new Parallel::ForkManager($number_of_cpus); # set number of processes to number of processors
+
+# tell user what we're doing
+print "Going to retrieve intron counts for $num_args species: @organisms...\n";
+
+# open file for output
+my $outfile = File::Spec->catfile($dir, "data", "intron_counts_data.csv");
+open my $outfileh, ">$outfile" or die $!;
+$csv->print ($outfileh, ["species_name", "gene_id", "gene_length", "transcript_length", "intron_count", "introns_per_nt", "introns_per_bond"]) or $csv->error_diag;
+
+# go through all species and retrieve introns
 my $count = 0;
 foreach my $org_name (@organisms) {
 	# start fork
@@ -75,21 +99,12 @@ foreach my $org_name (@organisms) {
 	my $db_adaptor = $registry->get_DBAdaptor($org_name, "Core");
 	my $dbname = $db_adaptor->dbc->dbname();
 	
-	# let user know we're starting
-	my $printed = 0;
-	print "Retrieving gene IDs for $dbname...\n";
-	
 	# retrieve all stable IDs
 	my @geneids = &get_Gene_IDs($registry, $org_name);
 	
 	# go through each gene stable ID and retrieve canonical transcript and introns
 	foreach my $geneid (@geneids)
 	{
-		if ($printed == 0) {
-			print "Retrieving intron counts for $dbname...\n";
-			$printed = 1;
-		}
-		
 		# fetch the gene by stable id
 		my $gene = $gene_adaptor->fetch_by_stable_id($geneid);
 		
@@ -99,29 +114,33 @@ foreach my $org_name (@organisms) {
 		# get all introns for the gene transcript
 		my $introns = $tr->get_all_Introns();
 		
-		# increase count depending on bio_type defintion
-		if (defined $gene_type{$gene->biotype}) {
-			$gene_type{$gene->biotype} += @$introns;
+		# work out values to output
+		my $gene_length = $gene->length;
+		my $transcript_length = $tr->length; # sum of exons
+		my $intron_count = scalar(@$introns);
+		my $introns_per_nt = undef;
+		my $introns_per_bond = undef;	
+		if ($intron_count > 0) {
+			$introns_per_nt = $intron_count / $transcript_length;
+			$introns_per_bond = $intron_count / ($transcript_length - 1);
 		}
 		else {
-			$gene_type{$gene->biotype} = @$introns;
+			$introns_per_nt = 0;
+			$introns_per_bond = 0;
 		}
+		# output this to file
+		# species_name	gene_id	cdna_length	intron_count	introns_per_nt	introns_per_bond
+		$csv->print ($outfileh, [$org_name, $geneid, $gene_length, $transcript_length, $intron_count, $introns_per_nt, $introns_per_bond]) or $csv->error_diag;
 	}
-    
-    # output to STDOUT - change this to CSV output ***
-    print "Intron counts for $org_name...\n";
-    while ( my ($key, $value) = each(%gene_type) ) {
-        print "$key => $value\n";
-    }
-	
-	# reset gene_type hash for next species
-	%gene_type = ();
-	
+
 	# finish fork
 	$pm->finish;
 }
 # wait for all processes to finish
 $pm->wait_all_children;
+
+# close file
+close $outfileh;
 
 # set end time and calculate time elapsed
 my $end_time = gettimeofday;
