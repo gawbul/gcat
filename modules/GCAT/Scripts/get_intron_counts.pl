@@ -70,7 +70,7 @@ my $csv = Text::CSV_XS->new ({binary => 1, eol => $/});
 my $start_time = gettimeofday;
 
 # get number of processors
-my $number_of_cpus = Sys::CPU::cpu_count();
+my $number_of_cpus = 1;#Sys::CPU::cpu_count();
 
 print "\nFound ${number_of_cpus} CPUs, setting up for $number_of_cpus parallel threads\n\n";
 
@@ -83,7 +83,7 @@ print "Going to retrieve intron counts for $num_args species: @organisms...\n";
 # open file for output
 my $outfile = File::Spec->catfile($dir, "data", "intron_counts_data.csv");
 open my $outfileh, ">$outfile" or die $!;
-$csv->print ($outfileh, ["species_name", "gene_id", "gene_length", "transcript_length", "intron_count", "introns_per_nt", "introns_per_bond"]) or $csv->error_diag;
+$csv->print ($outfileh, ["species_name", "gene_id", "gene_length", "transcript_length", "cdna_start", "cdna_end", "coding_region_start", "coding_region_end", "5p_utr_start", "5p_utr_end", "3p_utr_start", "3p_utr_end", "introns_count", "introns_per_nt", "introns_per_bond"]) or $csv->error_diag;
 
 # go through all species and retrieve introns
 my $count = 0;
@@ -93,7 +93,7 @@ foreach my $org_name (@organisms) {
 	
 	# setup DB adapters
 	my $gene_adaptor = $registry->get_adaptor($org_name, 'Core', 'Gene');
-	my $tr_adaptor    = $registry->get_adaptor($org_name, 'Core', 'Transcript');
+	my $tr_adaptor = $registry->get_adaptor($org_name, 'Core', 'Transcript');
 	
 	# get current database name
 	my $db_adaptor = $registry->get_DBAdaptor($org_name, "Core");
@@ -117,12 +117,22 @@ foreach my $org_name (@organisms) {
 		# work out values to output
 		my $gene_length = $gene->length;
 		my $transcript_length = $tr->length; # sum of exons
-		my $intron_count = scalar(@$introns);
+		my $cdna_start = $tr->cdna_coding_start ? $tr->cdna_coding_start : 0;
+		my $cdna_end = $tr->cdna_coding_end ? $tr->cdna_coding_end : 0;
+		my $coding_start = $tr->coding_region_start ? $tr->coding_region_start : 0;
+		my $coding_end = $tr->coding_region_end ? $tr->coding_region_end : 0;
+		my $_5putr = defined $tr->cdna_coding_start ? $tr->five_prime_utr_Feature : undef;
+		my $_3putr = defined $tr->cdna_coding_end ? $tr->three_prime_utr_Feature : undef;
+		my $_5putr_start = defined $_5putr ? $_5putr->start : 0;
+		my $_5putr_end = defined $_5putr ? $_5putr->end : 0;
+		my $_3putr_start = defined $_3putr ? $_3putr->start : 0;
+		my $_3putr_end = defined $_3putr ? $_3putr->end : 0;
+		my $introns_count = scalar(@$introns);
 		my $introns_per_nt = undef;
 		my $introns_per_bond = undef;	
-		if ($intron_count > 0) {
-			$introns_per_nt = $intron_count / $transcript_length;
-			$introns_per_bond = $intron_count / ($transcript_length - 1);
+		if ($introns_count > 0) {
+			$introns_per_nt = $introns_count / $transcript_length;
+			$introns_per_bond = $introns_count / ($transcript_length - 1);
 		}
 		else {
 			$introns_per_nt = 0;
@@ -130,7 +140,7 @@ foreach my $org_name (@organisms) {
 		}
 		# output this to file
 		# species_name	gene_id	cdna_length	intron_count	introns_per_nt	introns_per_bond
-		$csv->print ($outfileh, [$org_name, $geneid, $gene_length, $transcript_length, $intron_count, $introns_per_nt, $introns_per_bond]) or $csv->error_diag;
+		$csv->print ($outfileh, [$org_name, $geneid, $gene_length, $transcript_length, $cdna_start, $cdna_end, $coding_start, $coding_end, $_5putr_start, $_5putr_end, $_3putr_start, $_3putr_end, $introns_count, $introns_per_nt, $introns_per_bond]) or $csv->error_diag;
 	}
 
 	# finish fork

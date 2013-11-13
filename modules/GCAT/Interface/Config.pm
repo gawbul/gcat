@@ -80,8 +80,16 @@ sub load_conf_file {
 	# setup hash
 	my %conf_hash = ();
 		
+	# check config file exists
+	unless (-e $conffile) {
+		# create config file
+		open CONFFILE, ">$conffile" or die $!;
+		print CONFFILE "database=ensembl\n";
+		close(CONFFILE);
+	}
+
 	# open file and read in values
-	open CONFFILE, "<$conffile" or die $!;
+	open CONFFILE, "<$conffile" or warn $!;
 	while (<CONFFILE>) {
 		my $line = $_;
 		chomp($line);
